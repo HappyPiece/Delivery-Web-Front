@@ -1,0 +1,86 @@
+.filter-bar {
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.filter-bar-element {
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.filter-container {
+  box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--container-shadow-color),
+    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1)
+      var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1)
+      calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
+      var(--container-shadow-color);
+  border-radius: var(--default-border-radius);
+  padding: 0.2rem 0.2rem 0.2rem 0.2rem;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.filter-element-base {
+  margin: 0.1rem 0.1rem 0.1rem 0.1rem;
+  padding: 0rem 0.1rem 0rem 0.1rem;
+  border-radius: var(--default-border-radius);
+  min-height: 1.5rem;
+  flex-flow: row wrap;
+  display: flex;
+}
+
+.filter-element-active {
+  background-color: var(--faint-secondary-background);
+}
+
+.filter-element-active:hover {
+  background-color: var(--secondary-background);
+}
+
+.filter-element-addition {
+    background-color: var(--faint-primary-accent);
+}
+
+.filter-element-addition:hover {
+    background-color: var(--primary-accent);
+}
+
+.filter-content {
+  display: flex;
+  height: 100%;
+}
+
+.filter-name {
+  margin: 0rem 0.1rem 0rem 0.1rem;
+}
+
+.small-icon {
+  font-size: 1.2rem;
+  height: min-content;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.remove-filter-icon:hover {
+  background-color: var(--secondary-accent);
+}
+
+.remove-filter-icon:active {
+  background-color: var(--primary-text);
+}
+
+.add-filter-icon:hover {
+  background-color: var(--primary-accent);
+}
+
+.add-filter-icon:active {
+  background-color: var(--primary-text);
+}
+
+.icon-container {
+  display: flex;
+  margin: 0rem 0.1rem 0rem 0.1rem;
+  align-items: center;
+}

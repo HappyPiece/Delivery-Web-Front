@@ -1,0 +1,64 @@
+@import url(https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto+Flex:opsz@8..144&family=Rubik+Distressed&family=Rubik+Glitch&family=Rubik+Microbe&display=swap);
+/*
+Montserrat
+Rubik Microbe
+Rubik Distressed
+Rubik Glitch
+Roboto Flex
+*/
+@import url(https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200);
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+}
+
+:root {
+  --primary-text: #fdf8ec;
+  --secondary-text: #fdf8ecbb;
+  --faded-text: #fdf8ec80;
+  --primary-background: #00092c;
+  --secondary-background: #8134ff;
+  --faint-secondary-background: #8134ffbb;
+  --primary-accent: #f7aa13;
+  --faint-primary-accent: #f7aa13bb;
+  --secondary-accent: #e14e01;
+  --faint-secondary-accent: #e14e01;
+
+  --default-shadow-offset: 0rem;
+  --default-shadow-blur: 0.5rem;
+  --default-border-radius: 0.375rem;
+  --container-shadow-color: var(--faint-secondary-background);
+}
+
+html {
+  height: 100%;
+  font-size: 1.1rem;
+}
+
+@media screen and (max-width: 576px) {
+  .content {
+    border-radius: 0rem !important;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  html {
+    font-size: 0.8rem !important;
+  }
+}
+
+@media screen and (max-width: 346px) {
+  html {
+    font-size: 0.4rem !important;
+  }
+}
+
+body {
+  background-color: var(--primary-background);
+  min-height: 100%;
+  display: grid;
+  color: var(--primary-text);
+  grid-template-rows: 1fr auto;
+  font-family: "Roboto Flex";
+  text-shadow: 0rem 0rem 0.3rem var(--secondary-text);
+  user-select: none;
+}

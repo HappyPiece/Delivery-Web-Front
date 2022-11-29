@@ -1,0 +1,44 @@
+nav {
+  grid-row-end: 1;
+  z-index: 1;
+}
+
+.nav-brand {
+  transition: all 0.1s ease-in-out;
+  padding-left: 0.4rem;
+}
+
+.nav-brand:hover {
+  color: var(--primary-text);
+  text-shadow: 0.1rem 0.1rem 0.3rem var(--secondary-background),
+    -0.1rem -0.1rem 0.3rem var(--secondary-background);
+}
+
+.content {
+  grid-row-start: 1;
+  grid-row-end: 3;
+  z-index: 0;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--container-shadow-color),
+    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1)
+      var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1)
+      calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
+      var(--container-shadow-color);
+  border-radius: var(--default-border-radius);
+}
+
+footer {
+  grid-row-start: 3;
+  grid-row-end: 4;
+  z-index: 1;
+}
+
+.separator {
+  border-right: 0.01rem solid var(--secondary-text);
+  box-shadow: 0rem 0rem var(--default-shadow-blur) var(--faded-text);
+}
