@@ -15,7 +15,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="/scripts/jquery.js"></script>
-    <script src="/scripts/scripts.js"></script>
+    <script src="/scripts/scripts.js" type="module"></script>
     <link rel="stylesheet" href="/styles/base.css" />
     <link rel="stylesheet" href="/styles/common.css" />
     <link rel="stylesheet" href="/styles/structure.css" />
@@ -56,7 +56,7 @@
     <div class="container content">
       <div class="row filter-bar">
         <div class="col-3 filter-container filter-bar-element">
-          <div class="filter-element-base" id="add-filter-button">
+          <div class="filter-element-base enlightened secondary-text" id="add-filter-button">
             <div class="filter-content">
               <div class="icon-container" id="filter-manage-icon-container">
                 <span
@@ -68,7 +68,7 @@
             </div>
           </div>
         </div>
-        <div class="col-3 filter-container filter-bar-element"></div>
+        <div class="col-3 filter-bar-element"></div>
         <div class="col-3 filter-bar-element"></div>
         <div class="col-3 filter-bar-element"></div>
       </div>
@@ -81,7 +81,7 @@
     </footer>
   </body>
   <div
-    class="filter-element-base transitioning template"
+    class="filter-element-base secondary-text enlightned transitioning template"
     id="filter-element-template"
   >
     <div class="filter-content">
@@ -100,5 +100,11 @@
     id="add-icon-template"
   >
     add_circle
+  </span>
+  <span
+    class="material-symbols-outlined small-icon remove-all-filter-icon transitioning template"
+    id="garbage-icon-template"
+  >
+    delete
   </span>
 </html>

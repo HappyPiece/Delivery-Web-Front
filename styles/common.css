@@ -46,5 +46,17 @@
 }
 
 .template {
-    display: none !important;
+  display: none !important;
+}
+
+.enlightned:hover {
+  color: var(--primary-text) !important;
+}
+
+.enlightned:active {
+  color: var(--primary-text) !important;
+}
+
+.in-the-end {
+  margin-left: auto !important;
 }

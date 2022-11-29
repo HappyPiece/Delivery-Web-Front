@@ -71,6 +71,14 @@
   background-color: var(--primary-text);
 }
 
+.remove-all-filter-icon:hover {
+  background-color: var(--secondary-accent);
+}
+
+.remove-all-filter-icon:active {
+  background-color: var(--primary-text);
+}
+
 .add-filter-icon:hover {
   background-color: var(--primary-accent);
 }
