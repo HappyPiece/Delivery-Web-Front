@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="/styles/base.css" />
     <link rel="stylesheet" href="/styles/common.css" />
     <link rel="stylesheet" href="/styles/structure.css" />
-    <link rel="stylesheet" href="/styles/menu-filters.css" />
+    <link rel="stylesheet" href="/styles/filters.css" />
+    <link rel="stylesheet" href="/styles/dropdown.css" />
   </head>
   <body>
     <nav class="container-fluid text-center py-2 dark mt-1">
@@ -56,7 +57,10 @@
     <div class="container content">
       <div class="row filter-bar">
         <div class="col-3 filter-container filter-bar-element">
-          <div class="filter-element-base enlightened secondary-text" id="add-filter-button">
+          <div
+            class="filter-element-base enlightened secondary-text"
+            id="add-filter-button"
+          >
             <div class="filter-content">
               <div class="icon-container" id="filter-manage-icon-container">
                 <span
@@ -68,7 +72,29 @@
             </div>
           </div>
         </div>
-        <div class="col-3 filter-bar-element"></div>
+        <div class="col-3 filter-bar-element dropdown-container">
+          <div class="dropdown-anchor">
+            <div class="dropdown-content">
+              <div class="option active-option transitioning">
+                <div class="option-content">
+                  <div class="option-name">Сортировать по</div>
+                  <div class="icon-container">
+                    <span
+                      class="material-symbols-outlined small-icon expand-more-filter-icon transitioning no-pointer"
+                    >
+                      expand_more
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="dropdown-options">
+                <div class="option hidden-option transitioning">Сортировка</div>
+                <div class="option hidden-option transitioning">Сортировка</div>
+                <div class="option hidden-option transitioning">Сортировка</div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="col-3 filter-bar-element"></div>
         <div class="col-3 filter-bar-element"></div>
       </div>
@@ -80,6 +106,10 @@
       </div>
     </footer>
   </body>
+
+  <!-- TEMPLATES -->
+
+  <!-- filter element -->
   <div
     class="filter-element-base secondary-text enlightned transitioning template"
     id="filter-element-template"
@@ -89,6 +119,17 @@
       <div class="icon-container"></div>
     </div>
   </div>
+
+  <!-- dropdown option -->
+  <div class="option active-option transitioning template">
+    <div class="option-content">
+      <div class="option-name">Сортировать по</div>
+      <div class="icon-container">
+      </div>
+    </div>
+  </div>
+
+  <!-- icons -->
   <span
     class="material-symbols-outlined small-icon remove-filter-icon transitioning template"
     id="remove-icon-template"
@@ -106,5 +147,17 @@
     id="garbage-icon-template"
   >
     delete
+  </span>
+  <span
+    class="material-symbols-outlined small-icon expand-more-filter-icon transitioning template"
+    id="expand-more-template"
+  >
+    expand_more
+  </span>
+  <span
+    class="material-symbols-outlined small-icon expand-less-filter-icon transitioning template"
+    id="expand-less-icon-template"
+  >
+    expand_less
   </span>
 </html>

@@ -60,3 +60,7 @@
 .in-the-end {
   margin-left: auto !important;
 }
+
+.no-pointer {
+  cursor: default !important;
+}
