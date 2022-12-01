@@ -75,9 +75,14 @@
         <div class="col-3 filter-bar-element dropdown-container">
           <div class="dropdown-anchor">
             <div class="dropdown-content">
-              <div class="option active-option transitioning">
+              <!-- <div
+                class="option active-option transitioning"
+                id="active-sorting-option"
+              >
                 <div class="option-content">
-                  <div class="option-name">Сортировать по</div>
+                  <div class="option-name text-center" id="select-sorting">
+                    Сортировать по
+                  </div>
                   <div class="icon-container">
                     <span
                       class="material-symbols-outlined small-icon expand-more-filter-icon transitioning no-pointer"
@@ -86,12 +91,8 @@
                     </span>
                   </div>
                 </div>
-              </div>
-              <div class="dropdown-options">
-                <div class="option hidden-option transitioning">Сортировка</div>
-                <div class="option hidden-option transitioning">Сортировка</div>
-                <div class="option hidden-option transitioning">Сортировка</div>
-              </div>
+              </div> -->
+              <div class="dropdown-options"></div>
             </div>
           </div>
         </div>
@@ -121,11 +122,13 @@
   </div>
 
   <!-- dropdown option -->
-  <div class="option active-option transitioning template">
+  <div
+    class="option transitioning template"
+    id="dropdown-element-template"
+  >
     <div class="option-content">
-      <div class="option-name">Сортировать по</div>
-      <div class="icon-container">
-      </div>
+      <div class="option-name text-center">sorting-name</div>
+      <div class="icon-container"></div>
     </div>
   </div>
 
@@ -150,7 +153,7 @@
   </span>
   <span
     class="material-symbols-outlined small-icon expand-more-filter-icon transitioning template"
-    id="expand-more-template"
+    id="expand-more-icon-template"
   >
     expand_more
   </span>

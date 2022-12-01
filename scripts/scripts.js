@@ -25,12 +25,13 @@ class Globals {
     );
 
     this.Sortings = new Array(
-      new Category("По имени от А-Я", "NameAsc"),
-      new Category("По имени от Я-А", "NameDesc"),
+      new Category("По имени А-Я", "NameAsc"),
+      new Category("По имени Я-А", "NameDesc"),
       new Category("По возрастанию цены", "PriceAsc"),
       new Category("По убыванию цены", "PriceDesc"),
       new Category("По возрастанию рейтинга", "RatingAsc"),
-      new Category("По убыванию рейтинга", "RatingDesc")
+      new Category("По убыванию рейтинга", "RatingDesc"),
+      new Category("Без сортировки", "NoSort", true)
     );
 
     this.State = {
@@ -42,16 +43,18 @@ class Globals {
 let globals = new Globals();
 
 $(document).ready(function () {
+  populatePage();
   addListeners();
-  UrlServices.updateURL(globals, Constants);
 });
 
-function writeCategories() {
-  console.log(globals.Categories);
+function populatePage() {
+  UrlServices.applyURL(globals, Constants);
+  manageSortings();
+  // console.log(globals.Sortings);
 }
 
 // assigns ot re- assigns corresponding listeners to all the elements in the page
-function addListeners() {
+export function addListeners() {
   $("*").off();
 
   //
@@ -69,16 +72,18 @@ function addListeners() {
     .find(".remove-filter-icon")
     .on("click", deactivateFilter);
 
+  $(".hidden-option").on("click", activateOption);
+
   $("body").on("click", breakDialogs);
 }
 
 // bruh
-function breakDialogs() {
+export function breakDialogs() {
   //removeFilters();
 }
 
 // adds or removes inactive filters, corresponding to current state of add button, to which it listens
-function manageFilters() {
+export function manageFilters() {
   if (!globals.State.addFilterButtonPressed) {
     addFilters();
   } else {
@@ -87,7 +92,7 @@ function manageFilters() {
 }
 
 // adds filters that are not yet active, used in manageFilters
-function addFilters() {
+export function addFilters() {
   let _filter = CommonServices.retrieveTemplateById("filter-element-template");
   _filter.addClass("filter-element-addition");
 
@@ -111,7 +116,7 @@ function addFilters() {
 }
 
 // removes inactive filters, used in manageFilters
-function removeFilters() {
+export function removeFilters() {
   $(".filter-element-addition").remove();
 
   let addIcon = CommonServices.retrieveTemplateById("add-icon-template");
@@ -123,7 +128,7 @@ function removeFilters() {
 }
 
 // adds active filter to container by it's name, used in applyURL
-function addFilter(filterName) {
+export function addFilter(filterName) {
   let filter = CommonServices.retrieveTemplateById("filter-element-template");
   filter.addClass("filter-element-active");
 
@@ -145,7 +150,7 @@ function addFilter(filterName) {
 
 // transfers filter to active state
 // listens to add buttons on filters
-function activateFilter() {
+export function activateFilter() {
   let filter = $(this).parents(".filter-element-addition");
   filter.removeClass("filter-element-addition");
   filter.addClass("filter-element-active");
@@ -164,7 +169,7 @@ function activateFilter() {
 
 // removes filter or sets it to inactive state, depending on whether add button is active
 // listens to remove buttons on filters
-function deactivateFilter() {
+export function deactivateFilter() {
   let filter = $(this).parents(".filter-element-active");
 
   if (globals.State.addFilterButtonPressed) {
@@ -187,7 +192,7 @@ function deactivateFilter() {
 }
 
 // adjusts add and garbage buttons so they correspond to current active filters
-function manageFilterButtons() {
+export function manageFilterButtons() {
   let allEnabled = true;
   let anyEnabled = false;
 
@@ -204,7 +209,9 @@ function manageFilterButtons() {
     $("#add-filter-button").remove();
     removeFilters();
   } else if ($("#add-filter-button").length === 0) {
-    let _filter = CommonServices.retrieveTemplateById("filter-element-template");
+    let _filter = CommonServices.retrieveTemplateById(
+      "filter-element-template"
+    );
     _filter.attr("id", "add-filter-button");
     _filter.find(".filter-name").remove();
 
@@ -218,7 +225,9 @@ function manageFilterButtons() {
   if (!anyEnabled) {
     $("#delete-filter-button").remove();
   } else if ($("#delete-filter-button").length === 0) {
-    let _filter = CommonServices.retrieveTemplateById("filter-element-template");
+    let _filter = CommonServices.retrieveTemplateById(
+      "filter-element-template"
+    );
     _filter.addClass("in-the-end");
     _filter.attr("id", "delete-filter-button");
     _filter.find(".filter-name").remove();
@@ -230,7 +239,7 @@ function manageFilterButtons() {
 }
 
 // deactivates all filters, listens to garbage icon clicks
-function removeAllFilters() {
+export function removeAllFilters() {
   $(".filter-element-active").each(function () {
     if (globals.State.addFilterButtonPressed) {
       $(this).removeClass("filter-element-active");
@@ -250,4 +259,50 @@ function removeAllFilters() {
   manageFilterButtons();
   addListeners();
   UrlServices.updateURL(globals, Constants);
+}
+
+export function activateOption() {
+  setSorting($(this).find(".option-name").attr("id"));
+  manageSortings();
+}
+
+export function setSorting(sorting_codename) {
+  for (let sorting of globals.Sortings) {
+    if (sorting_codename === sorting.Codename) {
+      sorting.IsActive = true;
+    } else {
+      sorting.IsActive = false;
+    }
+  }
+  UrlServices.updateURL(globals, Constants);
+}
+
+export function manageSortings() {
+  $(".dropdown-content").find(".option").remove();
+  let _option = CommonServices.retrieveTemplateById(
+    "dropdown-element-template"
+  );
+  for (let sorting of globals.Sortings) {
+    let option = _option.clone();
+    if (sorting.IsActive) {
+      option.addClass("active-option");
+      option.attr("id", "active-sorting-option");
+      option.find(".option-name").attr("id", sorting.Codename);
+      option
+        .find(`#${sorting.Codename}`)
+        .html(sorting.Codename === "NoSort" ? "Сортировать по" : sorting.Name);
+      option
+        .find(".icon-container")
+        .html(CommonServices.retrieveTemplateById("expand-more-icon-template"));
+      $(".dropdown-content").prepend(option);
+    } else {
+      option.addClass("hidden-option");
+      option.find(".option-name").attr("id", sorting.Codename);
+      option
+        .find(`#${sorting.Codename}`)
+        .html(sorting.Codename === "NoSort" ? "Без сортировки" : sorting.Name);
+      $(".dropdown-options").append(option);
+    }
+  }
+  addListeners();
 }

@@ -61,4 +61,5 @@ body {
   font-family: "Roboto Flex";
   text-shadow: 0rem 0rem 0.3rem var(--secondary-text);
   user-select: none;
+  line-height: 1.5rem;
 }
