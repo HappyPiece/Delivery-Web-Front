@@ -3,7 +3,6 @@
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  padding: 0.2rem 0.2rem 0.2rem 0.2rem;
 }
 
 .dropdown-anchor {
@@ -36,7 +35,6 @@
   display: flex;
   align-content: center;
   justify-content: center;
-  min-height: 1.5rem;
   padding: 0rem 0.1rem 0rem 0.1rem;
 }
 
@@ -47,6 +45,7 @@
 .active-option {
   background-color: var(--primary-background);
   color: var(--secondary-text);
+  padding-left: 0.2rem;
 }
 
 .active-option:hover {

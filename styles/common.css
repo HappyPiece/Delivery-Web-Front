@@ -24,7 +24,7 @@
 
 .transitioning {
   transition: color 0.1s ease-in-out, text-decoration 0.1s ease-in-out,
-    background-color 0.1s ease-in-out;
+    background-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
 }
 
 .focusable {
@@ -63,4 +63,28 @@
 
 .no-pointer {
   cursor: default !important;
+}
+
+.default-shadow {
+  box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--container-shadow-color),
+    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1)
+      var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1)
+      calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
+      var(--container-shadow-color);
+}
+
+.accent-shadow {
+  box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--faint-primary-accent),
+    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--faint-primary-accent),
+    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1)
+      var(--default-shadow-blur) var(--faint-primary-accent),
+    calc(var(--default-shadow-offset) * -1)
+      calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
+      var(--faint-primary-accent);
 }

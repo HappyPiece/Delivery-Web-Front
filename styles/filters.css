@@ -1,9 +1,14 @@
 .filter-bar {
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
 }
 
 .filter-bar-element {
   margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+  width: auto;
+  flex: 1 1;
+  padding: 0.2rem 0.2rem 0.2rem 0.2rem;
 }
 
 .filter-container {
@@ -17,7 +22,6 @@
       calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
       var(--container-shadow-color);
   border-radius: var(--default-border-radius);
-  padding: 0.2rem 0.2rem 0.2rem 0.2rem;
   display: flex;
   flex-flow: row wrap;
 }
@@ -40,11 +44,11 @@
 }
 
 .filter-element-addition {
-    background-color: var(--faint-primary-accent);
+  background-color: var(--faint-primary-accent);
 }
 
 .filter-element-addition:hover {
-    background-color: var(--primary-accent);
+  background-color: var(--primary-accent);
 }
 
 .filter-content {

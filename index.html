@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/styles/structure.css" />
     <link rel="stylesheet" href="/styles/filters.css" />
     <link rel="stylesheet" href="/styles/dropdown.css" />
+    <link rel="stylesheet" href="/styles/toggle.css" />
   </head>
   <body>
     <nav class="container-fluid text-center py-2 dark mt-1">
@@ -56,7 +57,7 @@
     </nav>
     <div class="container content">
       <div class="row filter-bar">
-        <div class="col-3 filter-container filter-bar-element">
+        <div class="filter-bar-element filter-container">
           <div
             class="filter-element-base enlightened secondary-text"
             id="add-filter-button"
@@ -72,32 +73,27 @@
             </div>
           </div>
         </div>
-        <div class="col-3 filter-bar-element dropdown-container">
+        <div class="filter-bar-element dropdown-container">
           <div class="dropdown-anchor">
             <div class="dropdown-content">
-              <!-- <div
-                class="option active-option transitioning"
-                id="active-sorting-option"
-              >
-                <div class="option-content">
-                  <div class="option-name text-center" id="select-sorting">
-                    Сортировать по
-                  </div>
-                  <div class="icon-container">
-                    <span
-                      class="material-symbols-outlined small-icon expand-more-filter-icon transitioning no-pointer"
-                    >
-                      expand_more
-                    </span>
-                  </div>
-                </div>
-              </div> -->
               <div class="dropdown-options"></div>
             </div>
           </div>
         </div>
-        <div class="col-3 filter-bar-element"></div>
-        <div class="col-3 filter-bar-element"></div>
+        <div class="filter-bar-element toggle-container">
+          <div class="toggle-anchor">
+            <div class="toggle-content transitioning default-shadow" id="veg-only-toggle" active=0>
+              <div class="toggle-name">Только вегетерианские</div>
+            </div>
+          </div>
+        </div>
+        <div class="filter-bar-element">
+          <div class="apply-button">
+            <div class="apply-button-content">
+              <div class="apply-button-name">Применить</div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="row"></div>
     </div>
@@ -122,10 +118,7 @@
   </div>
 
   <!-- dropdown option -->
-  <div
-    class="option transitioning template"
-    id="dropdown-element-template"
-  >
+  <div class="option transitioning template" id="dropdown-element-template">
     <div class="option-content">
       <div class="option-name text-center">sorting-name</div>
       <div class="icon-container"></div>

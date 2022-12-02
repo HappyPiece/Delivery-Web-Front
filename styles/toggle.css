@@ -1,0 +1,85 @@
+.toggle-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggle-anchor {
+  border-radius: var(--default-border-radius);
+  min-width: 100%;
+}
+
+.toggle-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0rem 0.1rem 0rem 0.1rem;
+  border-radius: var(--default-border-radius);
+  color: var(--secondary-text);
+  cursor: pointer;
+  /* box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--container-shadow-color),
+    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1)
+      var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1)
+      calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
+      var(--container-shadow-color),
+    var(--default-shadow-offset) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--faint-secondary-background) inset,
+    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--faint-secondary-background) inset,
+    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1)
+      var(--default-shadow-blur) var(--faint-secondary-background) inset,
+    calc(var(--default-shadow-offset) * -1)
+      calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
+      var(--faint-secondary-background) inset; */
+}
+
+.toggle-name {
+  text-align: center;
+}
+
+.toggle-anchor:hover .toggle-content {
+  background-color: var(--secondary-background);
+  color: var(--primary-text);
+}
+
+.toggle-anchor:hover .toggle-content[active="1"] {
+  /* background-color: var(--primary-accent); */
+}
+
+.toggle-content[active="1"] {
+  background-color: var(--faint-secondary-background);
+  box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--faint-secondary-background),
+    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--faint-secondary-background),
+    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1)
+      var(--default-shadow-blur) var(--faint-secondary-background),
+    calc(var(--default-shadow-offset) * -1)
+      calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
+      var(--faint-secondary-background),
+    0.15rem 0.15rem
+      var(--default-shadow-blur) var(--primary-background) inset;
+  /* box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--faint-primary-accent),
+    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--faint-primary-accent),
+    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1)
+      var(--default-shadow-blur) var(--faint-primary-accent),
+    calc(var(--default-shadow-offset) * -1)
+      calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
+      var(--faint-primary-accent),
+    var(--default-shadow-offset) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--faint-primary-accent) inset,
+    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--faint-primary-accent) inset,
+    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1)
+      var(--default-shadow-blur) var(--faint-primary-accent) inset,
+    calc(var(--default-shadow-offset) * -1)
+      calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
+      var(--faint-primary-accent) inset; */
+}

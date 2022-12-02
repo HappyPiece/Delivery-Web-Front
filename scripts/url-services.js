@@ -14,6 +14,9 @@ export function updateURL(globals, Constants) {
       artifacts.push("sorting=" + sorting.Codename);
     }
   }
+  if (globals.State.vegOnlyButtonPressed) {
+    artifacts.push("vegetarian=" + "true");
+  }
   if (artifacts.length > 0) {
     resultURL += "?";
     for (let artifact of artifacts) {
@@ -42,6 +45,9 @@ export function applyURL(globals, Constants) {
     if (artifact.search("sorting") >= 0) {
       // console.log(artifact.match(Constants.queryContent).toString());
       base.setSorting(artifact.match(Constants.queryContent).toString());
+    }
+    if (artifact.search("vegetarian") >= 0) {
+      base.addVegOnly();
     }
   }
 }

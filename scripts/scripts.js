@@ -36,6 +36,7 @@ class Globals {
 
     this.State = {
       addFilterButtonPressed: false,
+      vegOnlyButtonPressed: false,
     };
   }
 }
@@ -45,12 +46,12 @@ let globals = new Globals();
 $(document).ready(function () {
   populatePage();
   addListeners();
+  console.log(globals.State.vegOnlyButtonPressed);
 });
 
 function populatePage() {
   UrlServices.applyURL(globals, Constants);
   manageSortings();
-  // console.log(globals.Sortings);
 }
 
 // assigns ot re- assigns corresponding listeners to all the elements in the page
@@ -61,6 +62,8 @@ export function addListeners() {
   $("#filter-manage-icon-container").find("span").on("click", manageFilters);
 
   $("#delete-filter-button").find("span").on("click", removeAllFilters);
+
+  $("#veg-only-toggle").on("click", manageVegOnly);
 
   //
   $(".filter-element-addition")
@@ -80,6 +83,26 @@ export function addListeners() {
 // bruh
 export function breakDialogs() {
   //removeFilters();
+}
+
+export function manageVegOnly() {
+  if (!globals.State.vegOnlyButtonPressed) {
+    addVegOnly();
+  } else {
+    removeVegOnly();
+  }
+}
+
+export function addVegOnly() {
+  globals.State.vegOnlyButtonPressed = true;
+  $("#veg-only-toggle").attr("active", 1);
+  UrlServices.updateURL(globals, Constants);
+}
+
+export function removeVegOnly() {
+  globals.State.vegOnlyButtonPressed = false;
+  $("#veg-only-toggle").attr("active", 0);
+  UrlServices.updateURL(globals, Constants);
 }
 
 // adds or removes inactive filters, corresponding to current state of add button, to which it listens
