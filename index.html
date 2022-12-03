@@ -22,6 +22,12 @@
     <link rel="stylesheet" href="/styles/filters.css" />
     <link rel="stylesheet" href="/styles/dropdown.css" />
     <link rel="stylesheet" href="/styles/toggle.css" />
+    <link rel="stylesheet" href="/styles/apply.css" />
+    <link rel="stylesheet" href="/styles/menu.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <nav class="container-fluid text-center py-2 dark mt-1">
@@ -32,7 +38,7 @@
           >
             обед.уютненько
           </div>
-          <div class="vertical-center separator h-100 mx-sm-1"></div>
+          <div class="vertical-center vertical-separator h-100 mx-sm-1"></div>
           <div class="vertical-center mx-sm-2 focusable transitioning">
             Меню
           </div>
@@ -82,20 +88,73 @@
         </div>
         <div class="filter-bar-element toggle-container">
           <div class="toggle-anchor">
-            <div class="toggle-content transitioning default-shadow" id="veg-only-toggle" active=0>
+            <div
+              class="toggle-content transitioning default-shadow"
+              id="veg-only-toggle"
+              active="0"
+            >
               <div class="toggle-name">Только вегетерианские</div>
             </div>
           </div>
         </div>
-        <div class="filter-bar-element">
-          <div class="apply-button">
-            <div class="apply-button-content">
+        <div class="filter-bar-element apply-button-container">
+          <div class="apply-button-anchor">
+            <div
+              class="apply-button-content transitioning"
+              id="apply-filters-bitton"
+            >
               <div class="apply-button-name">Применить</div>
             </div>
           </div>
         </div>
       </div>
-      <div class="row"></div>
+      <div class="row horizontal-separator"></div>
+      <div class="row cardholder">
+        <div class="card">
+          <div class="card-picture-container">
+            <img
+              class="card-picture"
+              src="https://mistertako.ru/uploads/products/77888c7e-8327-11ec-8575-0050569dbef0."
+              alt=""
+            />
+          </div>
+          <div class="card-content">
+            <div class="card-name">haha pissa</div>
+            <div class="card-category">pissa</div>
+            <div class="card-rating">3/10</div>
+            <div class="card-description">
+              4 сыра: «Моцарелла», «Гауда», «Фета», «Дор-блю», сливочно-сырный
+              соус, пряные травы
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="card-price">10к</div>
+            <div class="card-option-container">В корзину</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-picture-container">
+            <img
+              class="card-picture"
+              src="https://mistertako.ru/uploads/products/77888c7e-8327-11ec-8575-0050569dbef0."
+              alt=""
+            />
+          </div>
+          <div class="card-content">
+            <div class="card-name">haha pissa</div>
+            <div class="card-category">pissa</div>
+            <div class="card-rating">3/10</div>
+            <div class="card-description">
+              4 сыра: «Моцарелла», «Гауда», «Фета», «Дор-блю», сливочно-сырный
+              соус, пряные травы
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="card-price">10к</div>
+            <div class="card-option-container">В корзину</div>
+          </div>
+        </div>
+      </div>
     </div>
     <footer class="container-fluid text-center py-2 dark">
       <div class="row mb-2">
@@ -155,5 +214,12 @@
     id="expand-less-icon-template"
   >
     expand_less
+  </span>
+  <span class="material-icons small-icon transitioning template"> star </span>
+  <span class="material-icons small-icon transitioning template">
+    star_half
+  </span>
+  <span class="material-icons small-icon transitioning template">
+    star_outlined
   </span>
 </html>

@@ -1,0 +1,44 @@
+.apply-button-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.apply-button-anchor {
+  border-radius: var(--default-border-radius);
+  min-width: 100%;
+}
+
+.apply-button-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0rem 0.1rem 0rem 0.1rem;
+  border-radius: var(--default-border-radius);
+  color: var(--secondary-text);
+  cursor: pointer;
+  box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--faded-primary-accent),
+    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--faded-primary-accent),
+    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1)
+      var(--default-shadow-blur) var(--faded-primary-accent),
+    calc(var(--default-shadow-offset) * -1)
+      calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
+      var(--faded-primary-accent);
+}
+
+.apply-button-name {
+  text-align: center;
+}
+
+.apply-button-anchor:hover .apply-button-content {
+  background-color: var(--mild-primary-accent);
+  color: var(--primary-text);
+}
+
+.apply-button-anchor:active .apply-button-content {
+    background-color: var(--primary-accent);
+    color: var(--primary-text);
+  }

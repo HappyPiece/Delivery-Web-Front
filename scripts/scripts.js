@@ -11,6 +11,7 @@ export default class Category {
 
 let Constants = {
   baseURL: "http://127.0.0.1:5500/",
+  backendURL: "https://food-delivery.kreosoft.ru/",
   queryContent: /(?<==)\w*/g,
 };
 
@@ -44,6 +45,8 @@ class Globals {
 let globals = new Globals();
 
 $(document).ready(function () {
+  fetch(Constants.backendURL + "api/dish").then(responce => responce.json()).then(result => console.log(result));
+
   populatePage();
   addListeners();
   console.log(globals.State.vegOnlyButtonPressed);
@@ -65,6 +68,8 @@ export function addListeners() {
 
   $("#veg-only-toggle").on("click", manageVegOnly);
 
+  $("#apply-filters-bitton").on("click", applyFilters);
+
   //
   $(".filter-element-addition")
     .find(".add-filter-icon")
@@ -83,6 +88,10 @@ export function addListeners() {
 // bruh
 export function breakDialogs() {
   //removeFilters();
+}
+
+export function applyFilters() {
+
 }
 
 export function manageVegOnly() {

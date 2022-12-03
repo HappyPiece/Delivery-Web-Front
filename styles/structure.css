@@ -38,7 +38,15 @@ footer {
   z-index: 1;
 }
 
-.separator {
+.vertical-separator {
   border-right: 0.01rem solid var(--secondary-text);
-  box-shadow: 0rem 0rem var(--default-shadow-blur) var(--faded-text);
+  box-shadow: 0rem 0rem var(--default-shadow-blur) var(--primary-text);
+}
+
+.horizontal-separator {
+  border-bottom: 0.01rem solid var(--secondary-background);
+  box-shadow: 0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
+    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
+    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
+    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color);
 }

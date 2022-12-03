@@ -1,0 +1,59 @@
+.cardholder {
+  background-color: var(--primary-background);
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.card {
+  background-color: var(--primary-background);
+  padding: 0rem 0rem 0rem 0rem;
+  width: auto;
+  flex: 1 1;
+  box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
+      var(--default-shadow-blur) var(--container-shadow-color),
+    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1)
+      var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1)
+      calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
+      var(--container-shadow-color);
+  border-radius: var(--default-border-radius);
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.card-picture-container {
+  /* border-radius: var(--default-border-radius); */
+}
+
+.card-picture {
+  border-radius: var(--default-border-radius) var(--default-border-radius) 0 0;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.card-content {
+}
+
+.card-name {
+}
+
+.card-category {
+}
+
+.card-rating {
+}
+
+.card-description {
+}
+
+.card-footer {
+}
+
+.card-price {
+}
+
+.card-option-container {
+}

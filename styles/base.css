@@ -11,6 +11,32 @@ Roboto Flex
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
 }
 
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
 :root {
   --primary-text: #fdf8ec;
   --secondary-text: #fdf8ecbb;
@@ -19,7 +45,9 @@ Roboto Flex
   --secondary-background: #8134ff;
   --faint-secondary-background: #8134ffbb;
   --primary-accent: #f7aa13;
+  --mild-primary-accent: #f7aa13dd;
   --faint-primary-accent: #f7aa13bb;
+  --faded-primary-accent: #f7aa1399;
   --secondary-accent: #e14e01;
   --faint-secondary-accent: #e14e01;
 
@@ -31,7 +59,7 @@ Roboto Flex
 
 html {
   height: 100%;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 @media screen and (max-width: 576px) {
