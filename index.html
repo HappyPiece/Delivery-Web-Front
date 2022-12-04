@@ -61,97 +61,65 @@
         </div>
       </div>
     </nav>
-    <div class="container content">
-      <div class="row filter-bar">
-        <div class="filter-bar-element filter-container">
-          <div
-            class="filter-element-base enlightened secondary-text"
-            id="add-filter-button"
-          >
-            <div class="filter-content">
-              <div class="icon-container" id="filter-manage-icon-container">
-                <span
-                  class="material-symbols-outlined small-icon add-filter-icon transitioning"
-                >
-                  add_circle
-                </span>
+    <div class="container content" id="main-content">
+      <div class="container h-75 menu-content">
+        <div class="row filter-bar">
+          <div class="filter-bar-element filter-container">
+            <div
+              class="filter-element-base enlightened secondary-text"
+              id="add-filter-button"
+            >
+              <div class="filter-content">
+                <div class="icon-container" id="filter-manage-icon-container">
+                  <span
+                    class="material-symbols-outlined small-icon add-filter-icon transitioning"
+                  >
+                    add_circle
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="filter-bar-element dropdown-container">
+            <div class="dropdown-anchor">
+              <div class="dropdown-content">
+                <div class="dropdown-options"></div>
+              </div>
+            </div>
+          </div>
+          <div class="filter-bar-element toggle-container">
+            <div class="toggle-anchor">
+              <div
+                class="toggle-content transitioning default-shadow"
+                id="veg-only-toggle"
+                active="0"
+              >
+                <div class="toggle-name">Только вегетерианские</div>
+              </div>
+            </div>
+          </div>
+          <div class="filter-bar-element apply-button-container">
+            <div class="apply-button-anchor">
+              <div
+                class="apply-button-content transitioning"
+                id="apply-filters-bitton"
+              >
+                <div class="apply-button-name">Применить</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="filter-bar-element dropdown-container">
-          <div class="dropdown-anchor">
-            <div class="dropdown-content">
-              <div class="dropdown-options"></div>
-            </div>
-          </div>
-        </div>
-        <div class="filter-bar-element toggle-container">
-          <div class="toggle-anchor">
-            <div
-              class="toggle-content transitioning default-shadow"
-              id="veg-only-toggle"
-              active="0"
-            >
-              <div class="toggle-name">Только вегетерианские</div>
-            </div>
-          </div>
-        </div>
-        <div class="filter-bar-element apply-button-container">
-          <div class="apply-button-anchor">
-            <div
-              class="apply-button-content transitioning"
-              id="apply-filters-bitton"
-            >
-              <div class="apply-button-name">Применить</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row horizontal-separator"></div>
-      <div class="row cardholder">
-        <div class="card">
-          <div class="card-picture-container">
-            <img
-              class="card-picture"
-              src="https://mistertako.ru/uploads/products/77888c7e-8327-11ec-8575-0050569dbef0."
-              alt=""
-            />
-          </div>
-          <div class="card-content">
-            <div class="card-name">haha pissa</div>
-            <div class="card-category">pissa</div>
-            <div class="card-rating">3/10</div>
-            <div class="card-description">
-              4 сыра: «Моцарелла», «Гауда», «Фета», «Дор-блю», сливочно-сырный
-              соус, пряные травы
-            </div>
-          </div>
-          <div class="card-footer">
-            <div class="card-price">10к</div>
-            <div class="card-option-container">В корзину</div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-picture-container">
-            <img
-              class="card-picture"
-              src="https://mistertako.ru/uploads/products/77888c7e-8327-11ec-8575-0050569dbef0."
-              alt=""
-            />
-          </div>
-          <div class="card-content">
-            <div class="card-name">haha pissa</div>
-            <div class="card-category">pissa</div>
-            <div class="card-rating">3/10</div>
-            <div class="card-description">
-              4 сыра: «Моцарелла», «Гауда», «Фета», «Дор-блю», сливочно-сырный
-              соус, пряные травы
-            </div>
-          </div>
-          <div class="card-footer">
-            <div class="card-price">10к</div>
-            <div class="card-option-container">В корзину</div>
+        <div class="row horizontal-separator"></div>
+
+        <!-- actual content -->
+        <div class="row my-cardholder"></div>
+        <!-- actual content -->
+
+        <div class="pagination-container">
+          <div class="pagination-anchor">
+            <div class="pagination-element-base"></div>
+            <div class="pagination-element-base"></div>
+            <div class="pagination-element-base"></div>
           </div>
         </div>
       </div>
@@ -184,16 +152,63 @@
     </div>
   </div>
 
-  <!-- icons -->
+  <!-- menu card -->
+  <div class="my-card template" id="menu-card-template">
+    <div class="my-card-picture-container">
+      <img class="my-card-picture" src="" />
+      <div class="veg-icon-container"></div>
+    </div>
+    <div class="my-card-content">
+      <div class="my-card-name">dish name</div>
+      <div class="my-card-category">dish category</div>
+      <div class="horizontal-separator"></div>
+      <div class="my-card-rating"></div>
+      <div class="horizontal-separator"></div>
+      <div class="my-card-description"></div>
+    </div>
+    <div class="my-card-footer">
+      <div class="my-card-price"></div>
+      <div class="my-card-option-container transitioning" active="0">
+        <div class="my-card-option-button transitioning">В корзину</div>
+        <div class="my-card-option-input-container">
+          <span
+            class="material-symbols-outlined small-icon add-dish-icon transitioning"
+            id="add-icon-template"
+          >
+            add
+          </span>
+          <input type="text" class="my-card-option-input-text" maxlength="3" />
+          <span
+            class="material-symbols-outlined small-icon remove-dish-icon transitioning"
+            id="remove-icon-template"
+          >
+            remove
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- error -->
+  <div class="error-plug template" id="error-plug-template">
+    <div class="error-content">
+      <div class="error-emoji-acnhor"></div>
+      <div class="error-message"></div>
+    </div>
+  </div>
+
+  <div class="error-emoji template" id="shruggie">¯\_(ツ)_/¯</div>
+  <div class="error-emoji template" id="crying">(இ﹏இ`｡)</div>
+  <!-- material symbols -->
   <span
     class="material-symbols-outlined small-icon remove-filter-icon transitioning template"
-    id="remove-icon-template"
+    id="remove-filter-icon-template"
   >
     cancel
   </span>
   <span
     class="material-symbols-outlined small-icon add-filter-icon transitioning template"
-    id="add-icon-template"
+    id="add-filter-icon-template"
   >
     add_circle
   </span>
@@ -215,11 +230,54 @@
   >
     expand_less
   </span>
-  <span class="material-icons small-icon transitioning template"> star </span>
-  <span class="material-icons small-icon transitioning template">
+  <span
+    class="material-symbols-outlined small-icon add-dish-icon transitioning template"
+    id="add-icon-template"
+  >
+    add
+  </span>
+  <span
+    class="material-symbols-outlined small-icon remove-dish-icon transitioning template"
+    id="remove-icon-template"
+  >
+    remove
+  </span>
+  <span
+    class="material-symbols-outlined small-icon first-page-icon transitioning template"
+    id="first-page-icon-template"
+  >
+    keyboard_double_arrow_left
+  </span>
+  <span
+    class="material-symbols-outlined small-icon last-page-icon transitioning template"
+    id="last-page-icon-template"
+  >
+    keyboard_double_arrow_right
+  </span>
+  <span
+    class="material-symbols-outlined small-icon veg-icon transitioning template"
+    id="veg-icon-template"
+  >
+    eco
+  </span>
+
+  <!-- material icons -->
+  <span
+    class="material-icons small-icon my-card-rating-icon transitioning template"
+    id="star-icon-template"
+  >
+    star
+  </span>
+  <span
+    class="material-icons small-icon my-card-rating-icon transitioning template"
+    id="star-half-icon-template"
+  >
     star_half
   </span>
-  <span class="material-icons small-icon transitioning template">
-    star_outlined
+  <span
+    class="material-symbols-outlined small-icon my-card-rating-icon transitioning template"
+    id="star-outlined-icon-template"
+  >
+    star
   </span>
 </html>

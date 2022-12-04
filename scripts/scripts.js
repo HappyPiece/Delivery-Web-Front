@@ -10,8 +10,8 @@ export default class Category {
 }
 
 let Constants = {
-  baseURL: "http://127.0.0.1:5500/",
-  backendURL: "https://food-delivery.kreosoft.ru/",
+  baseURL: "http://127.0.0.1:5500",
+  backendURL: "https://food-delivery.kreosoft.ru",
   queryContent: /(?<==)\w*/g,
 };
 
@@ -45,16 +45,107 @@ class Globals {
 let globals = new Globals();
 
 $(document).ready(function () {
-  fetch(Constants.backendURL + "api/dish").then(responce => responce.json()).then(result => console.log(result));
-
   populatePage();
   addListeners();
-  console.log(globals.State.vegOnlyButtonPressed);
+
+  // console.log(
+  //   Constants.backendURL +
+  //     "/api/dish" +
+  //     UrlServices.formArtifactsQuery(globals, Constants)
+  // );
+
+  fetch(
+    Constants.backendURL +
+      "/api/dish" +
+      UrlServices.formArtifactsQuery(globals, Constants)
+  )
+    .then((responce) => responce.json())
+    .then((result) => console.log(result));
 });
 
 function populatePage() {
   UrlServices.applyURL(globals, Constants);
+  loadContent();
   manageSortings();
+}
+
+export function loadContent() {
+  fetch(
+    Constants.backendURL +
+      "/api/dish" +
+      UrlServices.formArtifactsQuery(globals, Constants)
+  )
+    .then((responce) => responce.json())
+    .then((result) => createCards(result.dishes));
+}
+
+export function reloadContent() {
+  let cardholder = $(".my-cardholder");
+  cardholder.empty();
+  loadContent();
+}
+
+export function createCards(dishes) {
+  let _card = CommonServices.retrieveTemplateById("menu-card-template");
+  let cardholder = $(".my-cardholder");
+  // console.log(dishes);
+  if (dishes !== null && dishes !== undefined) {
+    if (dishes.length > 0) {
+      for (let dish of dishes) {
+        let card = _card.clone();
+        card.find(".my-card-picture").attr("src", dish.image);
+        if (dish.vegetarian) {
+          card
+            .find(".veg-icon-container")
+            .append(CommonServices.retrieveTemplateById("veg-icon-template"));
+        }
+        card.find(".my-card-name").html(dish.name);
+        card
+          .find(".my-card-category")
+          .html(
+            globals.Categories.find((x) => x.Codename === dish.category).Name
+          );
+        let rating = card.find(".my-card-rating");
+        let dishRating = dish.rating;
+        for (let i = 0; i < 10; i++) {
+          if (dishRating >= 1) {
+            rating.append(
+              CommonServices.retrieveTemplateById("star-icon-template")
+            );
+            dishRating -= 1;
+            continue;
+          } else if (dishRating >= 0.5) {
+            rating.append(
+              CommonServices.retrieveTemplateById("star-half-icon-template")
+            );
+            dishRating = 0;
+            continue;
+          } else {
+            rating.append(
+              CommonServices.retrieveTemplateById("star-outlined-icon-template")
+            );
+          }
+        }
+        card.find(".my-card-description").html(dish.description);
+        card.find(".my-card-price").html(dish.price + "₽");
+        cardholder.append(card);
+      }
+    } else {
+      let plug = CommonServices.retrieveTemplateById("error-plug-template");
+      plug
+        .find(".error-emoji-acnhor")
+        .append(CommonServices.retrieveTemplateById("crying"));
+      plug.find(".error-message").html("We don't have such dishes");
+      cardholder.append(plug);
+    }
+  } else {
+    let plug = CommonServices.retrieveTemplateById("error-plug-template");
+    plug
+      .find(".error-emoji-acnhor")
+      .append(CommonServices.retrieveTemplateById("shruggie"));
+    plug.find(".error-message").html("Something went wrong");
+    cardholder.append(plug);
+  }
 }
 
 // assigns ot re- assigns corresponding listeners to all the elements in the page
@@ -91,7 +182,7 @@ export function breakDialogs() {
 }
 
 export function applyFilters() {
-
+  reloadContent();
 }
 
 export function manageVegOnly() {
@@ -128,7 +219,7 @@ export function addFilters() {
   let _filter = CommonServices.retrieveTemplateById("filter-element-template");
   _filter.addClass("filter-element-addition");
 
-  let addIcon = CommonServices.retrieveTemplateById("add-icon-template");
+  let addIcon = CommonServices.retrieveTemplateById("add-filter-icon-template");
   _filter.find(".icon-container").append(addIcon);
 
   for (let category of globals.Categories) {
@@ -139,7 +230,9 @@ export function addFilters() {
     }
   }
 
-  let removeIcon = CommonServices.retrieveTemplateById("remove-icon-template");
+  let removeIcon = CommonServices.retrieveTemplateById(
+    "remove-filter-icon-template"
+  );
   let iconContainer = $("#filter-manage-icon-container");
   iconContainer.empty();
   iconContainer.append(removeIcon);
@@ -151,7 +244,7 @@ export function addFilters() {
 export function removeFilters() {
   $(".filter-element-addition").remove();
 
-  let addIcon = CommonServices.retrieveTemplateById("add-icon-template");
+  let addIcon = CommonServices.retrieveTemplateById("add-filter-icon-template");
   let iconContainer = $("#filter-manage-icon-container");
   iconContainer.empty();
   iconContainer.append(addIcon);
@@ -164,7 +257,9 @@ export function addFilter(filterName) {
   let filter = CommonServices.retrieveTemplateById("filter-element-template");
   filter.addClass("filter-element-active");
 
-  let removeIcon = CommonServices.retrieveTemplateById("remove-icon-template");
+  let removeIcon = CommonServices.retrieveTemplateById(
+    "remove-filter-icon-template"
+  );
   filter.find(".icon-container").append(removeIcon);
 
   filter.find(".filter-name").html(filterName);
@@ -191,7 +286,9 @@ export function activateFilter() {
     (x) => x.Name === filter.find(".filter-name").text()
   ).IsActive = true;
 
-  let removeIcon = CommonServices.retrieveTemplateById("remove-icon-template");
+  let removeIcon = CommonServices.retrieveTemplateById(
+    "remove-filter-icon-template"
+  );
   filter.find(".icon-container").html(removeIcon);
 
   manageFilterButtons();
@@ -208,7 +305,9 @@ export function deactivateFilter() {
     filter.removeClass("filter-element-active");
     filter.addClass("filter-element-addition");
 
-    let addIcon = CommonServices.retrieveTemplateById("add-icon-template");
+    let addIcon = CommonServices.retrieveTemplateById(
+      "add-filter-icon-template"
+    );
     filter.find(".icon-container").html(addIcon);
   } else {
     $(this).parents(".filter-element-active").remove();
@@ -247,7 +346,9 @@ export function manageFilterButtons() {
     _filter.attr("id", "add-filter-button");
     _filter.find(".filter-name").remove();
 
-    let addIcon = CommonServices.retrieveTemplateById("add-icon-template");
+    let addIcon = CommonServices.retrieveTemplateById(
+      "add-filter-icon-template"
+    );
     _filter.find(".icon-container").append(addIcon);
     _filter.find(".icon-container").attr("id", "filter-manage-icon-container");
     $(".filter-container").prepend(_filter);
@@ -277,7 +378,9 @@ export function removeAllFilters() {
       $(this).removeClass("filter-element-active");
       $(this).addClass("filter-element-addition");
 
-      let addIcon = CommonServices.retrieveTemplateById("add-icon-template");
+      let addIcon = CommonServices.retrieveTemplateById(
+        "add-filter-icon-template"
+      );
       $(this).find(".icon-container").html(addIcon);
     } else {
       $(this).remove();

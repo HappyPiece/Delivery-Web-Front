@@ -1,16 +1,26 @@
-.cardholder {
+.menu-content {
+  /* display: flex; */
+}
+
+.my-cardholder {
   background-color: var(--primary-background);
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-evenly;
+  border-radius: var(--default-border-radius);
+  justify-content: flex-start;
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+  height: 100%;
 }
 
-.card {
+.my-card {
+  max-width: 24%;
+  min-width: min-content;
   background-color: var(--primary-background);
   padding: 0rem 0rem 0rem 0rem;
+  display: flex;
+  flex: 1 0 23% !important;
+  flex-flow: column;
   width: auto;
-  flex: 1 1;
   box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
       var(--default-shadow-blur) var(--container-shadow-color),
     calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
@@ -24,36 +34,144 @@
   margin: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
-.card-picture-container {
-  /* border-radius: var(--default-border-radius); */
+.my-card-picture-container {
+  position: relative;
 }
 
-.card-picture {
+.my-card-picture {
   border-radius: var(--default-border-radius) var(--default-border-radius) 0 0;
   max-width: 100%;
   max-height: 100%;
 }
 
-.card-content {
+.my-card-content {
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
-.card-name {
+.my-card-name {
+  font-size: 1.4rem;
 }
 
-.card-category {
+.my-card-category {
+  color: var(--faded-text);
 }
 
-.card-rating {
+.my-card-rating {
+  display: flex;
+  flex-flow: row nowrap;
+  flex: 1 1;
+  justify-content: center;
+  align-content: center;
+  border-radius: var(--default-border-radius);
 }
 
-.card-description {
+.my-card-rating-icon {
+  font-size: 1.2em !important;
+  color: var(--faint-primary-accent);
+  text-shadow: 0rem 0rem 0.3rem var(--primary-accent);
+  cursor: default;
 }
 
-.card-footer {
+.my-card-description {
+  color: var(--secondary-text);
+  font-size: 0.9rem;
 }
 
-.card-price {
+.my-card-footer {
+  background-color: var(--faded-secondary-background);
+  margin-top: auto;
+  display: flex;
+  border-radius: 0 0 var(--default-border-radius) var(--default-border-radius);
+  align-content: center;
 }
 
-.card-option-container {
+.my-card-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  padding: 0.5rem;
+}
+
+.my-card-option-container {
+  margin: 0rem 0rem 0rem auto;
+  display: flex;
+}
+
+.my-card-option-container[active="0"] .my-card-option-button {
+  display: flex;
+}
+
+.my-card-option-container[active="1"] .my-card-option-input-container {
+  display: flex;
+}
+
+.my-card-option-button {
+  display: none;
+  flex-flow: row wrap;
+  align-content: center;
+  height: 100%;
+  padding: 0rem 0.5rem 0rem 0.5rem;
+  border-radius: 0 0 var(--default-border-radius) 0;
+  cursor: pointer;
+}
+
+.my-card-option-input-container {
+  display: none;
+  flex-flow: row wrap;
+  flex: 1 1;
+  align-content: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0rem 0.5rem 0rem 0.5rem;
+  border-radius: 0 0 var(--default-border-radius) 0;
+}
+
+.my-card-option-input-text {
+  max-width: 3rem;
+  background-color: inherit;
+  color: inherit;
+  text-align: center;
+}
+
+.my-card-option-button:hover {
+  background-color: var(--faint-secondary-background);
+}
+
+.my-card-option-input:hover {
+  background-color: var(--faint-secondary-background);
+}
+
+.add-dish-icon:hover {
+  color: var(--primary-text);
+  background-color: var(--primary-accent);
+}
+
+.remove-dish-icon:hover {
+  color: var(--primary-text);
+  background-color: var(--secondary-accent);
+}
+
+.add-dish-icon:active {
+  color: var(--primary-text);
+  background-color: var(--primary-text);
+}
+
+.remove-dish-icon:active {
+  color: var(--primary-text);
+  background-color: var(--primary-text);
+}
+
+.veg-icon-container {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  z-index: 3;
+}
+
+.veg-icon {
+  font-size: 2rem;
+  cursor: default;
+  /* text-shadow: 0rem 0rem 0.3rem var(--veg); */
+  text-shadow: none;
+  color: var(--veg);
 }

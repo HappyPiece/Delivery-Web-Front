@@ -18,6 +18,7 @@
   border-radius: var(--default-border-radius);
   color: var(--secondary-text);
   cursor: pointer;
+  padding: 0rem 0.2rem 0rem 0.2rem;
   /* box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
       var(--default-shadow-blur) var(--container-shadow-color),
     calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
@@ -62,8 +63,7 @@
     calc(var(--default-shadow-offset) * -1)
       calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
       var(--faint-secondary-background),
-    0.15rem 0.15rem
-      var(--default-shadow-blur) var(--primary-background) inset;
+    0.15rem 0.15rem var(--default-shadow-blur) var(--primary-background) inset;
   /* box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
       var(--default-shadow-blur) var(--faint-primary-accent),
     calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
