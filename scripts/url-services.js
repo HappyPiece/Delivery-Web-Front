@@ -38,6 +38,7 @@ export function calculateArtifacts(globals, Constants) {
   if (globals.State.vegOnlyButtonPressed) {
     artifacts.push("vegetarian=" + "true");
   }
+  artifacts.push("page="+globals.State.currentPage);
   return artifacts;
 }
 
@@ -61,6 +62,9 @@ export function applyURL(globals, Constants) {
     }
     if (artifact.search("vegetarian") >= 0) {
       base.addVegOnly();
+    }
+    if (artifact.search("page") >= 0) {
+      globals.State.currentPage = Number(artifact.match(Constants.queryContent).toString());
     }
   }
 }

@@ -1,5 +1,7 @@
 .menu-content {
-  /* display: flex; */
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
 }
 
 .my-cardholder {
@@ -36,6 +38,7 @@
 
 .my-card-picture-container {
   position: relative;
+  min-height: 3rem;
 }
 
 .my-card-picture {

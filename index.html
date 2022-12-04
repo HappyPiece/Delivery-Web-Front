@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="/styles/toggle.css" />
     <link rel="stylesheet" href="/styles/apply.css" />
     <link rel="stylesheet" href="/styles/menu.css" />
+    <link rel="stylesheet" href="/styles/pagination.css" />
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
@@ -62,7 +63,7 @@
       </div>
     </nav>
     <div class="container content" id="main-content">
-      <div class="container h-75 menu-content">
+      <div class="container menu-content">
         <div class="row filter-bar">
           <div class="filter-bar-element filter-container">
             <div
@@ -115,13 +116,7 @@
         <div class="row my-cardholder"></div>
         <!-- actual content -->
 
-        <div class="pagination-container">
-          <div class="pagination-anchor">
-            <div class="pagination-element-base"></div>
-            <div class="pagination-element-base"></div>
-            <div class="pagination-element-base"></div>
-          </div>
-        </div>
+        <div class="pagination-container"></div>
       </div>
     </div>
     <footer class="container-fluid text-center py-2 dark">
@@ -187,6 +182,34 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- pagination -->
+  <div class="pagination-anchor template" id="pagination-template">
+    <div class="pagination-element-base transitioning to-first-page">
+      <span
+        class="material-symbols-outlined small-icon first-page-icon transitioning"
+      >
+        keyboard_double_arrow_left
+      </span>
+    </div>
+    <!-- a place for my head -->
+    <div class="pagination-element-base transitioning to-last-page">
+      <span
+        class="material-symbols-outlined small-icon last-page-icon transitioning"
+      >
+        keyboard_double_arrow_right
+      </span>
+    </div>
+  </div>
+
+  <div
+    class="pagination-element-base transitioning to-page-number template"
+    to-page=""
+    active=""
+    id="pagination-element-page-number-template"
+  >
+    page-number
   </div>
 
   <!-- error -->

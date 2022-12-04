@@ -38,6 +38,8 @@ class Globals {
     this.State = {
       addFilterButtonPressed: false,
       vegOnlyButtonPressed: false,
+      currentPage: 1,
+      currentPagination: undefined,
     };
   }
 }
@@ -45,8 +47,7 @@ class Globals {
 let globals = new Globals();
 
 $(document).ready(function () {
-  populatePage();
-  addListeners();
+  managePage();
 
   // console.log(
   //   Constants.backendURL +
@@ -63,26 +64,77 @@ $(document).ready(function () {
     .then((result) => console.log(result));
 });
 
-function populatePage() {
+export async function managePage() {
+  await populatePage();
+  addListeners();
+}
+
+export async function populatePage() {
   UrlServices.applyURL(globals, Constants);
-  loadContent();
+  await loadContent();
   manageSortings();
 }
 
-export function loadContent() {
-  fetch(
+export async function loadContent() {
+  let responce = await fetch(
     Constants.backendURL +
       "/api/dish" +
       UrlServices.formArtifactsQuery(globals, Constants)
-  )
-    .then((responce) => responce.json())
-    .then((result) => createCards(result.dishes));
+  );
+  let result = await responce.json();
+  loadMenu(result);
 }
 
 export function reloadContent() {
   let cardholder = $(".my-cardholder");
   cardholder.empty();
   loadContent();
+}
+
+export function loadMenu(result) {
+  createCards(result.dishes);
+  globals.State.currentPagination = result.pagination;
+  managePagination();
+}
+
+export function managePagination() {
+  let paginationContainer = $(".pagination-container");
+  paginationContainer.empty();
+  // console.log(globals.State.currentPagination);
+  if (globals.State.currentPagination.count > 1) {
+    let newPagination = CommonServices.retrieveTemplateById(
+      "pagination-template"
+    );
+    newPagination.find(".to-first-page").attr("to-page", 1);
+    newPagination
+      .find(".to-last-page")
+      .attr("to-page", globals.State.currentPagination.count);
+    let _toPageElement = CommonServices.retrieveTemplateById(
+      "pagination-element-page-number-template"
+    );
+    for (
+      let i = Math.min(
+        Number(globals.State.currentPagination.count),
+        Number(Number(globals.State.currentPage) + 1)
+      );
+      i >= Math.max(Number(Number(globals.State.currentPage) - 1), 1);
+      i--
+    ) {
+      console.log(i);
+      let toPageElement = _toPageElement.clone();
+      toPageElement.html(i);
+      toPageElement.attr("to-page", i);
+      if (i == globals.State.currentPage) {
+        toPageElement.attr("active", 1);
+      } else {
+        toPageElement.attr("active", 0);
+      }
+      // console.log(i);
+      newPagination.find(".to-first-page").after(toPageElement);
+    }
+    paginationContainer.append(newPagination);
+  }
+  addListeners();
 }
 
 export function createCards(dishes) {
@@ -166,6 +218,9 @@ export function addListeners() {
     .find(".add-filter-icon")
     .on("click", activateFilter);
 
+  // console.log($(".pagination-element-base").length);
+  $(".pagination-element-base").on("click", navigateToMenuPage);
+
   //
   $(".filter-element-active")
     .find(".remove-filter-icon")
@@ -176,12 +231,19 @@ export function addListeners() {
   $("body").on("click", breakDialogs);
 }
 
+export function navigateToMenuPage() {
+  globals.State.currentPage = $(this).attr("to-page");
+  UrlServices.updateURL(globals, Constants);
+  reloadContent();
+}
+
 // bruh
 export function breakDialogs() {
   //removeFilters();
 }
 
 export function applyFilters() {
+  UrlServices.updateURL(globals, Constants);
   reloadContent();
 }
 
@@ -196,13 +258,13 @@ export function manageVegOnly() {
 export function addVegOnly() {
   globals.State.vegOnlyButtonPressed = true;
   $("#veg-only-toggle").attr("active", 1);
-  UrlServices.updateURL(globals, Constants);
+  // UrlServices.updateURL(globals, Constants);
 }
 
 export function removeVegOnly() {
   globals.State.vegOnlyButtonPressed = false;
   $("#veg-only-toggle").attr("active", 0);
-  UrlServices.updateURL(globals, Constants);
+  // UrlServices.updateURL(globals, Constants);
 }
 
 // adds or removes inactive filters, corresponding to current state of add button, to which it listens
@@ -272,7 +334,7 @@ export function addFilter(filterName) {
 
   manageFilterButtons();
   addListeners();
-  UrlServices.updateURL(globals, Constants);
+  // UrlServices.updateURL(globals, Constants);
 }
 
 // transfers filter to active state
@@ -293,7 +355,7 @@ export function activateFilter() {
 
   manageFilterButtons();
   addListeners();
-  UrlServices.updateURL(globals, Constants);
+  // UrlServices.updateURL(globals, Constants);
 }
 
 // removes filter or sets it to inactive state, depending on whether add button is active
@@ -319,7 +381,7 @@ export function deactivateFilter() {
 
   manageFilterButtons();
   addListeners();
-  UrlServices.updateURL(globals, Constants);
+  // UrlServices.updateURL(globals, Constants);
 }
 
 // adjusts add and garbage buttons so they correspond to current active filters
@@ -393,7 +455,7 @@ export function removeAllFilters() {
 
   manageFilterButtons();
   addListeners();
-  UrlServices.updateURL(globals, Constants);
+  // UrlServices.updateURL(globals, Constants);
 }
 
 export function activateOption() {
@@ -409,7 +471,7 @@ export function setSorting(sorting_codename) {
       sorting.IsActive = false;
     }
   }
-  UrlServices.updateURL(globals, Constants);
+  // UrlServices.updateURL(globals, Constants);
 }
 
 export function manageSortings() {
