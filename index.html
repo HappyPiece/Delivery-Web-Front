@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/styles/base.css" />
     <link rel="stylesheet" href="/styles/common.css" />
     <link rel="stylesheet" href="/styles/structure.css" />
-    <link rel="stylesheet" href="/styles/filters.css" />
+    <link rel="stylesheet" href="/styles/categories.css" />
     <link rel="stylesheet" href="/styles/dropdown.css" />
     <link rel="stylesheet" href="/styles/toggle.css" />
     <link rel="stylesheet" href="/styles/apply.css" />
@@ -62,63 +62,11 @@
         </div>
       </div>
     </nav>
-    <div class="container content" id="main-content">
-      <div class="container menu-content">
-        <div class="row filter-bar">
-          <div class="filter-bar-element filter-container">
-            <div
-              class="filter-element-base enlightened secondary-text"
-              id="add-filter-button"
-            >
-              <div class="filter-content">
-                <div class="icon-container" id="filter-manage-icon-container">
-                  <span
-                    class="material-symbols-outlined small-icon add-filter-icon transitioning"
-                  >
-                    add_circle
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="filter-bar-element dropdown-container">
-            <div class="dropdown-anchor">
-              <div class="dropdown-content">
-                <div class="dropdown-options"></div>
-              </div>
-            </div>
-          </div>
-          <div class="filter-bar-element toggle-container">
-            <div class="toggle-anchor">
-              <div
-                class="toggle-content transitioning default-shadow"
-                id="veg-only-toggle"
-                active="0"
-              >
-                <div class="toggle-name">Только вегетерианские</div>
-              </div>
-            </div>
-          </div>
-          <div class="filter-bar-element apply-button-container">
-            <div class="apply-button-anchor">
-              <div
-                class="apply-button-content transitioning"
-                id="apply-filters-bitton"
-              >
-                <div class="apply-button-name">Применить</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row horizontal-separator"></div>
 
-        <!-- actual content -->
-        <div class="row my-cardholder"></div>
-        <!-- actual content -->
+    <!-- content container -->
+    <div class="container content" id="main-content"></div>
+    <!-- content container -->
 
-        <div class="pagination-container"></div>
-      </div>
-    </div>
     <footer class="container-fluid text-center py-2 dark">
       <div class="row mb-2">
         <div class="col faded-text">© 2022 - обед.уютненько</div>
@@ -128,13 +76,61 @@
 
   <!-- TEMPLATES -->
 
-  <!-- filter element -->
+  <!-- menu content -->
+  <div class="container menu-content template" id="menu-content-template">
+    <div class="row filter-bar">
+      <div class="filter-bar-element categories-container">
+        <div class="categories-anchor">
+          
+        </div>
+      </div>
+      <div class="filter-bar-element dropdown-container transitioning">
+        <div class="dropdown-anchor">
+          <div class="dropdown-content">
+            <div class="dropdown-options"></div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-bar-element toggle-container">
+        <div class="toggle-anchor">
+          <div
+            class="toggle-content transitioning default-shadow"
+            id="veg-only-toggle"
+            active="0"
+          >
+            <div class="toggle-name">Только вегетерианские</div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-bar-element apply-button-container">
+        <div class="apply-button-anchor">
+          <div
+            class="apply-button-content transitioning"
+            id="apply-filters-bitton"
+          >
+            <div class="apply-button-name">Применить</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row horizontal-separator"></div>
+
+    <!-- actual content -->
+    <div class="row my-cardholder"></div>
+    <!-- actual content -->
+
+    <div class="pagination-container" id="pagination-container"></div>
+  </div>
+
+  <!-- category element -->
   <div
-    class="filter-element-base secondary-text enlightned transitioning template"
-    id="filter-element-template"
+    class="category-element-base secondary-text transitioning template"
+    id="category-element-template"
+    category=""
+    active="0"
   >
-    <div class="filter-content">
-      <div class="filter-name">filter-name</div>
+    <div class="category-content">
+      <div class="category-name">category-name</div>
       <div class="icon-container"></div>
     </div>
   </div>
@@ -222,33 +218,34 @@
 
   <div class="error-emoji template" id="shruggie">¯\_(ツ)_/¯</div>
   <div class="error-emoji template" id="crying">(இ﹏இ`｡)</div>
+
   <!-- material symbols -->
   <span
-    class="material-symbols-outlined small-icon remove-filter-icon transitioning template"
-    id="remove-filter-icon-template"
+    class="material-symbols-outlined small-icon remove-icon transitioning template"
+    id="remove-icon-template"
   >
     cancel
   </span>
   <span
-    class="material-symbols-outlined small-icon add-filter-icon transitioning template"
-    id="add-filter-icon-template"
+    class="material-symbols-outlined small-icon add-icon transitioning template"
+    id="add-icon-template"
   >
     add_circle
   </span>
   <span
-    class="material-symbols-outlined small-icon remove-all-filter-icon transitioning template"
+    class="material-symbols-outlined small-icon garbage-icon transitioning template"
     id="garbage-icon-template"
   >
     delete
   </span>
   <span
-    class="material-symbols-outlined small-icon expand-more-filter-icon transitioning template"
+    class="material-symbols-outlined small-icon expand-more-sortings-icon transitioning template"
     id="expand-more-icon-template"
   >
     expand_more
   </span>
   <span
-    class="material-symbols-outlined small-icon expand-less-filter-icon transitioning template"
+    class="material-symbols-outlined small-icon expand-less-sortings-icon transitioning template"
     id="expand-less-icon-template"
   >
     expand_less

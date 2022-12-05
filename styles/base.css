@@ -40,6 +40,7 @@ Roboto Flex
   --secondary-text: #fdf8ecbb;
   --faded-text: #fdf8ec80;
   --primary-background: #00092c;
+  --light-primary-background: #00092cdd;
   --faint-primary-background: #00092caa;
   --secondary-background: #8134ff;
   --faint-secondary-background: #8134ffbb;
@@ -91,6 +92,10 @@ body {
   text-shadow: 0rem 0rem 0.3rem var(--secondary-text);
   user-select: none;
   line-height: 1.5rem;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 :focus-visible {

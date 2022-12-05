@@ -61,6 +61,7 @@ footer {
 .filter-bar-element {
   margin: 0.5rem 0.5rem 0.5rem 0.5rem;
   width: auto;
+  /* max-height: min-content !important; */
   flex: 1 1;
   padding: 0.2rem 0.2rem 0.2rem 0.2rem;
 }

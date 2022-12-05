@@ -36,10 +36,11 @@ class Globals {
     );
 
     this.State = {
-      addFilterButtonPressed: false,
-      vegOnlyButtonPressed: false,
+      categoryAdditionActive: false,
+      vegOnlyActive: false,
       currentPage: 1,
       currentPagination: undefined,
+      specifiedPage: "",
     };
   }
 }
@@ -55,52 +56,100 @@ $(document).ready(function () {
   //     UrlServices.formArtifactsQuery(globals, Constants)
   // );
 
-  fetch(
-    Constants.backendURL +
-      "/api/dish" +
-      UrlServices.formArtifactsQuery(globals, Constants)
-  )
-    .then((responce) => responce.json())
-    .then((result) => console.log(result));
+  // fetch(
+  //   Constants.backendURL +
+  //     "/api/dish" +
+  //     UrlServices.formArtifactsQuery(globals, Constants)
+  // )
+  //   .then((responce) => responce.json())
+  //   .then((result) => console.log(result));
 });
 
 export async function managePage() {
-  await populatePage();
-  addListeners();
+  UrlServices.applyURL(globals, Constants);
+  await renderShell();
+  await loadContent();
+  assignListeners();
 }
 
-export async function populatePage() {
-  UrlServices.applyURL(globals, Constants);
-  await loadContent();
+export async function renderShell() {
+  $("#main-content").empty();
+  switch (globals.State.specifiedPage) {
+    case "": {
+      await renderMenu();
+    }
+  }
+}
+
+export async function renderMenu() {
+  let menuContent = CommonServices.retrieveTemplateById(
+    "menu-content-template"
+  );
+  renderCategories(menuContent);
+
+  $("#main-content").append(menuContent);
   manageSortings();
 }
 
+export function renderCategories(menuContent) {
+  let categoriesAnchor = menuContent.find(".categories-anchor");
+  let _category = CommonServices.retrieveTemplateById(
+    "category-element-template"
+  );
+
+  for (let category of globals.Categories) {
+    let newCategory = _category.clone();
+    newCategory.attr("category", category.Codename);
+    if (category.IsActive === true) {
+      newCategory.attr("active", 1);
+    }
+    newCategory.find(".category-name").html(category.Name);
+
+    categoriesAnchor.append(newCategory);
+  }
+}
+
 export async function loadContent() {
+  switch (globals.State.specifiedPage) {
+    case "": {
+      loadMenu();
+    }
+  }
+}
+
+export async function loadMenu() {
+  let cardholder = $(".my-cardholder");
+  let pagination = $(".pagination-container");
+  pagination.empty();
+  cardholder.empty();
   let responce = await fetch(
     Constants.backendURL +
       "/api/dish" +
       UrlServices.formArtifactsQuery(globals, Constants)
   );
+  if (responce.ok == false) {
+    showErrorPlug("shruggie", "something went wrong", $(".my-cardholder"));
+    console.log("bruh");
+    return;
+  }
+
   let result = await responce.json();
-  loadMenu(result);
-}
-
-export function reloadContent() {
-  let cardholder = $(".my-cardholder");
-  cardholder.empty();
-  loadContent();
-}
-
-export function loadMenu(result) {
   createCards(result.dishes);
+
   globals.State.currentPagination = result.pagination;
+  globals.State.currentPage = result.pagination.current;
   managePagination();
 }
 
 export function managePagination() {
   let paginationContainer = $(".pagination-container");
   paginationContainer.empty();
-  // console.log(globals.State.currentPagination);
+  if (
+    globals.State.currentPagination === null ||
+    globals.State.currentPagination === undefined
+  ) {
+    return;
+  }
   if (globals.State.currentPagination.count > 1) {
     let newPagination = CommonServices.retrieveTemplateById(
       "pagination-template"
@@ -120,7 +169,7 @@ export function managePagination() {
       i >= Math.max(Number(Number(globals.State.currentPage) - 1), 1);
       i--
     ) {
-      console.log(i);
+      // console.log(i);
       let toPageElement = _toPageElement.clone();
       toPageElement.html(i);
       toPageElement.attr("to-page", i);
@@ -134,121 +183,116 @@ export function managePagination() {
     }
     paginationContainer.append(newPagination);
   }
-  addListeners();
+  assignListeners();
 }
 
 export function createCards(dishes) {
   let _card = CommonServices.retrieveTemplateById("menu-card-template");
   let cardholder = $(".my-cardholder");
-  // console.log(dishes);
-  if (dishes !== null && dishes !== undefined) {
-    if (dishes.length > 0) {
-      for (let dish of dishes) {
-        let card = _card.clone();
-        card.find(".my-card-picture").attr("src", dish.image);
-        if (dish.vegetarian) {
-          card
-            .find(".veg-icon-container")
-            .append(CommonServices.retrieveTemplateById("veg-icon-template"));
-        }
-        card.find(".my-card-name").html(dish.name);
+  if (dishes.length > 0) {
+    for (let dish of dishes) {
+      let card = _card.clone();
+      card.find(".my-card-picture").attr("src", dish.image);
+      if (dish.vegetarian) {
         card
-          .find(".my-card-category")
-          .html(
-            globals.Categories.find((x) => x.Codename === dish.category).Name
-          );
-        let rating = card.find(".my-card-rating");
-        let dishRating = dish.rating;
-        for (let i = 0; i < 10; i++) {
-          if (dishRating >= 1) {
-            rating.append(
-              CommonServices.retrieveTemplateById("star-icon-template")
-            );
-            dishRating -= 1;
-            continue;
-          } else if (dishRating >= 0.5) {
-            rating.append(
-              CommonServices.retrieveTemplateById("star-half-icon-template")
-            );
-            dishRating = 0;
-            continue;
-          } else {
-            rating.append(
-              CommonServices.retrieveTemplateById("star-outlined-icon-template")
-            );
-          }
-        }
-        card.find(".my-card-description").html(dish.description);
-        card.find(".my-card-price").html(dish.price + "₽");
-        cardholder.append(card);
+          .find(".veg-icon-container")
+          .append(CommonServices.retrieveTemplateById("veg-icon-template"));
       }
-    } else {
-      let plug = CommonServices.retrieveTemplateById("error-plug-template");
-      plug
-        .find(".error-emoji-acnhor")
-        .append(CommonServices.retrieveTemplateById("crying"));
-      plug.find(".error-message").html("We don't have such dishes");
-      cardholder.append(plug);
+      card.find(".my-card-name").html(dish.name);
+      card
+        .find(".my-card-category")
+        .html(
+          globals.Categories.find((x) => x.Codename === dish.category).Name
+        );
+      let rating = card.find(".my-card-rating");
+      let dishRating = dish.rating;
+      for (let i = 0; i < 10; i++) {
+        if (dishRating >= 1) {
+          rating.append(
+            CommonServices.retrieveTemplateById("star-icon-template")
+          );
+          dishRating -= 1;
+          continue;
+        } else if (dishRating >= 0.5) {
+          rating.append(
+            CommonServices.retrieveTemplateById("star-half-icon-template")
+          );
+          dishRating = 0;
+          continue;
+        } else {
+          rating.append(
+            CommonServices.retrieveTemplateById("star-outlined-icon-template")
+          );
+        }
+      }
+      card.find(".my-card-description").html(dish.description);
+      card.find(".my-card-price").html(dish.price + "₽");
+      cardholder.append(card);
     }
   } else {
-    let plug = CommonServices.retrieveTemplateById("error-plug-template");
-    plug
-      .find(".error-emoji-acnhor")
-      .append(CommonServices.retrieveTemplateById("shruggie"));
-    plug.find(".error-message").html("Something went wrong");
-    cardholder.append(plug);
+    showErrorPlug("crying", "we don't have such dishes", $(".my-cardholder"));
   }
 }
 
+export function showErrorPlug(emoji, message, target) {
+  let plug = CommonServices.retrieveTemplateById("error-plug-template");
+  plug
+    .find(".error-emoji-acnhor")
+    .append(CommonServices.retrieveTemplateById(emoji));
+  plug.find(".error-message").html(message);
+  target.append(plug);
+}
+
 // assigns ot re- assigns corresponding listeners to all the elements in the page
-export function addListeners() {
+export function assignListeners() {
   $("*").off();
 
   //
-  $("#filter-manage-icon-container").find("span").on("click", manageFilters);
-
-  $("#delete-filter-button").find("span").on("click", removeAllFilters);
-
   $("#veg-only-toggle").on("click", manageVegOnly);
 
   $("#apply-filters-bitton").on("click", applyFilters);
 
-  //
-  $(".filter-element-addition")
-    .find(".add-filter-icon")
-    .on("click", activateFilter);
+  $(".category-element-base").on("click", toggleCategory);
 
   // console.log($(".pagination-element-base").length);
   $(".pagination-element-base").on("click", navigateToMenuPage);
 
   //
-  $(".filter-element-active")
-    .find(".remove-filter-icon")
-    .on("click", deactivateFilter);
-
   $(".hidden-option").on("click", activateOption);
+}
 
-  $("body").on("click", breakDialogs);
+export function toggleCategory() {
+  if (Number($(this).attr("active")) === 0) {
+    setCategory($(this).attr("category"), true);
+    $(this).attr("active", 1);
+  } else {
+    setCategory($(this).attr("category"), false);
+    $(this).attr("active", 0);
+  }
+}
+
+export function setCategory(codename, state) {
+  globals.Categories.find(
+    (x) =>
+      x.Codename === codename
+  ).IsActive = state;
 }
 
 export function navigateToMenuPage() {
   globals.State.currentPage = $(this).attr("to-page");
   UrlServices.updateURL(globals, Constants);
-  reloadContent();
-}
-
-// bruh
-export function breakDialogs() {
-  //removeFilters();
+  loadContent();
+  $(this).attr("to-page");
 }
 
 export function applyFilters() {
   UrlServices.updateURL(globals, Constants);
-  reloadContent();
+  globals.State.currentPage = 1;
+  loadMenu();
 }
 
 export function manageVegOnly() {
-  if (!globals.State.vegOnlyButtonPressed) {
+  if (!globals.State.vegOnlyActive) {
     addVegOnly();
   } else {
     removeVegOnly();
@@ -256,208 +300,36 @@ export function manageVegOnly() {
 }
 
 export function addVegOnly() {
-  globals.State.vegOnlyButtonPressed = true;
+  globals.State.vegOnlyActive = true;
   $("#veg-only-toggle").attr("active", 1);
   // UrlServices.updateURL(globals, Constants);
 }
 
 export function removeVegOnly() {
-  globals.State.vegOnlyButtonPressed = false;
+  globals.State.vegOnlyActive = false;
   $("#veg-only-toggle").attr("active", 0);
   // UrlServices.updateURL(globals, Constants);
 }
 
 // adds or removes inactive filters, corresponding to current state of add button, to which it listens
-export function manageFilters() {
-  if (!globals.State.addFilterButtonPressed) {
-    addFilters();
+export function toggleCategories() {
+  if (!globals.State.categoryAdditionActive) {
+    globals.State.categoryAdditionActive = true;
   } else {
-    removeFilters();
+    globals.State.categoryAdditionActive = false;
   }
+  manageCategories();
 }
 
-// adds filters that are not yet active, used in manageFilters
-export function addFilters() {
-  let _filter = CommonServices.retrieveTemplateById("filter-element-template");
-  _filter.addClass("filter-element-addition");
-
-  let addIcon = CommonServices.retrieveTemplateById("add-filter-icon-template");
-  _filter.find(".icon-container").append(addIcon);
-
-  for (let category of globals.Categories) {
-    if (!category.IsActive) {
-      let filter = _filter.clone();
-      filter.find(".filter-name").html(category.Name);
-      $("#add-filter-button").after(filter);
-    }
-  }
-
-  let removeIcon = CommonServices.retrieveTemplateById(
-    "remove-filter-icon-template"
-  );
-  let iconContainer = $("#filter-manage-icon-container");
-  iconContainer.empty();
-  iconContainer.append(removeIcon);
-  globals.State.addFilterButtonPressed = true;
-  addListeners();
-}
-
-// removes inactive filters, used in manageFilters
-export function removeFilters() {
-  $(".filter-element-addition").remove();
-
-  let addIcon = CommonServices.retrieveTemplateById("add-filter-icon-template");
-  let iconContainer = $("#filter-manage-icon-container");
-  iconContainer.empty();
-  iconContainer.append(addIcon);
-  globals.State.addFilterButtonPressed = false;
-  addListeners();
-}
-
-// adds active filter to container by it's name, used in applyURL
-export function addFilter(filterName) {
-  let filter = CommonServices.retrieveTemplateById("filter-element-template");
-  filter.addClass("filter-element-active");
-
-  let removeIcon = CommonServices.retrieveTemplateById(
-    "remove-filter-icon-template"
-  );
-  filter.find(".icon-container").append(removeIcon);
-
-  filter.find(".filter-name").html(filterName);
-
-  $("#add-filter-button").after(filter);
-
-  globals.Categories.find(
-    (x) => x.Name === filter.find(".filter-name").text()
-  ).IsActive = true;
-
-  manageFilterButtons();
-  addListeners();
-  // UrlServices.updateURL(globals, Constants);
-}
-
-// transfers filter to active state
-// listens to add buttons on filters
-export function activateFilter() {
-  let filter = $(this).parents(".filter-element-addition");
-  filter.removeClass("filter-element-addition");
-  filter.addClass("filter-element-active");
-
-  globals.Categories.find(
-    (x) => x.Name === filter.find(".filter-name").text()
-  ).IsActive = true;
-
-  let removeIcon = CommonServices.retrieveTemplateById(
-    "remove-filter-icon-template"
-  );
-  filter.find(".icon-container").html(removeIcon);
-
-  manageFilterButtons();
-  addListeners();
-  // UrlServices.updateURL(globals, Constants);
-}
-
-// removes filter or sets it to inactive state, depending on whether add button is active
-// listens to remove buttons on filters
-export function deactivateFilter() {
-  let filter = $(this).parents(".filter-element-active");
-
-  if (globals.State.addFilterButtonPressed) {
-    filter.removeClass("filter-element-active");
-    filter.addClass("filter-element-addition");
-
-    let addIcon = CommonServices.retrieveTemplateById(
-      "add-filter-icon-template"
-    );
-    filter.find(".icon-container").html(addIcon);
+export function manageCategories() {
+  if (globals.State.categoryAdditionActive) {
+    showCategories();
   } else {
-    $(this).parents(".filter-element-active").remove();
-  }
-
-  globals.Categories.find(
-    (x) => x.Name === filter.find(".filter-name").text()
-  ).IsActive = false;
-
-  manageFilterButtons();
-  addListeners();
-  // UrlServices.updateURL(globals, Constants);
-}
-
-// adjusts add and garbage buttons so they correspond to current active filters
-export function manageFilterButtons() {
-  let allEnabled = true;
-  let anyEnabled = false;
-
-  for (let category of globals.Categories) {
-    if (!category.IsActive) {
-      allEnabled = false;
-    } else {
-      anyEnabled = true;
-    }
-  }
-
-  // show add button only if there are filters to add
-  if (allEnabled) {
-    $("#add-filter-button").remove();
-    removeFilters();
-  } else if ($("#add-filter-button").length === 0) {
-    let _filter = CommonServices.retrieveTemplateById(
-      "filter-element-template"
-    );
-    _filter.attr("id", "add-filter-button");
-    _filter.find(".filter-name").remove();
-
-    let addIcon = CommonServices.retrieveTemplateById(
-      "add-filter-icon-template"
-    );
-    _filter.find(".icon-container").append(addIcon);
-    _filter.find(".icon-container").attr("id", "filter-manage-icon-container");
-    $(".filter-container").prepend(_filter);
-  }
-
-  // show remove all button only if there is any filter active
-  if (!anyEnabled) {
-    $("#delete-filter-button").remove();
-  } else if ($("#delete-filter-button").length === 0) {
-    let _filter = CommonServices.retrieveTemplateById(
-      "filter-element-template"
-    );
-    _filter.addClass("in-the-end");
-    _filter.attr("id", "delete-filter-button");
-    _filter.find(".filter-name").remove();
-
-    let addIcon = CommonServices.retrieveTemplateById("garbage-icon-template");
-    _filter.find(".icon-container").append(addIcon);
-    $(".filter-container").append(_filter);
+    hideCategories();
   }
 }
 
-// deactivates all filters, listens to garbage icon clicks
-export function removeAllFilters() {
-  $(".filter-element-active").each(function () {
-    if (globals.State.addFilterButtonPressed) {
-      $(this).removeClass("filter-element-active");
-      $(this).addClass("filter-element-addition");
-
-      let addIcon = CommonServices.retrieveTemplateById(
-        "add-filter-icon-template"
-      );
-      $(this).find(".icon-container").html(addIcon);
-    } else {
-      $(this).remove();
-    }
-  });
-
-  for (let category of globals.Categories) {
-    category.IsActive = false;
-  }
-
-  manageFilterButtons();
-  addListeners();
-  // UrlServices.updateURL(globals, Constants);
-}
-
+// activating sorting
 export function activateOption() {
   setSorting($(this).find(".option-name").attr("id"));
   manageSortings();
@@ -501,5 +373,5 @@ export function manageSortings() {
       $(".dropdown-options").append(option);
     }
   }
-  addListeners();
+  assignListeners();
 }

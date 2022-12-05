@@ -89,6 +89,12 @@
       var(--faint-primary-accent);
 }
 
+.icon-container {
+  display: flex;
+  margin: 0rem 0.1rem 0rem 0.1rem;
+  align-items: center;
+}
+
 .small-icon {
   font-size: 1.2rem;
   height: min-content;
@@ -122,4 +128,28 @@ input {
 .error-message {
   font-size: 1.3rem;
   color: var(--secondary-text);
+}
+
+.remove-icon:hover {
+  background-color: var(--secondary-accent);
+}
+
+.remove-icon:active {
+  background-color: var(--primary-text);
+}
+
+.garbage-icon:hover {
+  background-color: var(--secondary-accent);
+}
+
+.garbage-icon:active {
+  background-color: var(--primary-text);
+}
+
+.add-icon:hover {
+  background-color: var(--primary-accent);
+}
+
+.add-icon:active {
+  background-color: var(--primary-text);
 }

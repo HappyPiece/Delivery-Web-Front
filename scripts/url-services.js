@@ -35,7 +35,7 @@ export function calculateArtifacts(globals, Constants) {
       artifacts.push("sorting=" + sorting.Codename);
     }
   }
-  if (globals.State.vegOnlyButtonPressed) {
+  if (globals.State.vegOnlyActive) {
     artifacts.push("vegetarian=" + "true");
   }
   artifacts.push("page="+globals.State.currentPage);
@@ -49,15 +49,12 @@ export function applyURL(globals, Constants) {
   // console.log(artifacts);
   for (let artifact of artifacts) {
     if (artifact.search("categories") >= 0) {
-      base.addFilter(
         globals.Categories.find(
           (x) =>
             x.Codename === artifact.match(Constants.queryContent).toString()
-        ).Name
-      );
+        ).IsActive = true;
     }
     if (artifact.search("sorting") >= 0) {
-      // console.log(artifact.match(Constants.queryContent).toString());
       base.setSorting(artifact.match(Constants.queryContent).toString());
     }
     if (artifact.search("vegetarian") >= 0) {

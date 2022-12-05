@@ -1,4 +1,10 @@
-.filter-container {
+.categories-container {
+  display: flex;
+  align-content: center;
+  flex-flow: row wrap;
+}
+
+.categories-anchor {
   box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
       var(--default-shadow-blur) var(--container-shadow-color),
     calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
@@ -10,10 +16,15 @@
       var(--container-shadow-color);
   border-radius: var(--default-border-radius);
   display: flex;
+  align-content: flex-start;
   flex-flow: row wrap;
+  padding: 0.1rem 0.1rem 0.1rem 0.1rem;
+  width: 100%;
 }
 
-.filter-element-base {
+.category-element-base {
+  background-color: var(--faint-secondary-background);
+  color: var(--secondary-text);
   margin: 0.1rem 0.1rem 0.1rem 0.1rem;
   padding: 0rem 0.1rem 0rem 0.1rem;
   border-radius: var(--default-border-radius);
@@ -21,62 +32,32 @@
   flex-flow: row wrap;
   max-height: 1.5rem;
   display: flex;
+  cursor: pointer;
 }
 
-.filter-element-active {
-  background-color: var(--faint-secondary-background);
-}
-
-.filter-element-active:hover {
+.category-element-base:hover {
   background-color: var(--secondary-background);
+  color: var(--primary-text);
 }
 
-.filter-element-addition {
+.category-element-base[active="1"] {
   background-color: var(--faint-primary-accent);
+  color: var(--secondary-text);
 }
 
-.filter-element-addition:hover {
+.category-element-base[active="1"]:hover {
   background-color: var(--primary-accent);
+  color: var(--primary-text);
 }
 
-.filter-content {
+.category-content {
   display: flex;
   height: 100%;
 }
 
-.filter-name {
+.category-name {
   margin: 0rem 0.1rem 0rem 0.1rem;
   display: flex;
   flex-flow: row wrap;
   align-content: center;
-}
-
-.remove-filter-icon:hover {
-  background-color: var(--secondary-accent);
-}
-
-.remove-filter-icon:active {
-  background-color: var(--primary-text);
-}
-
-.remove-all-filter-icon:hover {
-  background-color: var(--secondary-accent);
-}
-
-.remove-all-filter-icon:active {
-  background-color: var(--primary-text);
-}
-
-.add-filter-icon:hover {
-  background-color: var(--primary-accent);
-}
-
-.add-filter-icon:active {
-  background-color: var(--primary-text);
-}
-
-.icon-container {
-  display: flex;
-  margin: 0rem 0.1rem 0rem 0.1rem;
-  align-items: center;
 }
