@@ -68,17 +68,21 @@ html {
   .content {
     border-radius: 0rem !important;
   }
+
+  .navbar-content {
+    border-radius: 0rem !important;
+  }
 }
 
 @media screen and (max-width: 576px) {
   html {
-    font-size: 0.8rem !important;
+    /* font-size: 0.8rem !important; */
   }
 }
 
 @media screen and (max-width: 346px) {
   html {
-    font-size: 0.4rem !important;
+    /* font-size: 0.4rem !important; */
   }
 }
 
@@ -91,7 +95,6 @@ body {
   font-family: "Roboto Flex";
   text-shadow: 0rem 0rem 0.3rem var(--secondary-text);
   user-select: none;
-  line-height: 1.5rem;
 }
 
 * {

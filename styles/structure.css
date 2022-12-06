@@ -1,53 +1,122 @@
 nav {
   grid-row-end: 1;
   z-index: 1;
+  margin: 1rem auto 0.5rem auto;
 }
 
+.navbar-content {
+  padding: 0rem;
+  border-radius: var(--default-border-radius);
+  display: flex;
+}
+
+.navbar-anchor {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: center;
+}
+
+.navbar-section {
+  display: flex;
+  flex-flow: row wrap;
+  align-content: center;
+}
+
+.navbar-left {
+  margin-right: auto;
+}
+
+.navbar-right {
+  margin-left: auto;
+}
+
+.navbar-element {
+  background-color: var(--faded-secondary-background);
+  color: var(--faded-text);
+  display: flex;
+  align-content: center;
+  flex-flow: row wrap;
+  margin: 0.1rem 0rem 0.1rem 0rem;
+  padding-right: calc(var(--bs-gutter-x) * 0.3);
+  padding-left: calc(var(--bs-gutter-x) * 0.3);
+  border-radius: 0;
+  cursor: pointer;
+  height: 100%;
+}
+
+.navbar-element:hover {
+  background-color: var(--secondary-background);
+  color: var(--primary-text);
+}
+
+.navbar-left .navbar-element:last-child {
+  /* border-radius: 0 var(--default-border-radius) var(--default-border-radius) 0; */
+}
+
+.navbar-right .navbar-element:first-child {
+  /* border-radius: var(--default-border-radius) 0 0 var(--default-border-radius); */
+}
+
+.navbar-right .navbar-element:last-child {
+  border-radius: 0 var(--default-border-radius) var(--default-border-radius) 0; */
+}
+
+
 .nav-brand {
+  font-size: 2rem;
+  color: var(--secondary-text);
   transition: all 0.1s ease-in-out;
-  padding-left: 0.4rem;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  margin-top: calc(var(--bs-gutter-x) * -0.2);
+  padding-left: calc(var(--bs-gutter-x) * .5);
 }
 
 .nav-brand:hover {
   color: var(--primary-text);
-  text-shadow: 0.1rem 0.1rem 0.3rem var(--secondary-background),
-    -0.1rem -0.1rem 0.3rem var(--secondary-background);
+  text-shadow: 0.1rem 0.1rem 0.3rem var(--secondary-background), -0.1rem -0.1rem 0.3rem var(--secondary-background);
 }
 
 .content {
   grid-row-start: 1;
   grid-row-end: 3;
   z-index: 0;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
-      var(--default-shadow-blur) var(--container-shadow-color),
-    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
-      var(--default-shadow-blur) var(--container-shadow-color),
-    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1)
-      var(--default-shadow-blur) var(--container-shadow-color),
-    calc(var(--default-shadow-offset) * -1)
-      calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
-      var(--container-shadow-color);
+  margin: 0.5rem auto 0.5rem auto;
+  box-shadow: var(--default-shadow-offset) var(--default-shadow-offset) var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset) var(--default-shadow-blur) var(--container-shadow-color),
+    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1) calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur) var(--container-shadow-color);
   border-radius: var(--default-border-radius);
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }
 
 footer {
+  margin: 0.5rem auto 1rem auto;
   grid-row-start: 3;
   grid-row-end: 4;
   z-index: 1;
 }
 
+.footer-content {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  color: var(--faded-text);
+}
+
 .vertical-separator {
-  border-right: 0.01rem solid var(--secondary-text);
-  box-shadow: 0rem 0rem var(--default-shadow-blur) var(--primary-text);
+  border-right: 0.01rem solid var(--secondary-background);
+  box-shadow: 0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
+    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color), 0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
+    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color);
 }
 
 .horizontal-separator {
   border-bottom: 0.01rem solid var(--secondary-background);
   box-shadow: 0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
-    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
-    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
+    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color), 0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
     0rem 0rem var(--default-shadow-blur) var(--container-shadow-color);
   margin: 0.2rem 0rem 0.2rem 0rem;
 }
@@ -61,7 +130,6 @@ footer {
 .filter-bar-element {
   margin: 0.5rem 0.5rem 0.5rem 0.5rem;
   width: auto;
-  /* max-height: min-content !important; */
   flex: 1 1;
   padding: 0.2rem 0.2rem 0.2rem 0.2rem;
 }

@@ -25,279 +25,29 @@
     <link rel="stylesheet" href="/styles/apply.css" />
     <link rel="stylesheet" href="/styles/menu.css" />
     <link rel="stylesheet" href="/styles/pagination.css" />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   </head>
   <body>
-    <nav class="container-fluid text-center py-2 dark mt-1">
-      <div class="row">
-        <div class="col text-start d-flex flex-column flex-sm-row faded-text">
-          <div
-            class="vertical-center me-2 bigger-text secondary-text nav-brand"
-          >
-            обед.уютненько
-          </div>
-          <div class="vertical-center vertical-separator h-100 mx-sm-1"></div>
-          <div class="vertical-center mx-sm-2 focusable transitioning">
-            Меню
-          </div>
-          <div class="vertical-center mx-sm-2 focusable transitioning">
-            Заказы
-          </div>
-          <div class="vertical-center mx-sm-2 focusable transitioning">
-            Корзина
-          </div>
-        </div>
-        <div
-          class="col text-end d-flex flex-column flex-sm-row justify-content-center justify-content-sm-end faded-text"
-        >
-          <div class="vertical-center mx-sm-2 pe-2">example@gmail.com</div>
-          <div class="d-flex justify-content-end">
-            <div class="focusable transitioning ms-2 vertical-center">
-              Выйти
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- navbar -->
+    <nav class="container navbar-content default-shadow" id="navbar-content">
+      
     </nav>
+    <!-- navbar -->
 
     <!-- content container -->
     <div class="container content" id="main-content"></div>
     <!-- content container -->
 
-    <footer class="container-fluid text-center py-2 dark">
-      <div class="row mb-2">
-        <div class="col faded-text">© 2022 - обед.уютненько</div>
-      </div>
+    <!-- footer -->
+    <footer class="container-fluid footer-content">
+      <div class="">© 2022 - обед.уютненько</div>
     </footer>
+    <!-- footer -->
   </body>
 
   <!-- TEMPLATES -->
 
-  <!-- menu content -->
-  <div class="container menu-content template" id="menu-content-template">
-    <div class="row filter-bar">
-      <div class="filter-bar-element categories-container">
-        <div class="categories-anchor">
-          
-        </div>
-      </div>
-      <div class="filter-bar-element dropdown-container transitioning">
-        <div class="dropdown-anchor">
-          <div class="dropdown-content">
-            <div class="dropdown-options"></div>
-          </div>
-        </div>
-      </div>
-      <div class="filter-bar-element toggle-container">
-        <div class="toggle-anchor">
-          <div
-            class="toggle-content transitioning default-shadow"
-            id="veg-only-toggle"
-            active="0"
-          >
-            <div class="toggle-name">Только вегетерианские</div>
-          </div>
-        </div>
-      </div>
-      <div class="filter-bar-element apply-button-container">
-        <div class="apply-button-anchor">
-          <div
-            class="apply-button-content transitioning"
-            id="apply-filters-bitton"
-          >
-            <div class="apply-button-name">Применить</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row horizontal-separator"></div>
+  <div class="template" id="templates-container"></div>
 
-    <!-- actual content -->
-    <div class="row my-cardholder"></div>
-    <!-- actual content -->
-
-    <div class="pagination-container" id="pagination-container"></div>
-  </div>
-
-  <!-- category element -->
-  <div
-    class="category-element-base secondary-text transitioning template"
-    id="category-element-template"
-    category=""
-    active="0"
-  >
-    <div class="category-content">
-      <div class="category-name">category-name</div>
-      <div class="icon-container"></div>
-    </div>
-  </div>
-
-  <!-- dropdown option -->
-  <div class="option transitioning template" id="dropdown-element-template">
-    <div class="option-content">
-      <div class="option-name text-center">sorting-name</div>
-      <div class="icon-container"></div>
-    </div>
-  </div>
-
-  <!-- menu card -->
-  <div class="my-card template" id="menu-card-template">
-    <div class="my-card-picture-container">
-      <img class="my-card-picture" src="" />
-      <div class="veg-icon-container"></div>
-    </div>
-    <div class="my-card-content">
-      <div class="my-card-name">dish name</div>
-      <div class="my-card-category">dish category</div>
-      <div class="horizontal-separator"></div>
-      <div class="my-card-rating"></div>
-      <div class="horizontal-separator"></div>
-      <div class="my-card-description"></div>
-    </div>
-    <div class="my-card-footer">
-      <div class="my-card-price"></div>
-      <div class="my-card-option-container transitioning" active="0">
-        <div class="my-card-option-button transitioning">В корзину</div>
-        <div class="my-card-option-input-container">
-          <span
-            class="material-symbols-outlined small-icon add-dish-icon transitioning"
-            id="add-icon-template"
-          >
-            add
-          </span>
-          <input type="text" class="my-card-option-input-text" maxlength="3" />
-          <span
-            class="material-symbols-outlined small-icon remove-dish-icon transitioning"
-            id="remove-icon-template"
-          >
-            remove
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- pagination -->
-  <div class="pagination-anchor template" id="pagination-template">
-    <div class="pagination-element-base transitioning to-first-page">
-      <span
-        class="material-symbols-outlined small-icon first-page-icon transitioning"
-      >
-        keyboard_double_arrow_left
-      </span>
-    </div>
-    <!-- a place for my head -->
-    <div class="pagination-element-base transitioning to-last-page">
-      <span
-        class="material-symbols-outlined small-icon last-page-icon transitioning"
-      >
-        keyboard_double_arrow_right
-      </span>
-    </div>
-  </div>
-
-  <div
-    class="pagination-element-base transitioning to-page-number template"
-    to-page=""
-    active=""
-    id="pagination-element-page-number-template"
-  >
-    page-number
-  </div>
-
-  <!-- error -->
-  <div class="error-plug template" id="error-plug-template">
-    <div class="error-content">
-      <div class="error-emoji-acnhor"></div>
-      <div class="error-message"></div>
-    </div>
-  </div>
-
-  <div class="error-emoji template" id="shruggie">¯\_(ツ)_/¯</div>
-  <div class="error-emoji template" id="crying">(இ﹏இ`｡)</div>
-
-  <!-- material symbols -->
-  <span
-    class="material-symbols-outlined small-icon remove-icon transitioning template"
-    id="remove-icon-template"
-  >
-    cancel
-  </span>
-  <span
-    class="material-symbols-outlined small-icon add-icon transitioning template"
-    id="add-icon-template"
-  >
-    add_circle
-  </span>
-  <span
-    class="material-symbols-outlined small-icon garbage-icon transitioning template"
-    id="garbage-icon-template"
-  >
-    delete
-  </span>
-  <span
-    class="material-symbols-outlined small-icon expand-more-sortings-icon transitioning template"
-    id="expand-more-icon-template"
-  >
-    expand_more
-  </span>
-  <span
-    class="material-symbols-outlined small-icon expand-less-sortings-icon transitioning template"
-    id="expand-less-icon-template"
-  >
-    expand_less
-  </span>
-  <span
-    class="material-symbols-outlined small-icon add-dish-icon transitioning template"
-    id="add-icon-template"
-  >
-    add
-  </span>
-  <span
-    class="material-symbols-outlined small-icon remove-dish-icon transitioning template"
-    id="remove-icon-template"
-  >
-    remove
-  </span>
-  <span
-    class="material-symbols-outlined small-icon first-page-icon transitioning template"
-    id="first-page-icon-template"
-  >
-    keyboard_double_arrow_left
-  </span>
-  <span
-    class="material-symbols-outlined small-icon last-page-icon transitioning template"
-    id="last-page-icon-template"
-  >
-    keyboard_double_arrow_right
-  </span>
-  <span
-    class="material-symbols-outlined small-icon veg-icon transitioning template"
-    id="veg-icon-template"
-  >
-    eco
-  </span>
-
-  <!-- material icons -->
-  <span
-    class="material-icons small-icon my-card-rating-icon transitioning template"
-    id="star-icon-template"
-  >
-    star
-  </span>
-  <span
-    class="material-icons small-icon my-card-rating-icon transitioning template"
-    id="star-half-icon-template"
-  >
-    star_half
-  </span>
-  <span
-    class="material-symbols-outlined small-icon my-card-rating-icon transitioning template"
-    id="star-outlined-icon-template"
-  >
-    star
-  </span>
+  <!-- TEMPLATES -->
 </html>

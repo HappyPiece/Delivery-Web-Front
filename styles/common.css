@@ -1,64 +1,10 @@
-.bigger-text {
-  font-size: 1.375rem;
-}
-
-.secondary-text {
-  color: var(--secondary-text);
-}
-
-.faded-text {
-  color: var(--faded-text);
-}
-
-.vertical-center {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  flex-direction: column;
-}
-
-.dark {
-  background-color: var(--primary-background);
-  color: var(--primary-text);
-}
-
 .transitioning {
   transition: color 0.1s ease-in-out, text-decoration 0.1s ease-in-out,
     background-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
 }
 
-.focusable {
-  cursor: pointer;
-  padding: 0rem 0.4rem 0rem 0.4rem;
-  border-radius: var(--default-border-radius);
-  max-width: fit-content;
-}
-
-.focusable:hover {
-  color: var(--primary-text);
-  text-decoration: underline;
-}
-
-.focusable:active {
-  color: var(--primary-text);
-  text-decoration: underline;
-  background-color: var(--secondary-background);
-}
-
 .template {
   display: none !important;
-}
-
-.enlightned:hover {
-  color: var(--primary-text) !important;
-}
-
-.enlightned:active {
-  color: var(--primary-text) !important;
-}
-
-.in-the-end {
-  margin-left: auto !important;
 }
 
 .no-pointer {
@@ -123,9 +69,11 @@ input {
 
 .error-emoji {
   font-size: 3rem;
+  text-align: center;
 }
 
 .error-message {
+  text-align: center;
   font-size: 1.3rem;
   color: var(--secondary-text);
 }

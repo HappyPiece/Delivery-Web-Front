@@ -15,23 +15,17 @@
 }
 
 .my-card {
-  max-width: 24%;
   min-width: min-content;
   background-color: var(--primary-background);
   padding: 0rem 0rem 0rem 0rem;
   display: flex;
-  flex: 1 0 23% !important;
+  flex: 0 1 23% !important;
   flex-flow: column;
   width: auto;
-  box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
-      var(--default-shadow-blur) var(--container-shadow-color),
-    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
-      var(--default-shadow-blur) var(--container-shadow-color),
-    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1)
-      var(--default-shadow-blur) var(--container-shadow-color),
-    calc(var(--default-shadow-offset) * -1)
-      calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
-      var(--container-shadow-color);
+  box-shadow: var(--default-shadow-offset) var(--default-shadow-offset) var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset) var(--default-shadow-blur) var(--container-shadow-color),
+    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1) calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur) var(--container-shadow-color);
   border-radius: var(--default-border-radius);
   margin: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
@@ -39,6 +33,8 @@
 .my-card-picture-container {
   position: relative;
   min-height: 3rem;
+  max-height: max-content;
+  max-width: max-content;
 }
 
 .my-card-picture {
@@ -100,11 +96,11 @@
   display: flex;
 }
 
-.my-card-option-container[active="0"] .my-card-option-button {
+.my-card-option-container[active='0'] .my-card-option-button {
   display: flex;
 }
 
-.my-card-option-container[active="1"] .my-card-option-input-container {
+.my-card-option-container[active='1'] .my-card-option-input-container {
   display: flex;
 }
 

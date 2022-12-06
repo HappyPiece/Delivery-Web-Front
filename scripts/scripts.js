@@ -1,8 +1,8 @@
-import * as CommonServices from "/scripts/common-services.js";
-import * as UrlServices from "/scripts/url-services.js";
+import * as CommonServices from '/scripts/common-services.js';
+import * as UrlServices from '/scripts/url-services.js';
 
 export default class Category {
-  constructor(_name, _codename, _isActive = false) {
+  constructor(_name, _codename = '', _isActive = false) {
     this.Name = _name;
     this.Codename = _codename;
     this.IsActive = _isActive;
@@ -10,29 +10,42 @@ export default class Category {
 }
 
 let Constants = {
-  baseURL: "http://127.0.0.1:5500",
-  backendURL: "https://food-delivery.kreosoft.ru",
+  baseURL: '',
+  backendURL: 'https://food-delivery.kreosoft.ru',
   queryContent: /(?<==)\w*/g,
+  trimSlashes: /^\/+|\/+$/g,
 };
 
 class Globals {
   constructor() {
+    this.Pages = new Array(
+      new Category(''),
+      new Category('registration'),
+      new Category('login'),
+      new Category('profile'),
+      new Category('item'),
+      new Category('cart'),
+      new Category('orders'),
+      new Category('order'),
+      new Category('purchase')
+    );
+
     this.Categories = new Array(
-      new Category("Wok", "Wok"),
-      new Category("Пицца", "Pizza"),
-      new Category("Суп", "Soup"),
-      new Category("Десерт", "Dessert"),
-      new Category("Напиток", "Drink")
+      new Category('Wok', 'Wok'),
+      new Category('Пицца', 'Pizza'),
+      new Category('Суп', 'Soup'),
+      new Category('Десерт', 'Dessert'),
+      new Category('Напиток', 'Drink')
     );
 
     this.Sortings = new Array(
-      new Category("По имени А-Я", "NameAsc"),
-      new Category("По имени Я-А", "NameDesc"),
-      new Category("По возрастанию цены", "PriceAsc"),
-      new Category("По убыванию цены", "PriceDesc"),
-      new Category("По возрастанию рейтинга", "RatingAsc"),
-      new Category("По убыванию рейтинга", "RatingDesc"),
-      new Category("Без сортировки", "NoSort", true)
+      new Category('По имени А-Я', 'NameAsc'),
+      new Category('По имени Я-А', 'NameDesc'),
+      new Category('По возрастанию цены', 'PriceAsc'),
+      new Category('По убыванию цены', 'PriceDesc'),
+      new Category('По возрастанию рейтинга', 'RatingAsc'),
+      new Category('По убыванию рейтинга', 'RatingDesc'),
+      new Category('Без сортировки', 'NoSort', true)
     );
 
     this.State = {
@@ -40,21 +53,21 @@ class Globals {
       vegOnlyActive: false,
       currentPage: 1,
       currentPagination: undefined,
-      specifiedPage: "",
+      authorized: false,
     };
+
+    this.Templates = null;
   }
 }
 
 let globals = new Globals();
 
 $(document).ready(function () {
-  managePage();
+  globals.Templates = $('#templates-container');
+  globals.Templates.load('/templates.html', managePage);
+  // managePage();
 
-  // console.log(
-  //   Constants.backendURL +
-  //     "/api/dish" +
-  //     UrlServices.formArtifactsQuery(globals, Constants)
-  // );
+  // console.log(globals.State.authorized);
 
   // fetch(
   //   Constants.backendURL +
@@ -65,6 +78,36 @@ $(document).ready(function () {
   //   .then((result) => console.log(result));
 });
 
+export function doDumbThings() {
+  //
+}
+
+export function thisPage() {
+  for (let page of globals.Pages) {
+    if (page.IsActive) {
+      return page;
+    }
+  }
+  return null;
+}
+
+export function setPage(name) {
+  let exists = globals.Pages.find((x) => x.Name === name);
+  // console.log(exists);
+  if (exists === null || exists === undefined) {
+    showErrorPlug('afraid', 'не на что тут смотреть', $('#main-content'));
+    return;
+  }
+  for (let page of globals.Pages) {
+    if (page.Name == name) {
+      // console.log(page);
+      page.IsActive = true;
+    } else {
+      page.IsActive = false;
+    }
+  }
+}
+
 export async function managePage() {
   UrlServices.applyURL(globals, Constants);
   await renderShell();
@@ -73,63 +116,94 @@ export async function managePage() {
 }
 
 export async function renderShell() {
-  $("#main-content").empty();
-  switch (globals.State.specifiedPage) {
-    case "": {
+  $('#navbar-content').empty();
+  let navbar;
+  if (globals.State.authorized) {
+    navbar = CommonServices.retrieveTemplateById(globals, Constants, 'navbar-authorized-template');
+  } else {
+    navbar = CommonServices.retrieveTemplateById(globals, Constants, 'navbar-unauthorized-template');
+  }
+  $('#navbar-content').append(navbar);
+
+  // console.log(globals.Pages);
+  if (thisPage() === null) {
+    return;
+  }
+  $('#main-content').empty();
+  switch (thisPage().Name) {
+    case '': {
+      console.log('menu');
       await renderMenu();
+      break;
+    }
+    case 'registration': {
+      console.log('registration');
+      await renderRegistration();
+      break;
+    }
+    case 'login': {
+      console.log('login');
+      await renderLogin();
+      break;
     }
   }
 }
 
+export async function renderRegistration() {
+  let registrationContent = CommonServices.retrieveTemplateById(globals, Constants, 'register-template');
+
+  $('#main-content').append(registrationContent);
+}
+
+export async function renderLogin() {
+  let loginContent = CommonServices.retrieveTemplateById(globals, Constants, 'login-template');
+
+  $('#main-content').append(loginContent);
+}
+
 export async function renderMenu() {
-  let menuContent = CommonServices.retrieveTemplateById(
-    "menu-content-template"
-  );
+  let menuContent = CommonServices.retrieveTemplateById(globals, Constants, 'menu-content-template');
   renderCategories(menuContent);
 
-  $("#main-content").append(menuContent);
+  $('#main-content').append(menuContent);
   manageSortings();
 }
 
 export function renderCategories(menuContent) {
-  let categoriesAnchor = menuContent.find(".categories-anchor");
-  let _category = CommonServices.retrieveTemplateById(
-    "category-element-template"
-  );
+  let categoriesAnchor = menuContent.find('.categories-anchor');
+  let _category = CommonServices.retrieveTemplateById(globals, Constants, 'category-element-template');
 
   for (let category of globals.Categories) {
     let newCategory = _category.clone();
-    newCategory.attr("category", category.Codename);
+    newCategory.attr('category', category.Codename);
     if (category.IsActive === true) {
-      newCategory.attr("active", 1);
+      newCategory.attr('active', 1);
     }
-    newCategory.find(".category-name").html(category.Name);
+    newCategory.find('.category-name').html(category.Name);
 
     categoriesAnchor.append(newCategory);
   }
 }
 
 export async function loadContent() {
-  switch (globals.State.specifiedPage) {
-    case "": {
+  if (thisPage() === null) {
+    return;
+  }
+  switch (thisPage().Name) {
+    case '': {
       loadMenu();
     }
   }
 }
 
 export async function loadMenu() {
-  let cardholder = $(".my-cardholder");
-  let pagination = $(".pagination-container");
+  let cardholder = $('.my-cardholder');
+  let pagination = $('.pagination-container');
   pagination.empty();
   cardholder.empty();
-  let responce = await fetch(
-    Constants.backendURL +
-      "/api/dish" +
-      UrlServices.formArtifactsQuery(globals, Constants)
-  );
+  let responce = await fetch(Constants.backendURL + '/api/dish' + UrlServices.formArtifactsQuery(globals, Constants));
   if (responce.ok == false) {
-    showErrorPlug("shruggie", "something went wrong", $(".my-cardholder"));
-    console.log("bruh");
+    showErrorPlug('shruggie', 'что-то пошло не так', $('.my-cardholder'));
     return;
   }
 
@@ -142,44 +216,32 @@ export async function loadMenu() {
 }
 
 export function managePagination() {
-  let paginationContainer = $(".pagination-container");
+  let paginationContainer = $('.pagination-container');
   paginationContainer.empty();
-  if (
-    globals.State.currentPagination === null ||
-    globals.State.currentPagination === undefined
-  ) {
+  if (globals.State.currentPagination === null || globals.State.currentPagination === undefined) {
     return;
   }
   if (globals.State.currentPagination.count > 1) {
-    let newPagination = CommonServices.retrieveTemplateById(
-      "pagination-template"
-    );
-    newPagination.find(".to-first-page").attr("to-page", 1);
-    newPagination
-      .find(".to-last-page")
-      .attr("to-page", globals.State.currentPagination.count);
-    let _toPageElement = CommonServices.retrieveTemplateById(
-      "pagination-element-page-number-template"
-    );
+    let newPagination = CommonServices.retrieveTemplateById(globals, Constants, 'pagination-template');
+    newPagination.find('.to-first-page').attr('to-page', 1);
+    newPagination.find('.to-last-page').attr('to-page', globals.State.currentPagination.count);
+    let _toPageElement = CommonServices.retrieveTemplateById(globals, Constants, 'pagination-element-page-number-template');
     for (
-      let i = Math.min(
-        Number(globals.State.currentPagination.count),
-        Number(Number(globals.State.currentPage) + 1)
-      );
+      let i = Math.min(Number(globals.State.currentPagination.count), Number(Number(globals.State.currentPage) + 1));
       i >= Math.max(Number(Number(globals.State.currentPage) - 1), 1);
       i--
     ) {
       // console.log(i);
       let toPageElement = _toPageElement.clone();
       toPageElement.html(i);
-      toPageElement.attr("to-page", i);
+      toPageElement.attr('to-page', i);
       if (i == globals.State.currentPage) {
-        toPageElement.attr("active", 1);
+        toPageElement.attr('active', 1);
       } else {
-        toPageElement.attr("active", 0);
+        toPageElement.attr('active', 0);
       }
       // console.log(i);
-      newPagination.find(".to-first-page").after(toPageElement);
+      newPagination.find('.to-first-page').after(toPageElement);
     }
     paginationContainer.append(newPagination);
   }
@@ -187,102 +249,97 @@ export function managePagination() {
 }
 
 export function createCards(dishes) {
-  let _card = CommonServices.retrieveTemplateById("menu-card-template");
-  let cardholder = $(".my-cardholder");
+  let _card = CommonServices.retrieveTemplateById(globals, Constants, 'menu-card-template');
+  let cardholder = $('.my-cardholder');
   if (dishes.length > 0) {
     for (let dish of dishes) {
       let card = _card.clone();
-      card.find(".my-card-picture").attr("src", dish.image);
+      card.find('.my-card-picture').attr('src', dish.image);
       if (dish.vegetarian) {
-        card
-          .find(".veg-icon-container")
-          .append(CommonServices.retrieveTemplateById("veg-icon-template"));
+        card.find('.veg-icon-container').append(CommonServices.retrieveTemplateById(globals, Constants, 'veg-icon-template'));
       }
-      card.find(".my-card-name").html(dish.name);
-      card
-        .find(".my-card-category")
-        .html(
-          globals.Categories.find((x) => x.Codename === dish.category).Name
-        );
-      let rating = card.find(".my-card-rating");
+      card.find('.my-card-name').html(dish.name);
+      card.find('.my-card-category').html(globals.Categories.find((x) => x.Codename === dish.category).Name);
+      let rating = card.find('.my-card-rating');
       let dishRating = dish.rating;
       for (let i = 0; i < 10; i++) {
         if (dishRating >= 1) {
-          rating.append(
-            CommonServices.retrieveTemplateById("star-icon-template")
-          );
+          rating.append(CommonServices.retrieveTemplateById(globals, Constants, 'star-icon-template'));
           dishRating -= 1;
           continue;
         } else if (dishRating >= 0.5) {
-          rating.append(
-            CommonServices.retrieveTemplateById("star-half-icon-template")
-          );
+          rating.append(CommonServices.retrieveTemplateById(globals, Constants, 'star-half-icon-template'));
           dishRating = 0;
           continue;
         } else {
-          rating.append(
-            CommonServices.retrieveTemplateById("star-outlined-icon-template")
-          );
+          rating.append(CommonServices.retrieveTemplateById(globals, Constants, 'star-outlined-icon-template'));
         }
       }
-      card.find(".my-card-description").html(dish.description);
-      card.find(".my-card-price").html(dish.price + "₽");
+      card.find('.my-card-description').html(dish.description);
+      card.find('.my-card-price').html(dish.price + '₽');
       cardholder.append(card);
     }
   } else {
-    showErrorPlug("crying", "we don't have such dishes", $(".my-cardholder"));
+    showErrorPlug('crying', 'похоже, у нас такого нет', $('.my-cardholder'));
   }
 }
 
 export function showErrorPlug(emoji, message, target) {
-  let plug = CommonServices.retrieveTemplateById("error-plug-template");
-  plug
-    .find(".error-emoji-acnhor")
-    .append(CommonServices.retrieveTemplateById(emoji));
-  plug.find(".error-message").html(message);
+  let plug = CommonServices.retrieveTemplateById(globals, Constants, 'error-plug-template');
+  plug.find('.error-emoji-acnhor').append(CommonServices.retrieveTemplateById(globals, Constants, emoji));
+  plug.find('.error-message').html(message);
   target.append(plug);
 }
 
 // assigns ot re- assigns corresponding listeners to all the elements in the page
 export function assignListeners() {
-  $("*").off();
+  $('*').off();
 
   //
-  $("#veg-only-toggle").on("click", manageVegOnly);
+  $('#veg-only-toggle').on('click', manageVegOnly);
 
-  $("#apply-filters-bitton").on("click", applyFilters);
+  $('#apply-filters-bitton').on('click', applyFilters);
 
-  $(".category-element-base").on("click", toggleCategory);
+  $('#categories-anchor').find('.category-element-base').on('click', toggleCategory);
 
   // console.log($(".pagination-element-base").length);
-  $(".pagination-element-base").on("click", navigateToMenuPage);
+  $('.pagination-element-base').on('click', navigateToMenuPage);
 
   //
-  $(".hidden-option").on("click", activateOption);
+  $('.hidden-option').on('click', activateOption);
+
+  $('.nav-brand').on('click', doDumbThings);
+
+  $('#nav-menu').on('click', () => routeTo(''));
+  $('#nav-register').on('click', () => routeTo('registration'));
+  $('#nav-login').on('click', () => routeTo('login'));
+}
+
+export function routeTo(name) {
+  setPage(name);
+  UrlServices.updateURL(globals, Constants);
+  managePage();
 }
 
 export function toggleCategory() {
-  if (Number($(this).attr("active")) === 0) {
-    setCategory($(this).attr("category"), true);
-    $(this).attr("active", 1);
+  if (Number($(this).attr('active')) === 0) {
+    setCategory($(this).attr('category'), true);
+    $(this).attr('active', 1);
   } else {
-    setCategory($(this).attr("category"), false);
-    $(this).attr("active", 0);
+    setCategory($(this).attr('category'), false);
+    $(this).attr('active', 0);
   }
 }
 
 export function setCategory(codename, state) {
-  globals.Categories.find(
-    (x) =>
-      x.Codename === codename
-  ).IsActive = state;
+  globals.Categories.find((x) => x.Codename === codename).IsActive = state;
 }
 
 export function navigateToMenuPage() {
-  globals.State.currentPage = $(this).attr("to-page");
+  globals.State.currentPage = $(this).attr('to-page');
   UrlServices.updateURL(globals, Constants);
   loadContent();
-  $(this).attr("to-page");
+  $(this).attr('to-page');
 }
 
 export function applyFilters() {
@@ -301,13 +358,13 @@ export function manageVegOnly() {
 
 export function addVegOnly() {
   globals.State.vegOnlyActive = true;
-  $("#veg-only-toggle").attr("active", 1);
+  $('#veg-only-toggle').attr('active', 1);
   // UrlServices.updateURL(globals, Constants);
 }
 
 export function removeVegOnly() {
   globals.State.vegOnlyActive = false;
-  $("#veg-only-toggle").attr("active", 0);
+  $('#veg-only-toggle').attr('active', 0);
   // UrlServices.updateURL(globals, Constants);
 }
 
@@ -331,7 +388,7 @@ export function manageCategories() {
 
 // activating sorting
 export function activateOption() {
-  setSorting($(this).find(".option-name").attr("id"));
+  setSorting($(this).find('.option-name').attr('id'));
   manageSortings();
 }
 
@@ -343,34 +400,25 @@ export function setSorting(sorting_codename) {
       sorting.IsActive = false;
     }
   }
-  // UrlServices.updateURL(globals, Constants);
 }
 
 export function manageSortings() {
-  $(".dropdown-content").find(".option").remove();
-  let _option = CommonServices.retrieveTemplateById(
-    "dropdown-element-template"
-  );
+  $('#sortings-anchor').find('.dropdown-content').find('.option').remove();
+  let _option = CommonServices.retrieveTemplateById(globals, Constants, 'dropdown-element-template');
   for (let sorting of globals.Sortings) {
     let option = _option.clone();
     if (sorting.IsActive) {
-      option.addClass("active-option");
-      option.attr("id", "active-sorting-option");
-      option.find(".option-name").attr("id", sorting.Codename);
-      option
-        .find(`#${sorting.Codename}`)
-        .html(sorting.Codename === "NoSort" ? "Сортировать по" : sorting.Name);
-      option
-        .find(".icon-container")
-        .html(CommonServices.retrieveTemplateById("expand-more-icon-template"));
-      $(".dropdown-content").prepend(option);
+      option.addClass('active-option');
+      option.attr('id', 'active-sorting-option');
+      option.find('.option-name').attr('id', sorting.Codename);
+      option.find(`#${sorting.Codename}`).html(sorting.Codename === 'NoSort' ? 'Сортировать по' : sorting.Name);
+      option.find('.icon-container').html(CommonServices.retrieveTemplateById(globals, Constants, 'expand-more-icon-template'));
+      $('.dropdown-content').prepend(option);
     } else {
-      option.addClass("hidden-option");
-      option.find(".option-name").attr("id", sorting.Codename);
-      option
-        .find(`#${sorting.Codename}`)
-        .html(sorting.Codename === "NoSort" ? "Без сортировки" : sorting.Name);
-      $(".dropdown-options").append(option);
+      option.addClass('hidden-option');
+      option.find('.option-name').attr('id', sorting.Codename);
+      option.find(`#${sorting.Codename}`).html(sorting.Codename === 'NoSort' ? 'Без сортировки' : sorting.Name);
+      $('.dropdown-options').append(option);
     }
   }
   assignListeners();
