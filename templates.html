@@ -1,60 +1,71 @@
 <!-- registration -->
 <div class="container register-content template" id="register-template">
-    <div>ФИО</div>
-    <input type="text">
-    <div>Пол</div>
-    <input type="text">
-    <div>Телефон</div>
-    <input type="text">
-    <div>Дата рождения</div>
-    <input type="text">
-    <div>Адрес</div>
-    <input type="text">
-    <div>e-mail</div>
-    <input type="text">
-    <div>Пароль</div>
-    <input type="text">
-    <div>Зарегистрироваться</div>
+  <div class="input-descriprion">ФИО</div>
+  <input type="text" class="default-input" id="full-name" />
+  <div class="input-descriprion">Пол</div>
+  <div class="dropdown-anchor default-input sex-dropdown-anchor" id="sexes-anchor">
+    <div class="dropdown-content sex-dropdown-content">
+      <div class="dropdown-options"></div>
+    </div>
+  </div>
+  <div class="input-descriprion">Телефон</div>
+  <input type="text" class="default-input" id="phone" />
+  <div class="input-descriprion">Дата рождения</div>
+  <input type="date" class="default-input date-picker" id="birthdate" />
+  <div class="input-descriprion">Адрес</div>
+  <input type="text" class="default-input" id="address" />
+  <div class="input-descriprion">E-mail</div>
+  <input type="text" class="default-input" id="e-mail" />
+  <div class="input-descriprion">Пароль</div>
+  <input type="text" class="default-input" id="password" />
+  <div class="bottom-button transitioning" id="register-button">Зарегистрироваться</div>
 </div>
 
 <!-- login -->
 <div class="container login-content template" id="login-template">
-    <div>e-mail</div>
-    <input type="text">
-    <div>Пароль</div>
-    <input type="text">
-    <div>Войти</div>
+  <div class="input-descriprion">E-mail</div>
+  <input type="text" class="default-input" id="e-mail" />
+  <div class="input-descriprion">Пароль</div>
+  <input type="text" class="default-input" id="password" />
+  <div class="bottom-button transitioning" id="login-button">Войти</div>
 </div>
 
 <!-- navbar -->
 <div class="navbar-anchor template" id="navbar-authorized-template">
-  <div class="navbar-section nav-brand">обед.уютненько</div>
-  <div class="navbar-section navbar-left">
-    <div class="vertical-separator"></div>
-    <div class="navbar-element transitioning" id="nav-menu">Меню</div>
-    <div class="navbar-element transitioning" id="nav-orders">Заказы</div>
-    <div class="navbar-element transitioning" id="nav-basket">Корзина</div>
-    <div class="vertical-separator"></div>
+  <div class="nav-brand">обед.уютненько</div>
+  <!-- <div class="navbar-section navbar-left">
+  </div> -->
+  <div class="navbar-element transitioning" id="nav-menu">
+    <div class="navbar-element-content">Меню</div>
   </div>
-  <div class="navbar-section navbar-right">
-    <div class="vertical-separator"></div>
-    <div class="navbar-element" id="nav-profile">example@gmail.com</div>
-    <div class="navbar-element transitioning" id="nav-logout">Выйти</div>
+  <div class="navbar-element transitioning" id="nav-orders">
+    <div class="navbar-element-content">Заказы</div>
+  </div>
+  <div class="navbar-element transitioning" id="nav-basket">
+    <div class="navbar-element-content">Корзина</div>
+  </div>
+  <!-- <div class="navbar-section navbar-right">
+  </div> -->
+  <div class="navbar-element navbar-e-mail-element" id="nav-profile">
+    <div class="navbar-element-content">
+      <div class="hidden-element">example@gmail.com</div>
+      <div class="main-element">example@gmail.com</div>
+    </div>
+  </div>
+  <div class="navbar-element transitioning" id="nav-logout">
+    <div class="navbar-element-content">Выйти</div>
   </div>
 </div>
 
 <div class="navbar-anchor template" id="navbar-unauthorized-template">
-  <div class="navbar-section nav-brand">обед.уютненько</div>
-  <div class="navbar-section navbar-left">
-    <div class="vertical-separator"></div>
-    <div class="navbar-element transitioning" id="nav-menu">Меню</div>
-    <div class="vertical-separator"></div>
-  </div>
-  <div class="navbar-section navbar-right">
-    <div class="vertical-separator"></div>
-    <div class="navbar-element transitioning" id="nav-register">Регистрация</div>
-    <div class="navbar-element transitioning" id="nav-login">Вход</div>
-  </div>
+  <div class="nav-brand">обед.уютненько</div>
+  <!-- <div class="navbar-section navbar-left">
+  </div> -->
+  <div class="navbar-element transitioning" id="nav-menu">Меню</div>
+  <!-- <div class="navbar-section navbar-right">
+  </div> -->
+  <div class="navbar-element transitioning" id="nav-register">Регистрация</div>
+  <div class="navbar-element transitioning" id="nav-login">Вход</div>
 </div>
 
 <!-- menu content -->
@@ -79,7 +90,7 @@
     </div>
     <div class="filter-bar-element apply-button-container">
       <div class="apply-button-anchor">
-        <div class="apply-button-content transitioning" id="apply-filters-bitton">
+        <div class="apply-button-content transitioning default-shadow" id="apply-filters-bitton">
           <div class="apply-button-name">Применить</div>
         </div>
       </div>
@@ -88,8 +99,7 @@
   <div class="row horizontal-separator"></div>
 
   <!-- actual content -->
-  <div class="row my-cardholder">
-  </div>
+  <div class="row my-cardholder"></div>
   <!-- actual content -->
 
   <div class="pagination-container" id="pagination-container"></div>
@@ -163,9 +173,11 @@
   <div class="error-content">
     <div class="error-emoji-acnhor"></div>
     <div class="error-message"></div>
+    <div class="error-ok-button" active="0">ок</div>
   </div>
 </div>
 
+<div class="error-ok-button"></div>
 <div class="error-emoji template" id="shruggie">¯\_(ツ)_/¯</div>
 <div class="error-emoji template" id="crying">(இ﹏இ`｡)</div>
 <div class="error-emoji template" id="butt">(‿|‿)</div>
@@ -175,7 +187,10 @@
 <span class="material-symbols-outlined small-icon remove-icon transitioning template" id="remove-icon-template"> cancel </span>
 <span class="material-symbols-outlined small-icon add-icon transitioning template" id="add-icon-template"> add_circle </span>
 <span class="material-symbols-outlined small-icon garbage-icon transitioning template" id="garbage-icon-template"> delete </span>
-<span class="material-symbols-outlined small-icon expand-more-sortings-icon transitioning template" id="expand-more-icon-template">
+<span
+  class="material-symbols-outlined small-icon expand-more-sortings-icon transitioning no-pointer template"
+  id="expand-more-icon-template"
+>
   expand_more
 </span>
 <span class="material-symbols-outlined small-icon expand-less-sortings-icon transitioning template" id="expand-less-icon-template">

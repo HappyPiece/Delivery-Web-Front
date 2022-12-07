@@ -55,7 +55,11 @@ export function applyURL(globals, Constants) {
   base.setPage(page);
   let artifacts = query.search.split('&');
   // console.log(artifacts);
-  if (base.thisPage().Name == '') {
+  if (base.thisPage() === null)
+  {
+    return;
+  }
+  else if (base.thisPage().Name === '') {
     for (let artifact of artifacts) {
       if (artifact.search('categories') >= 0) {
         globals.Categories.find((x) => x.Codename === artifact.match(Constants.queryContent).toString()).IsActive = true;

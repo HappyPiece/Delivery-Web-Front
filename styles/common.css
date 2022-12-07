@@ -1,6 +1,5 @@
 .transitioning {
-  transition: color 0.1s ease-in-out, text-decoration 0.1s ease-in-out,
-    background-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+  transition: color 0.1s ease-in-out, text-decoration 0.1s ease-in-out, background-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
 }
 
 .template {
@@ -12,27 +11,17 @@
 }
 
 .default-shadow {
-  box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
-      var(--default-shadow-blur) var(--container-shadow-color),
-    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
-      var(--default-shadow-blur) var(--container-shadow-color),
-    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1)
-      var(--default-shadow-blur) var(--container-shadow-color),
-    calc(var(--default-shadow-offset) * -1)
-      calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
-      var(--container-shadow-color);
+  box-shadow: var(--default-shadow-offset) var(--default-shadow-offset) var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset) var(--default-shadow-blur) var(--container-shadow-color),
+    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur) var(--container-shadow-color),
+    calc(var(--default-shadow-offset) * -1) calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur) var(--container-shadow-color);
 }
 
 .accent-shadow {
-  box-shadow: var(--default-shadow-offset) var(--default-shadow-offset)
-      var(--default-shadow-blur) var(--faint-primary-accent),
-    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset)
-      var(--default-shadow-blur) var(--faint-primary-accent),
-    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1)
-      var(--default-shadow-blur) var(--faint-primary-accent),
-    calc(var(--default-shadow-offset) * -1)
-      calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
-      var(--faint-primary-accent);
+  box-shadow: var(--default-shadow-offset) var(--default-shadow-offset) var(--default-shadow-blur) var(--faint-primary-accent),
+    calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset) var(--default-shadow-blur) var(--faint-primary-accent),
+    var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur) var(--faint-primary-accent),
+    calc(var(--default-shadow-offset) * -1) calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur) var(--faint-primary-accent);
 }
 
 .icon-container {
@@ -65,6 +54,14 @@ input {
   align-content: center;
   justify-content: center;
   line-height: 4rem;
+}
+
+.error-ok-button {
+  display: none;
+}
+
+.error-ok-button[active="1"] {
+  display: flex;
 }
 
 .error-emoji {

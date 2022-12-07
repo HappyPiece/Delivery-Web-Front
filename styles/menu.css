@@ -2,6 +2,8 @@
   display: flex;
   flex-flow: column nowrap;
   height: 100%;
+  /* margin-left: calc(var(--bs-gutter-x) * .5);
+  margin-right: calc(var(--bs-gutter-x) * .5); */
 }
 
 .my-cardholder {
@@ -10,6 +12,8 @@
   flex-flow: row wrap;
   border-radius: var(--default-border-radius);
   justify-content: flex-start;
+  margin-left: 0rem;
+  margin-right: 0rem;
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
   height: 100%;
 }

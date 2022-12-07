@@ -54,9 +54,9 @@ Roboto Flex
   --veg: #3c7c49;
 
   --default-shadow-offset: 0rem;
-  --default-shadow-blur: 0.5rem;
-  --default-border-radius: 0.375rem;
-  --container-shadow-color: var(--faint-secondary-background);
+  --default-shadow-blur: 0.2rem;
+  --default-border-radius: 0rem;
+  --container-shadow-color: var(--faded-secondary-background);
 }
 
 html {
@@ -95,6 +95,15 @@ body {
   font-family: "Roboto Flex";
   text-shadow: 0rem 0rem 0.3rem var(--secondary-text);
   user-select: none;
+}
+
+.container {
+  padding: 0rem;
+}
+
+.row {
+  margin-left: calc(var(--bs-gutter-x) * .5);
+  margin-right: calc(var(--bs-gutter-x) * .5);
 }
 
 * {

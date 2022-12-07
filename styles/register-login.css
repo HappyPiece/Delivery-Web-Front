@@ -1,0 +1,65 @@
+.register-content {
+  border-radius: inherit;
+  padding: 0rem;
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.login-content {
+  border-radius: inherit;
+  padding: 0rem;
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.input-descriprion {
+  padding: 0.5rem 0.5rem 0rem 1rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-flow: row wrap;
+  align-content: center;
+}
+
+.input-descriprion:first-child {
+  border-radius: var(--default-border-radius) var(--default-border-radius) 0rem 0rem;
+}
+
+.sex-dropdown-anchor {
+  padding: 0rem 1rem 0.5rem 1rem;
+  background: none !important;
+}
+
+.sex-dropdown-content {
+  box-shadow: none;
+  border-radius: 0rem !important;
+}
+
+.sex-dropdown-option {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0rem;
+  height: 100%;
+
+  justify-content: flex-start;
+  border-radius: 0rem !important;
+}
+
+.bottom-button {
+  cursor: pointer;
+  /* border-radius: 0rem 0rem var(--default-border-radius) var(--default-border-radius); */
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+  display: flex;
+  justify-content: center;
+  flex-flow: column wrap;
+  align-content: center;
+  background-color: var(--faint-secondary-background);
+  margin-top: auto;
+}
+
+.bottom-button:hover {
+  background-color: var(--secondary-background);
+  color: var(--primary-text);
+}

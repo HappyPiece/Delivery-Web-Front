@@ -24,7 +24,7 @@
 }
 
 .category-element-base {
-  background-color: var(--faint-secondary-background);
+  background-color: var(--faded-secondary-background);
   color: var(--secondary-text);
   margin: 0.1rem 0.1rem 0.1rem 0.1rem;
   padding: 0rem 0.1rem 0rem 0.1rem;

@@ -1,0 +1,33 @@
+.default-input {
+  background-color: var(--primary-background);
+  padding: 0rem 1rem 0.5rem 1rem;
+  color: var(--primary-text);
+  margin-bottom: 1.5rem;
+  /* box-shadow: var(--default-shadow-offset) var(--default-shadow-offset) var(--default-shadow-blur) var(--container-shadow-color); */
+  /* border-bottom: 1px solid var(--faded-secondary-background); */
+  background: linear-gradient(var(--faded-secondary-background), var(--faded-secondary-background)) center bottom 0.5rem /
+    calc(100% - 1.5rem) 2px no-repeat;
+  border-radius: 0rem !important;
+}
+
+.default-input[wrong='1'] {
+  background: linear-gradient(0.25turn, var(--primary-accent), var(--secondary-accent)) center bottom 0.5rem / calc(100% - 1.5rem) 2px
+    no-repeat;
+}
+
+.default-input:focus-visible {
+  background: linear-gradient(0.25turn, var(--secondary-background), var(--secondary-background)) center bottom 0.5rem / calc(100% - 1.5rem)
+    0.1rem no-repeat !important;
+}
+
+.date-picker {
+  color: var(--primary-text);
+}
+
+::-webkit-datetime-edit {
+  margin-right: 0.5rem;
+}
+
+::-webkit-calendar-picker-indicator {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 24 24"><path fill="%23fdf8ec" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>');
+}
