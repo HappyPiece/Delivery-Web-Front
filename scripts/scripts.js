@@ -35,7 +35,8 @@ class Globals {
       new Category("Пицца", "Pizza"),
       new Category("Суп", "Soup"),
       new Category("Десерт", "Dessert"),
-      new Category("Напиток", "Drink")
+      new Category("Напиток", "Drink"),
+      new Category("Биба и боба", "Pizza")
     );
 
     this.Sortings = new Array(
@@ -571,6 +572,12 @@ export function activateSorting() {
 }
 
 export function setSorting(sorting_codename) {
+  if (
+    globals.Sortings.find((x) => x.Codename === sorting_codename) === null ||
+    globals.Sortings.find((x) => x.Codename === sorting_codename) === undefined
+  ) {
+    return;
+  }
   for (let sorting of globals.Sortings) {
     if (sorting_codename === sorting.Codename) {
       sorting.IsActive = true;
@@ -584,6 +591,7 @@ export function manageSortings() {
   $("#sortings-anchor").find(".dropdown-content").find(".option").remove();
   let _option = CommonServices.retrieveTemplateById(globals, Constants, "dropdown-element-template");
   for (let sorting of globals.Sortings) {
+    console.log(sorting.Codename, sorting.IsActive);
     let option = _option.clone();
     if (sorting.IsActive) {
       option.addClass("active-option");

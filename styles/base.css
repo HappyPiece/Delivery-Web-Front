@@ -55,7 +55,7 @@ Roboto Flex
 
   --default-shadow-offset: 0rem;
   --default-shadow-blur: 0.2rem;
-  --default-border-radius: 0rem;
+  --default-border-radius: 0.3rem;
   --container-shadow-color: var(--faded-secondary-background);
 }
 

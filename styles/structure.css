@@ -48,7 +48,7 @@ nav {
   flex: 1 1;
   padding-right: calc(var(--bs-gutter-x) * 0.3);
   padding-left: calc(var(--bs-gutter-x) * 0.3);
-  border-radius: 0;
+  border-radius: var(--default-border-radius);
   cursor: pointer;
   margin: 0.1rem;
 }
