@@ -53,6 +53,11 @@
 
 .my-card-name {
   font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.my-card-name:hover {
+  text-decoration: underline;
 }
 
 .my-card-category {

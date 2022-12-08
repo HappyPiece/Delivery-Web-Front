@@ -35,8 +35,8 @@ class Globals {
       new Category("Пицца", "Pizza"),
       new Category("Суп", "Soup"),
       new Category("Десерт", "Dessert"),
-      new Category("Напиток", "Drink"),
-      new Category("Биба и боба", "Pizza")
+      new Category("Напиток", "Drink")
+      // new Category("Биба и боба", "Pizza")
     );
 
     this.Sortings = new Array(
@@ -70,8 +70,10 @@ class Globals {
 let globals = new Globals();
 
 $(document).ready(function () {
-  globals.Templates = $("#templates-container");
-  globals.Templates.load("/templates.html", managePage);
+  globals.Templates = $("#templates-container").clone();
+  globals.Templates.load("/templates.html", async () => {
+    await managePage();
+  });
 });
 
 export function doDumbThings() {
@@ -87,16 +89,14 @@ export function thisPage() {
   return null;
 }
 
-export function setPage(name) {
+export async function setPage(name) {
   let exists = globals.Pages.find((x) => x.Name === name);
-  // console.log(exists);
   if (exists === null || exists === undefined) {
     showErrorPlug("afraid", "не на что тут смотреть", $("#main-content"));
     return;
   }
   for (let page of globals.Pages) {
     if (page.Name == name) {
-      // console.log(page);
       page.IsActive = true;
     } else {
       page.IsActive = false;
@@ -108,7 +108,6 @@ export async function managePage() {
   if (globals.State.authorized === undefined) {
     await checkAuthorization();
   }
-
   UrlServices.applyURL(globals, Constants);
   await renderShell();
   await loadContent();
@@ -126,12 +125,11 @@ export async function checkAuthorization() {
 
 export async function renderShell() {
   renderNavbar();
-
-  // console.log(globals.Pages);
+  $("#main-content").empty();
   if (thisPage() === null) {
     return;
   }
-  $("#main-content").empty();
+  // $("#main-content").empty();
   switch (thisPage().Name) {
     case "": {
       // console.log("menu");
@@ -139,9 +137,8 @@ export async function renderShell() {
       break;
     }
     case "registration": {
-      // console.log("registration");
       if (globals.State.authorized) {
-        routeTo("");
+        await routeTo("");
         return;
       }
       await renderRegistration();
@@ -149,10 +146,9 @@ export async function renderShell() {
     }
     case "login": {
       if (globals.State.authorized) {
-        routeTo("");
+        await routeTo("");
         return;
       }
-      // console.log("login");
       await renderLogin();
       break;
     }
@@ -230,10 +226,8 @@ export function setSex(sex_codename) {
 }
 
 export function manageSexes() {
-  console.log($("#sexes-anchor").length);
   $("#sexes-anchor").find(".dropdown-content").find(".option").remove();
   let _option = CommonServices.retrieveTemplateById(globals, Constants, "dropdown-element-template");
-  console.log(_option.length);
   for (let sex of globals.Sexes) {
     let option = _option.clone();
     if (sex.IsActive) {
@@ -265,13 +259,12 @@ export async function renderLogin() {
 
 export async function renderMenu() {
   let menuContent = CommonServices.retrieveTemplateById(globals, Constants, "menu-content-template");
-  renderCategories(menuContent);
-
+  await renderCategories(menuContent);
+  await manageSortings(menuContent);
   $("#main-content").append(menuContent);
-  manageSortings();
 }
 
-export function renderCategories(menuContent) {
+export async function renderCategories(menuContent) {
   let categoriesAnchor = menuContent.find(".categories-anchor");
   let _category = CommonServices.retrieveTemplateById(globals, Constants, "category-element-template");
 
@@ -293,7 +286,7 @@ export async function loadContent() {
   }
   switch (thisPage().Name) {
     case "": {
-      loadMenu();
+      await loadMenu();
     }
   }
 }
@@ -333,7 +326,6 @@ export function managePagination() {
       i >= Math.max(Number(Number(globals.State.currentPage) - 1), 1);
       i--
     ) {
-      // console.log(i);
       let toPageElement = _toPageElement.clone();
       toPageElement.html(i);
       toPageElement.attr("to-page", i);
@@ -342,7 +334,6 @@ export function managePagination() {
       } else {
         toPageElement.attr("active", 0);
       }
-      // console.log(i);
       newPagination.find(".to-first-page").after(toPageElement);
     }
     paginationContainer.append(newPagination);
@@ -353,6 +344,7 @@ export function managePagination() {
 export function createCards(dishes) {
   let _card = CommonServices.retrieveTemplateById(globals, Constants, "menu-card-template");
   let cardholder = $(".my-cardholder");
+  cardholder.empty();
   if (dishes.length > 0) {
     for (let dish of dishes) {
       let card = _card.clone();
@@ -361,6 +353,8 @@ export function createCards(dishes) {
         card.find(".veg-icon-container").append(CommonServices.retrieveTemplateById(globals, Constants, "veg-icon-template"));
       }
       card.find(".my-card-name").html(dish.name);
+      console.log(dish);
+      card.find(".my-card-name").attr("to-dish", dish.id);
       card.find(".my-card-category").html(globals.Categories.find((x) => x.Codename === dish.category).Name);
       let rating = card.find(".my-card-rating");
       let dishRating = dish.rating;
@@ -431,8 +425,8 @@ export async function logoutUser() {
   let responce = await post(Constants.backendURL + "/api/account/logout", {});
   localStorage.setItem("token", responce.token);
   globals.State.authorized = 0;
-  routeTo("");
-  managePage();
+  await routeTo("");
+  await managePage();
 }
 
 export async function registerUser() {
@@ -451,8 +445,8 @@ export async function registerUser() {
     let data = await responce.json();
     localStorage.setItem("token", data.token);
     globals.State.authorized = true;
-    routeTo("");
-    managePage();
+    await routeTo("");
+    await managePage();
   }
 }
 
@@ -463,13 +457,13 @@ export async function loginUser() {
     password: loginContent.find("#password").val(),
   };
   let responce = await post(Constants.backendURL + "/api/account/login", body);
-  console.log(responce);
+  // console.log(responce);
   if (responce.ok === true) {
     let data = await responce.json();
     localStorage.setItem("token", data.token);
     globals.State.authorized = true;
-    routeTo("");
-    managePage();
+    await routeTo("");
+    await managePage();
   }
 }
 
@@ -494,10 +488,10 @@ export async function post(url, body) {
   return responce;
 }
 
-export function routeTo(name) {
-  setPage(name);
+export async function routeTo(name) {
+  await setPage(name);
   UrlServices.updateURL(globals, Constants);
-  managePage();
+  await managePage();
 }
 
 export function toggleCategory() {
@@ -517,6 +511,7 @@ export function setCategory(codename, state) {
 export function navigateToMenuPage() {
   globals.State.currentPage = $(this).attr("to-page");
   UrlServices.updateURL(globals, Constants);
+  console.log("navigating");
   loadContent();
   $(this).attr("to-page");
 }
@@ -524,7 +519,8 @@ export function navigateToMenuPage() {
 export function applyFilters() {
   globals.State.currentPage = 1;
   UrlServices.updateURL(globals, Constants);
-  loadMenu();
+  console.log("applying filters");
+  loadContent();
 }
 
 export function manageVegOnly() {
@@ -568,7 +564,7 @@ export function manageCategories() {
 // activating sorting
 export function activateSorting() {
   setSorting($(this).find(".option-name").attr("id"));
-  manageSortings();
+  manageSortings($(".menu-content"));
 }
 
 export function setSorting(sorting_codename) {
@@ -587,11 +583,10 @@ export function setSorting(sorting_codename) {
   }
 }
 
-export function manageSortings() {
-  $("#sortings-anchor").find(".dropdown-content").find(".option").remove();
+export async function manageSortings(menuContent) {
+  menuContent.find("#sortings-anchor").find(".dropdown-content").find(".option").remove();
   let _option = CommonServices.retrieveTemplateById(globals, Constants, "dropdown-element-template");
   for (let sorting of globals.Sortings) {
-    console.log(sorting.Codename, sorting.IsActive);
     let option = _option.clone();
     if (sorting.IsActive) {
       option.addClass("active-option");
@@ -599,12 +594,12 @@ export function manageSortings() {
       option.find(".option-name").attr("id", sorting.Codename);
       option.find(`#${sorting.Codename}`).html(sorting.Codename === "NoSort" ? "Сортировать по" : sorting.Name);
       option.find(".icon-container").html(CommonServices.retrieveTemplateById(globals, Constants, "expand-more-icon-template"));
-      $("#sortings-anchor").find(".dropdown-content").prepend(option);
+      menuContent.find("#sortings-anchor").find(".dropdown-content").prepend(option);
     } else {
       option.addClass("hidden-option");
       option.find(".option-name").attr("id", sorting.Codename);
       option.find(`#${sorting.Codename}`).html(sorting.Codename === "NoSort" ? "Без сортировки" : sorting.Name);
-      $("#sortings-anchor").find(".dropdown-options").append(option);
+      menuContent.find("#sortings-anchor").find(".dropdown-options").append(option);
     }
   }
   assignListeners();
