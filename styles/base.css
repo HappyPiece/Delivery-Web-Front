@@ -51,7 +51,7 @@ Roboto Flex
   --faded-primary-accent: #f7aa1399;
   --secondary-accent: #e14e01;
   --faint-secondary-accent: #e14e01;
-  --veg: #3c7c49;
+  --veg: #53df8b;
 
   --default-shadow-offset: 0rem;
   --default-shadow-blur: 0.2rem;
@@ -102,8 +102,8 @@ body {
 }
 
 .row {
-  margin-left: calc(var(--bs-gutter-x) * .5);
-  margin-right: calc(var(--bs-gutter-x) * .5);
+  margin-left: calc(var(--bs-gutter-x) * 0.5);
+  margin-right: calc(var(--bs-gutter-x) * 0.5);
 }
 
 * {

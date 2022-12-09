@@ -74,10 +74,19 @@ $(document).ready(function () {
   globals.Templates.load("/templates.html", async () => {
     await managePage();
   });
+
+  doDumbThings();
 });
 
-export function doDumbThings() {
-  //
+export async function doDumbThings() {
+  // let body = {
+  //   email: "user@example.com",
+  //   password: "password",
+  // };
+  // let responce = await get(Constants.backendURL + "/api/account/profile");
+  // console.log("doing dumb things ", responce);
+  // let data = await responce.json();
+  // console.log(data);
 }
 
 export function thisPage() {
@@ -108,10 +117,15 @@ export async function managePage() {
   if (globals.State.authorized === undefined) {
     await checkAuthorization();
   }
-  UrlServices.applyURL(globals, Constants);
+  await UrlServices.applyURL(globals, Constants);
   await renderShell();
   await loadContent();
   assignListeners();
+  await showContent();
+}
+
+export async function showContent() {
+  $("#main-content").attr("ready", "1");
 }
 
 export async function checkAuthorization() {
@@ -124,12 +138,12 @@ export async function checkAuthorization() {
 }
 
 export async function renderShell() {
-  renderNavbar();
+  await renderNavbar();
   $("#main-content").empty();
   if (thisPage() === null) {
     return;
   }
-  // $("#main-content").empty();
+
   switch (thisPage().Name) {
     case "": {
       // console.log("menu");
@@ -152,7 +166,25 @@ export async function renderShell() {
       await renderLogin();
       break;
     }
+    case "profile": {
+      if (!globals.State.authorized) {
+        await routeTo("login");
+        return;
+      }
+      await renderProfile();
+      break;
+    }
   }
+}
+
+export async function renderProfile() {
+  let profileContent = CommonServices.retrieveTemplateById(globals, Constants, "profile-template");
+  profileContent.attr("id", "profile-content");
+
+  profileContent.find("input[type=date]").attr("min", "1900-01-01");
+  profileContent.find("input[type=date]").attr("max", getStringifiedDate());
+
+  $("#main-content").append(profileContent);
 }
 
 export async function renderNavbar() {
@@ -160,6 +192,13 @@ export async function renderNavbar() {
   let navbar;
   if (globals.State.authorized) {
     navbar = CommonServices.retrieveTemplateById(globals, Constants, "navbar-authorized-template");
+    let responce = await get(Constants.backendURL + "/api/account/profile");
+    if (responce.ok !== true) {
+      routeTo("login");
+    }
+    let userProfile = await responce.json();
+    navbar.find("#navbar-main-e-mail").html(userProfile.email);
+    navbar.find("#navbar-hidden-e-mail").html(userProfile.email);
   } else {
     navbar = CommonServices.retrieveTemplateById(globals, Constants, "navbar-unauthorized-template");
   }
@@ -206,13 +245,13 @@ export async function renderRegistration() {
   registrationContent.find("input[type=date]").attr("min", "1900-01-01");
   registrationContent.find("input[type=date]").attr("max", getStringifiedDate());
 
+  manageSexes(registrationContent.find("#reg-sexes-anchor"));
   $("#main-content").append(registrationContent);
-  manageSexes();
 }
 
 export function activateSex() {
   setSex($(this).find(".option-name").attr("id"));
-  manageSexes();
+  manageSexes($(this).parents(".sex-dropdown-anchor"));
 }
 
 export function setSex(sex_codename) {
@@ -225,8 +264,8 @@ export function setSex(sex_codename) {
   }
 }
 
-export function manageSexes() {
-  $("#sexes-anchor").find(".dropdown-content").find(".option").remove();
+export function manageSexes(sexesAnchor) {
+  sexesAnchor.find(".dropdown-content").find(".option").remove();
   let _option = CommonServices.retrieveTemplateById(globals, Constants, "dropdown-element-template");
   for (let sex of globals.Sexes) {
     let option = _option.clone();
@@ -237,13 +276,13 @@ export function manageSexes() {
       option.find(".option-name").attr("id", sex.Codename);
       option.find(`#${sex.Codename}`).html(sex.Codename === "NoSex" ? "Не указан" : sex.Name);
       option.find(".icon-container").html(CommonServices.retrieveTemplateById(globals, Constants, "expand-more-icon-template"));
-      $("#sexes-anchor").find(".dropdown-content").prepend(option);
+      sexesAnchor.find(".dropdown-content").prepend(option);
     } else if (/*sex.Codename !== 'NoSex'*/ true) {
       option.addClass("hidden-option");
       option.addClass("sex-dropdown-option");
       option.find(".option-name").attr("id", sex.Codename);
       option.find(`#${sex.Codename}`).html(sex.Codename === "NoSex" ? "Не указан" : sex.Name);
-      $("#sexes-anchor").find(".dropdown-options").append(option);
+      sexesAnchor.find(".dropdown-options").append(option);
     }
   }
   assignListeners();
@@ -252,15 +291,17 @@ export function manageSexes() {
 export async function renderLogin() {
   let loginContent = CommonServices.retrieveTemplateById(globals, Constants, "login-template");
   loginContent.attr("id", "login-content");
-  loginContent.find("#e-mail").val("aboba@aboba.com"),
-    loginContent.find("#password").val("string1g"),
+  loginContent.find("#login-e-mail").val("aboba@aboba.com"),
+    loginContent.find("#login-password").val("string1g"),
     $("#main-content").append(loginContent);
 }
 
 export async function renderMenu() {
   let menuContent = CommonServices.retrieveTemplateById(globals, Constants, "menu-content-template");
+  menuContent.attr("id", "menu-content");
   await renderCategories(menuContent);
   await manageSortings(menuContent);
+  await manageVegOnly(menuContent);
   $("#main-content").append(menuContent);
 }
 
@@ -287,31 +328,55 @@ export async function loadContent() {
   switch (thisPage().Name) {
     case "": {
       await loadMenu();
+      break;
+    }
+    case "profile": {
+      await loadProfile();
+      break;
     }
   }
+}
+
+export async function loadProfile() {
+  let profileContent = $("#profile-content");
+
+  let responce = await get(Constants.backendURL + "/api/account/profile");
+  if (responce.ok === false) {
+    if (responce.status === 401) {
+      routeTo("login");
+    }
+    showErrorPlug("shruggie", "что-то пошло не так", $("#main-content"));
+    return;
+  }
+
+  let result = await responce.json();
+  console.log(result);
+  profileContent.find("#profile-full-name").val(result.fullName);
+  profileContent.find("#profile-e-mail").val(result.email);
+  profileContent.find("#profile-address").val(result.address);
+  profileContent.find("#profile-birthdate").val(purgeDate(result.birthDate));
+  profileContent.find("#profile-sex").val(globals.Sexes.find((x) => x.Codename === result.gender).Name);
+  profileContent.find("#profile-phone").val(result.phoneNumber);
 }
 
 export async function loadMenu() {
   let cardholder = $(".my-cardholder");
   let pagination = $(".pagination-container");
-  pagination.empty();
-  cardholder.empty();
-  let responce = await fetch(Constants.backendURL + "/api/dish" + UrlServices.formArtifactsQuery(globals, Constants));
+  let responce = await get(Constants.backendURL + "/api/dish" + UrlServices.formArtifactsQuery(globals, Constants));
   if (responce.ok == false) {
     showErrorPlug("shruggie", "что-то пошло не так", $(".my-cardholder"));
     return;
   }
 
   let result = await responce.json();
-  createCards(result.dishes);
+  createCards(result.dishes, cardholder);
 
   globals.State.currentPagination = result.pagination;
   globals.State.currentPage = result.pagination.current;
-  managePagination();
+  managePagination(pagination);
 }
 
-export function managePagination() {
-  let paginationContainer = $(".pagination-container");
+export function managePagination(paginationContainer) {
   paginationContainer.empty();
   if (globals.State.currentPagination === null || globals.State.currentPagination === undefined) {
     return;
@@ -341,9 +406,8 @@ export function managePagination() {
   assignListeners();
 }
 
-export function createCards(dishes) {
+export function createCards(dishes, cardholder) {
   let _card = CommonServices.retrieveTemplateById(globals, Constants, "menu-card-template");
-  let cardholder = $(".my-cardholder");
   cardholder.empty();
   if (dishes.length > 0) {
     for (let dish of dishes) {
@@ -353,7 +417,7 @@ export function createCards(dishes) {
         card.find(".veg-icon-container").append(CommonServices.retrieveTemplateById(globals, Constants, "veg-icon-template"));
       }
       card.find(".my-card-name").html(dish.name);
-      console.log(dish);
+      //  console.log(dish);
       card.find(".my-card-name").attr("to-dish", dish.id);
       card.find(".my-card-category").html(globals.Categories.find((x) => x.Codename === dish.category).Name);
       let rating = card.find(".my-card-rating");
@@ -381,6 +445,7 @@ export function createCards(dishes) {
 }
 
 export function showErrorPlug(emoji, message, target) {
+  target.empty();
   let plug = CommonServices.retrieveTemplateById(globals, Constants, "error-plug-template");
   plug.find(".error-emoji-acnhor").append(CommonServices.retrieveTemplateById(globals, Constants, emoji));
   plug.find(".error-message").html(message);
@@ -388,11 +453,13 @@ export function showErrorPlug(emoji, message, target) {
 }
 
 // assigns ot re- assigns corresponding listeners to all the elements in the page
-export function assignListeners() {
+export async function assignListeners() {
   $("*").off();
 
   //
-  $("#veg-only-toggle").on("click", manageVegOnly);
+  $("#veg-only-toggle").on("click", async () => {
+    await toggleVegOnly($("#menu-content"));
+  });
 
   $("#apply-filters-bitton").on("click", applyFilters);
 
@@ -404,7 +471,7 @@ export function assignListeners() {
   //
   $("#sortings-anchor").find(".hidden-option").on("click", activateSorting);
 
-  $("#sexes-anchor").find(".hidden-option").on("click", activateSex);
+  $("#reg-sexes-anchor").find(".hidden-option").on("click", activateSex);
 
   $(".nav-brand").on("click", doDumbThings);
 
@@ -419,6 +486,51 @@ export function assignListeners() {
 
   $("#register-button").on("click", registerUser);
   $("#login-button").on("click", loginUser);
+  $("#save-profile-button").on("click", alterProfile);
+}
+
+export async function alterProfile() {
+  let profileContent = $("#profile-content");
+  let body = {
+    fullName: profileContent.find("#profile-full-name").val(),
+    address: profileContent.find("#profile-address").val(),
+    birthDate: profileContent.find("#profile-birthdate").val(),
+    gender: globals.Sexes.find((x) => x.Name === profileContent.find("#profile-sex").val()).Codename,
+    phoneNumber: profileContent.find("#profile-phone").val() !== "" ? profileContent.find("#profile-phone").val() : null,
+  };
+  console.log(body.birthDate);
+  let responce = await put(Constants.backendURL + "/api/account/profile", body);
+  console.log(responce);
+  if (responce.ok !== true) {
+    if (responce.status === 401) {
+      routeTo("login");
+    } else if (responce.status === 500) {
+      showErrorPlug("shruggie", "что-то пошло не так, вините бекенд", $("#main-content"));
+    } else if (responce.status === 400) {
+      let data = await responce.json();
+      console.log(data);
+      await showMessages(data.errors, $("#profile-message-container"), "bad");
+    }
+  }
+  else {
+    await showMessages({Success: new Array("Профиль успешно изменен")}, $("#profile-message-container"), "good");
+  }
+}
+
+export async function showMessages(messages, container, type) {
+  container.empty();
+  let _message = CommonServices.retrieveTemplateById(globals, Constants, "message-base-template");
+  for (let message in messages) {
+    if (Object.prototype.hasOwnProperty.call(messages, message)) {
+      console.log(messages[message]);
+      for (let prompt of messages[message]) {
+        let message = _message.clone();
+        message.attr("type", type);
+        message.find(".message-content").html(prompt);
+        container.append(message);
+      }
+    }
+  }
 }
 
 export async function logoutUser() {
@@ -432,38 +544,40 @@ export async function logoutUser() {
 export async function registerUser() {
   let registerContent = $("#registration-content");
   let body = {
-    fullName: registerContent.find("#e-mail").val(),
-    password: registerContent.find("#password").val(),
-    email: registerContent.find("#e-mail").val(),
-    address: registerContent.find("#address").val(),
-    birthDate: registerContent.find("#birth-date").val(),
+    fullName: registerContent.find("#reg-full-name").val(),
+    password: registerContent.find("#reg-password").val(),
+    email: registerContent.find("#reg-e-mail").val(),
+    address: registerContent.find("#reg-address").val(),
+    birthDate: registerContent.find("#reg-birthdate").val(),
     gender: globals.Sexes.find((x) => x.IsActive === true).Codename,
-    phoneNumber: registerContent.find("#phonel").val(),
+    phoneNumber: registerContent.find("#reg-phone").val(),
   };
+  console.log(body.phoneNumber);
   let responce = await post(Constants.backendURL + "/api/account/register", body);
   if (responce.ok === true) {
     let data = await responce.json();
     localStorage.setItem("token", data.token);
     globals.State.authorized = true;
     await routeTo("");
-    await managePage();
   }
 }
 
 export async function loginUser() {
   let loginContent = $("#login-content");
   let body = {
-    email: loginContent.find("#e-mail").val(),
-    password: loginContent.find("#password").val(),
+    email: loginContent.find("#login-e-mail").val(),
+    password: loginContent.find("#login-password").val(),
   };
   let responce = await post(Constants.backendURL + "/api/account/login", body);
   // console.log(responce);
+  console.log(responce);
   if (responce.ok === true) {
     let data = await responce.json();
+    // console.log(data);
     localStorage.setItem("token", data.token);
     globals.State.authorized = true;
     await routeTo("");
-    await managePage();
+  } else if (responce.status === 400) {
   }
 }
 
@@ -479,6 +593,18 @@ export async function get(url) {
 export async function post(url, body) {
   let responce = await fetch(url, {
     method: "Post",
+    body: JSON.stringify(body),
+    headers: new Headers({
+      "Authorization": "Bearer " + localStorage.getItem("token"),
+      "Content-Type": "application/json",
+    }),
+  });
+  return responce;
+}
+
+export async function put(url, body) {
+  let responce = await fetch(url, {
+    method: "Put",
     body: JSON.stringify(body),
     headers: new Headers({
       "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -523,24 +649,29 @@ export function applyFilters() {
   loadContent();
 }
 
-export function manageVegOnly() {
-  if (!globals.State.vegOnlyActive) {
-    addVegOnly();
+export async function manageVegOnly(menuContent) {
+  if (globals.State.vegOnlyActive) {
+    menuContent.find("#veg-only-toggle").attr("active", 1);
   } else {
-    removeVegOnly();
+    menuContent.find("#veg-only-toggle").attr("active", 0);
   }
 }
 
-export function addVegOnly() {
-  globals.State.vegOnlyActive = true;
-  $("#veg-only-toggle").attr("active", 1);
-  // UrlServices.updateURL(globals, Constants);
+export async function toggleVegOnly(menuContent) {
+  if (!globals.State.vegOnlyActive) {
+    await addVegOnly();
+  } else {
+    await removeVegOnly();
+  }
+  await manageVegOnly(menuContent);
 }
 
-export function removeVegOnly() {
+export async function addVegOnly() {
+  globals.State.vegOnlyActive = true;
+}
+
+export async function removeVegOnly() {
   globals.State.vegOnlyActive = false;
-  $("#veg-only-toggle").attr("active", 0);
-  // UrlServices.updateURL(globals, Constants);
 }
 
 // adds or removes inactive filters, corresponding to current state of add button, to which it listens
@@ -562,12 +693,12 @@ export function manageCategories() {
 }
 
 // activating sorting
-export function activateSorting() {
-  setSorting($(this).find(".option-name").attr("id"));
-  manageSortings($(".menu-content"));
+export async function activateSorting() {
+  await setSorting($(this).find(".option-name").attr("id"));
+  manageSortings($("#menu-content"));
 }
 
-export function setSorting(sorting_codename) {
+export async function setSorting(sorting_codename) {
   if (
     globals.Sortings.find((x) => x.Codename === sorting_codename) === null ||
     globals.Sortings.find((x) => x.Codename === sorting_codename) === undefined
@@ -610,5 +741,13 @@ export function getStringifiedDate() {
   let dd = String(currentDate.getDate()).padStart(2, "0");
   let mm = String(currentDate.getMonth() + 1).padStart(2, "0");
   let yyyy = currentDate.getFullYear();
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+export function purgeDate(date) {
+  let theDate = new Date(date);
+  let dd = String(theDate.getDate()).padStart(2, "0");
+  let mm = String(theDate.getMonth() + 1).padStart(2, "0");
+  let yyyy = theDate.getFullYear();
   return `${yyyy}-${mm}-${dd}`;
 }

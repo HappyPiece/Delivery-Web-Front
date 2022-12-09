@@ -77,7 +77,7 @@ nav {
   background-color: var(--faint-secondary-background);
 }
 
-.navbar-element[active="1"] .navbar-element-content{
+.navbar-element[active="1"] .navbar-element-content {
   color: var(--primary-text);
 }
 
@@ -102,6 +102,14 @@ nav {
 .nav-brand:hover {
   color: var(--primary-text);
   text-shadow: 0.1rem 0.1rem 0.3rem var(--secondary-background), -0.1rem -0.1rem 0.3rem var(--secondary-background);
+}
+
+#main-content[ready="0"] {
+  display: none !important;
+}
+
+#main-content[ready="1"] {
+  /*  */
 }
 
 .content {
@@ -140,6 +148,11 @@ footer {
     0rem 0rem var(--default-shadow-blur) var(--container-shadow-color);
 }
 
+.navbar-separator {
+  display: flex;
+  flex: 2 0 10%;
+}
+
 .horizontal-separator {
   border-bottom: 0.01rem solid var(--secondary-background);
   box-shadow: 0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
@@ -172,5 +185,5 @@ footer {
 
 .page-title {
   padding: 0.5rem 0.5rem 0rem 1rem;
-  font-size: 2rem ;
+  font-size: 2rem;
 }

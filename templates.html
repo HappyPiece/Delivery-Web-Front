@@ -1,35 +1,106 @@
+<!-- profile -->
+<div class="container profile-content template" id="profile-template">
+  <div class="page-title">Профиль</div>
+  <div class="input-content-container">
+    <div class="input-descriprion">ФИО</div>
+    <input type="text" class="default-input" id="profile-full-name" />
+  </div>
+
+  <div class="input-content-container">
+    <div class="input-descriprion">E-mail</div>
+    <input type="text" class="default-input" id="profile-e-mail" readonly />
+  </div>
+
+  <div class="input-content-container">
+    <div class="input-descriprion">Дата рождения</div>
+    <input type="date" class="default-input date-picker" id="profile-birthdate" />
+  </div>
+
+  <div class="input-content-container">
+    <div class="input-descriprion">Пол</div>
+    <input type="text" class="default-input" id="profile-sex" readonly />
+  </div>
+
+  <div class="input-content-container">
+    <div class="input-descriprion">Адрес</div>
+    <input type="text" class="default-input" id="profile-address" />
+  </div>
+
+  <div class="input-content-container">
+    <div class="input-descriprion">Телефон</div>
+    <input type="text" class="default-input" id="profile-phone" />
+  </div>
+
+  <div class="message-container" id="profile-message-container"></div>
+  <div class="bottom-button transitioning" id="save-profile-button">Сохранить изменения</div>
+</div>
+
 <!-- registration -->
 <div class="container register-content template" id="register-template">
   <div class="page-title">Регистрация</div>
-  <div class="input-descriprion">ФИО</div>
-  <input type="text" class="default-input" id="full-name" />
-  <div class="input-descriprion">Пол</div>
-  <div class="dropdown-anchor default-input sex-dropdown-anchor" id="sexes-anchor">
-    <div class="dropdown-content sex-dropdown-content">
-      <div class="dropdown-options"></div>
+  <div class="input-content-container">
+    <div class="input-descriprion">ФИО</div>
+    <input type="text" class="default-input" id="reg-full-name" />
+  </div>
+
+  <div class="input-content-container">
+    <div class="input-descriprion">Пол</div>
+    <div class="dropdown-anchor default-input sex-dropdown-anchor" id="reg-sexes-anchor">
+      <div class="dropdown-content sex-dropdown-content">
+        <div class="dropdown-options"></div>
+      </div>
     </div>
   </div>
-  <div class="input-descriprion">Телефон</div>
-  <input type="text" class="default-input" id="phone" />
-  <div class="input-descriprion">Дата рождения</div>
-  <input type="date" class="default-input date-picker" id="birthdate" />
-  <div class="input-descriprion">Адрес</div>
-  <input type="text" class="default-input" id="address" />
-  <div class="input-descriprion">E-mail</div>
-  <input type="text" class="default-input" id="e-mail" />
-  <div class="input-descriprion">Пароль</div>
-  <input type="text" class="default-input" id="password" />
+
+  <div class="input-content-container">
+    <div class="input-descriprion">Телефон</div>
+    <input type="text" class="default-input" id="reg-phone" />
+  </div>
+
+  <div class="input-content-container">
+    <div class="input-descriprion">Дата рождения</div>
+    <input type="date" class="default-input date-picker" id="reg-birthdate" />
+  </div>
+
+  <div class="input-content-container">
+    <div class="input-descriprion">Адрес</div>
+    <input type="text" class="default-input" id="reg-address" />
+  </div>
+
+  <div class="input-content-container">
+    <div class="input-descriprion">E-mail</div>
+    <input type="text" class="default-input" id="reg-e-mail" />
+  </div>
+
+  <div class="input-content-container">
+    <div class="input-descriprion">Пароль</div>
+    <input type="text" class="default-input" id="reg-password" />
+  </div>
+  <div class="message-container" id="reg-message-container"></div>
   <div class="bottom-button transitioning" id="register-button">Зарегистрироваться</div>
 </div>
+
+
 
 <!-- login -->
 <div class="container login-content template" id="login-template">
   <div class="page-title">Авторизация</div>
-  <div class="input-descriprion">E-mail</div>
-  <input type="text" class="default-input" id="e-mail" />
-  <div class="input-descriprion">Пароль</div>
-  <input type="text" class="default-input" id="password" />
+  <div class="input-content-container">
+    <div class="input-descriprion">E-mail</div>
+    <input type="text" class="default-input" id="login-e-mail" />
+  </div>
+
+  <div class="input-content-container">
+    <div class="input-descriprion">Пароль</div>
+    <input type="text" class="default-input" id="login-password" />
+  </div>
+  <div class="message-container" id="login-message-container"></div>
   <div class="bottom-button transitioning" id="login-button">Войти</div>
+</div>
+
+<!-- message -->
+<div class="message-base" id="message-base-template">
+  <div class="message-content"></div>
 </div>
 
 <!-- navbar -->
@@ -48,10 +119,11 @@
   </div>
   <!-- <div class="navbar-section navbar-right">
   </div> -->
+  <div class="navbar-separator"></div>
   <div class="navbar-element navbar-e-mail-element" id="nav-profile">
     <div class="navbar-element-content">
-      <div class="hidden-element">example@gmail.com</div>
-      <div class="main-element">example@gmail.com</div>
+      <div class="hidden-element" id="navbar-hidden-e-mail">example@gmail.com</div>
+      <div class="main-element" id="navbar-main-e-mail">example@gmail.com</div>
     </div>
   </div>
   <div class="navbar-element transitioning" id="nav-logout">
@@ -64,6 +136,7 @@
   <!-- <div class="navbar-section navbar-left">
   </div> -->
   <div class="navbar-element transitioning" id="nav-menu">Меню</div>
+  <div class="navbar-separator"></div>
   <!-- <div class="navbar-section navbar-right">
   </div> -->
   <div class="navbar-element transitioning" id="nav-register">Регистрация</div>

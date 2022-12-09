@@ -12,12 +12,70 @@
   flex-flow: column wrap;
 }
 
-.input-descriprion {
-  padding: 0.5rem 0.5rem 0rem 1rem;
+.profile-content {
+  border-radius: inherit;
+  padding: 0rem;
   display: flex;
+  flex-flow: column wrap;
+}
+
+.input-descriprion {
+  display: flex;
+  flex: 0 0 15%;
+  /* min-width: 7%; */
   justify-content: flex-start;
   flex-flow: row wrap;
   align-content: center;
+  padding: 0.5rem;
+}
+
+.input-content-container {
+  display: flex;
+  padding: 0.5rem;
+}
+
+.message-container {
+  display: flex;
+  flex-flow: row wrap;
+  margin-top: auto;
+  padding: 0.5rem;
+  justify-content: center;
+  align-content: center;
+}
+
+.message-base {
+  padding: 0.5rem;
+}
+
+.message-content {
+  font-size: 1.5rem;
+  background: linear-gradient(0.25turn, var(--secondary-background), var(--secondary-background)) center bottom 0.1rem / calc(100% - 1.5rem)
+    2px no-repeat;
+}
+
+.message-base[type="bad"] .message-content {
+  font-size: 1.5rem;
+  color: var(--secondary-accent);
+  background: linear-gradient(0.25turn, var(--primary-accent), var(--secondary-accent)) center bottom 0.1rem / calc(100% - 1.5rem) 2px
+    no-repeat;
+}
+
+.message-base[type="good"] .message-content {
+  font-size: 1.5rem;
+  color: var(--veg);
+  background: linear-gradient(0.25turn, var(--veg), var(--veg)) center bottom 0.1rem / calc(100% - 1.5rem) 2px no-repeat;
+}
+
+.register-content .input-content-container {
+  flex-flow: column wrap;
+}
+
+.login-content .input-content-container {
+  flex-flow: column wrap;
+}
+
+.profile-content .input-content-container {
+  flex-flow: row wrap;
 }
 
 .input-descriprion:first-child {

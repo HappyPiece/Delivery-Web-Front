@@ -27,7 +27,7 @@
 }
 
 .apply-button-anchor:hover .apply-button-content {
-  background-color: var(--faint-secondary-background);
+  background-color: var(--secondary-background);
   color: var(--primary-text);
 }
 
