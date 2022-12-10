@@ -22,20 +22,6 @@ nav {
   padding: 0.1rem;
 }
 
-/* .navbar-section {
-  display: flex;
-  flex-flow: row wrap;
-  align-content: center;
-} */
-
-/* .navbar-left {
-  margin-right: auto;
-}
-
-.navbar-right {
-  margin-left: auto;
-} */
-
 .navbar-element {
   min-height: 2.5rem;
   align-self: stretch;
@@ -53,6 +39,12 @@ nav {
   margin: 0.1rem;
 }
 
+#nav-profile {
+  background-color: var(--primary-background);
+  justify-content: flex-end;
+  cursor: default;
+}
+
 .navbar-element .hidden-element {
   display: none;
 }
@@ -68,7 +60,7 @@ nav {
 }
 
 .navbar-e-mail-element {
-  flex: 2 1 !important;
+  flex: 3 1 !important;
   width: max-content;
 }
 
@@ -79,6 +71,10 @@ nav {
 
 .navbar-element[active="1"] .navbar-element-content {
   color: var(--primary-text);
+}
+
+.navbar-element-content {
+  cursor: pointer;
 }
 
 .navbar-element:hover {

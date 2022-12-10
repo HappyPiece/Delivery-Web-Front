@@ -51,6 +51,7 @@
   font-size: 1.5rem;
   background: linear-gradient(0.25turn, var(--secondary-background), var(--secondary-background)) center bottom 0.1rem / calc(100% - 1.5rem)
     2px no-repeat;
+  text-align: center;
 }
 
 .message-base[type="bad"] .message-content {

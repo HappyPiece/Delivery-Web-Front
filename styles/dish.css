@@ -1,0 +1,92 @@
+.dish-content {
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+}
+
+.dish-title {
+  margin-left: 0.5rem;
+  padding: 0.5rem;
+  font-size: 2rem;
+  height: fit-content;
+}
+
+.dish-anchor {
+  display: flex;
+  flex-flow: column wrap;
+  border-radius: var(--default-border-radius);
+  align-items: center;
+  height: 100%;
+}
+
+.dish-picture-container {
+  position: relative;
+  display: flex;
+  max-width: 70%;
+  max-height: 70%;
+  align-content: center;
+  justify-content: center;
+}
+
+.dish-picture {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: var(--default-border-radius);
+}
+
+.dish-info {
+  cursor: default;
+  user-select: text;
+  display: flex;
+  flex-flow: column wrap;
+  border-radius: var(--default-border-radius);
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+}
+
+.dish-category {
+  color: var(--secondary-text);
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.dish-vegeterian {
+  font-size: 1.2rem;
+  color: var(--secondary-text);
+  text-align: center;
+}
+
+.dish-vegeterian[true="1"] {
+  color: var(--veg);
+  text-align: center;
+}
+
+.dish-description {
+  font-size: 1.4rem;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: center;
+  text-align: center;
+}
+
+.dish-rating {
+  display: flex;
+  flex-flow: row nowrap;
+  flex: 1 1;
+  justify-content: center;
+  align-content: center;
+  border-radius: var(--default-border-radius);
+}
+
+.dish-rating-icon {
+  font-size: 1.5em !important;
+  color: var(--faint-primary-accent);
+  text-shadow: 0rem 0rem 0.3rem var(--primary-accent);
+  cursor: default;
+}
+
+.dish-price {
+  font-size: 1.2rem;
+  text-align: center;
+}

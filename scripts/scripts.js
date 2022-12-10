@@ -10,10 +10,13 @@ export default class Category {
 }
 
 let Constants = {
-  baseURL: "",
   backendURL: "https://food-delivery.kreosoft.ru",
   queryContent: /(?<==)\w*/g,
   trimSlashes: /^\/+|\/+$/g,
+  phoneRegex: new RegExp(/^\+7 \([0-9]{3}\) ([0-9]{3})-([0-9]{2})-([0-9]{2})$/),
+  emailRegex: new RegExp(
+    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/
+  ),
 };
 
 class Globals {
@@ -24,7 +27,7 @@ class Globals {
       new Category("login"),
       new Category("profile"),
       new Category("item"),
-      new Category("basket"),
+      new Category("cart"),
       new Category("orders"),
       new Category("order"),
       new Category("purchase")
@@ -61,6 +64,7 @@ class Globals {
       currentPage: 1,
       currentPagination: undefined,
       authorized: undefined,
+      currentDish: undefined,
     };
 
     this.Templates = null;
@@ -75,18 +79,11 @@ $(document).ready(function () {
     await managePage();
   });
 
-  doDumbThings();
+  //doDumbThings();
 });
 
 export async function doDumbThings() {
-  // let body = {
-  //   email: "user@example.com",
-  //   password: "password",
-  // };
-  // let responce = await get(Constants.backendURL + "/api/account/profile");
-  // console.log("doing dumb things ", responce);
-  // let data = await responce.json();
-  // console.log(data);
+  console.log(globals.State.currentDish);
 }
 
 export function thisPage() {
@@ -121,6 +118,8 @@ export async function managePage() {
   await renderShell();
   await loadContent();
   assignListeners();
+
+  await applyMasks();
   await showContent();
 }
 
@@ -174,7 +173,27 @@ export async function renderShell() {
       await renderProfile();
       break;
     }
+    case "item": {
+      await renderDish();
+      break;
+    }
+    case "cart": {
+      await renderCart();
+      break;
+    }
   }
+}
+
+export async function renderCart() {
+  let cartContent = CommonServices.retrieveTemplateById(globals, Constants, "cart-template");
+  cartContent.attr("id", "cart-content");
+  $("#main-content").append(cartContent);
+}
+
+export async function renderDish() {
+  let dishContent = CommonServices.retrieveTemplateById(globals, Constants, "dish-template");
+  dishContent.attr("id", "dish-content");
+  $("#main-content").append(dishContent);
 }
 
 export async function renderProfile() {
@@ -185,6 +204,11 @@ export async function renderProfile() {
   profileContent.find("input[type=date]").attr("max", getStringifiedDate());
 
   $("#main-content").append(profileContent);
+}
+
+export async function applyMasks() {
+  $("#reg-phone").inputmask("+7 (999) 999-99-99");
+  $("#profile-phone").inputmask("+7 (999) 999-99-99");
 }
 
 export async function renderNavbar() {
@@ -219,8 +243,8 @@ export async function renderNavbar() {
           break;
         }
         case "purchase":
-        case "basket": {
-          navbar.find("#nav-basket").attr("active", 1);
+        case "cart": {
+          navbar.find("#nav-cart").attr("active", 1);
           break;
         }
         case "orders":
@@ -247,45 +271,6 @@ export async function renderRegistration() {
 
   manageSexes(registrationContent.find("#reg-sexes-anchor"));
   $("#main-content").append(registrationContent);
-}
-
-export function activateSex() {
-  setSex($(this).find(".option-name").attr("id"));
-  manageSexes($(this).parents(".sex-dropdown-anchor"));
-}
-
-export function setSex(sex_codename) {
-  for (let sex of globals.Sexes) {
-    if (sex_codename === sex.Codename) {
-      sex.IsActive = true;
-    } else {
-      sex.IsActive = false;
-    }
-  }
-}
-
-export function manageSexes(sexesAnchor) {
-  sexesAnchor.find(".dropdown-content").find(".option").remove();
-  let _option = CommonServices.retrieveTemplateById(globals, Constants, "dropdown-element-template");
-  for (let sex of globals.Sexes) {
-    let option = _option.clone();
-    if (sex.IsActive) {
-      option.addClass("active-option");
-      option.addClass("sex-dropdown-option");
-      option.attr("id", "active-sex-option");
-      option.find(".option-name").attr("id", sex.Codename);
-      option.find(`#${sex.Codename}`).html(sex.Codename === "NoSex" ? "Не указан" : sex.Name);
-      option.find(".icon-container").html(CommonServices.retrieveTemplateById(globals, Constants, "expand-more-icon-template"));
-      sexesAnchor.find(".dropdown-content").prepend(option);
-    } else if (/*sex.Codename !== 'NoSex'*/ true) {
-      option.addClass("hidden-option");
-      option.addClass("sex-dropdown-option");
-      option.find(".option-name").attr("id", sex.Codename);
-      option.find(`#${sex.Codename}`).html(sex.Codename === "NoSex" ? "Не указан" : sex.Name);
-      sexesAnchor.find(".dropdown-options").append(option);
-    }
-  }
-  assignListeners();
 }
 
 export async function renderLogin() {
@@ -334,7 +319,92 @@ export async function loadContent() {
       await loadProfile();
       break;
     }
+    case "item": {
+      await loadDish();
+      break;
+    }
+    case "cart": {
+      await loadCart();
+      break;
+    }
   }
+}
+
+export async function loadCart() {
+  let cartContent = $("#cart-content");
+  let responce = await get(Constants.backendURL + "/api/basket");
+  if (responce.ok === false) {
+    if (responce.status === 401) {
+      routeTo("login");
+    }
+    return;
+  }
+  let items = await responce.json();
+
+  createCartItems(items, cartContent.find(".cart-items"));
+  console.log();
+}
+
+export function createCartItems(items, itemsContainer) {
+  let _item = CommonServices.retrieveTemplateById(globals, Constants, "cart-item-template");
+  itemsContainer.empty();
+  if (items.length === 0) {
+    console.log(cartContent.find(".cart-items").length);
+    showErrorPlug("crying", "Корзина пуста. Возможно, самое время добавить в нее что-нибудь", cartContent.find(".cart-items"));
+  } else {
+    let i = 1;
+    for (let item of items) {
+      let newItem = _item.clone();
+
+      newItem.find(".cart-item-number").html(i + ".");
+      newItem.find(".cart-item-picture").attr("src", item.image);
+      newItem.find(".cart-item-name").html(item.name);
+      newItem.find(".cart-item-name").attr("to-dish", item.id);
+      newItem.find(".cart-item-price").html("Цена/шт: " + item.price + "₽");
+      itemsContainer.append(newItem);
+    }
+  }
+}
+
+export async function loadDish() {
+  let dishContent = $("#dish-content");
+  let responce = await get(Constants.backendURL + "/api/dish/" + globals.State.currentDish);
+  if (responce.ok === false) {
+    if (responce.status === 404) {
+      showErrorPlug("bribe", "видимо, такого блюда у нас нет", $("#main-content"));
+    }
+    return;
+  }
+  let dish = await responce.json();
+
+  dishContent.find(".dish-picture").attr("src", dish.image);
+  dishContent.find(".dish-vegeterian").html(dish.vegetarian ? "Вегетерианское" : "Не вегетерианское");
+  dishContent.find(".dish-vegeterian").attr("true", dish.vegetarian ? "1" : "0");
+  dishContent.find(".dish-title").html(dish.name);
+  dishContent.find(".dish-category").html("Категория - " + globals.Categories.find((x) => x.Codename === dish.category).Name);
+  let rating = dishContent.find(".dish-rating");
+  let dishRating = dish.rating;
+  for (let i = 0; i < 10; i++) {
+    if (dishRating >= 1) {
+      let icon = CommonServices.retrieveTemplateById(globals, Constants, "star-icon-template");
+      icon.addClass("dish-rating-icon");
+      rating.append(icon);
+      dishRating -= 1;
+      continue;
+    } else if (dishRating >= 0.5) {
+      let icon = CommonServices.retrieveTemplateById(globals, Constants, "star-half-icon-template");
+      icon.addClass("dish-rating-icon");
+      rating.append(icon);
+      dishRating = 0;
+      continue;
+    } else {
+      let icon = CommonServices.retrieveTemplateById(globals, Constants, "star-outlined-icon-template");
+      icon.addClass("dish-rating-icon");
+      rating.append(icon);
+    }
+  }
+  dishContent.find(".dish-description").html(dish.description);
+  dishContent.find(".dish-price").html(dish.price + "₽");
 }
 
 export async function loadProfile() {
@@ -417,22 +487,27 @@ export function createCards(dishes, cardholder) {
         card.find(".veg-icon-container").append(CommonServices.retrieveTemplateById(globals, Constants, "veg-icon-template"));
       }
       card.find(".my-card-name").html(dish.name);
-      //  console.log(dish);
       card.find(".my-card-name").attr("to-dish", dish.id);
       card.find(".my-card-category").html(globals.Categories.find((x) => x.Codename === dish.category).Name);
       let rating = card.find(".my-card-rating");
       let dishRating = dish.rating;
       for (let i = 0; i < 10; i++) {
         if (dishRating >= 1) {
-          rating.append(CommonServices.retrieveTemplateById(globals, Constants, "star-icon-template"));
+          let icon = CommonServices.retrieveTemplateById(globals, Constants, "star-icon-template");
+          icon.addClass("my-card-rating-icon");
+          rating.append(icon);
           dishRating -= 1;
           continue;
         } else if (dishRating >= 0.5) {
-          rating.append(CommonServices.retrieveTemplateById(globals, Constants, "star-half-icon-template"));
+          let icon = CommonServices.retrieveTemplateById(globals, Constants, "star-half-icon-template");
+          icon.addClass("my-card-rating-icon");
+          rating.append(icon);
           dishRating = 0;
           continue;
         } else {
-          rating.append(CommonServices.retrieveTemplateById(globals, Constants, "star-outlined-icon-template"));
+          let icon = CommonServices.retrieveTemplateById(globals, Constants, "star-outlined-icon-template");
+          icon.addClass("my-card-rating-icon");
+          rating.append(icon);
         }
       }
       card.find(".my-card-description").html(dish.description);
@@ -467,6 +542,9 @@ export async function assignListeners() {
 
   // console.log($(".pagination-element-base").length);
   $(".pagination-element-base").on("click", navigateToMenuPage);
+  $(".my-card-name").on("click", navigateToDish);
+  $(".cart-item-name").on("click", navigateToDish);
+  
 
   //
   $("#sortings-anchor").find(".hidden-option").on("click", activateSorting);
@@ -482,11 +560,16 @@ export async function assignListeners() {
   $("#nav-profile").on("click", () => routeTo("profile"));
   $("#nav-cart").on("click", () => routeTo("cart"));
   $("#nav-orders").on("click", () => routeTo("orders"));
-  $("#nav-basket").on("click", () => routeTo("basket"));
 
   $("#register-button").on("click", registerUser);
   $("#login-button").on("click", loginUser);
   $("#save-profile-button").on("click", alterProfile);
+
+  applyMasks();
+}
+export async function navigateToDish() {
+  globals.State.currentDish = $(this).attr("to-dish");
+  routeTo("item");
 }
 
 export async function alterProfile() {
@@ -494,11 +577,18 @@ export async function alterProfile() {
   let body = {
     fullName: profileContent.find("#profile-full-name").val(),
     address: profileContent.find("#profile-address").val(),
-    birthDate: profileContent.find("#profile-birthdate").val(),
+    birthDate: registerContent.find("#profile-birthdate").val() !== "" ? registerContent.find("#profile-birthdate").val() : null,
     gender: globals.Sexes.find((x) => x.Name === profileContent.find("#profile-sex").val()).Codename,
     phoneNumber: profileContent.find("#profile-phone").val() !== "" ? profileContent.find("#profile-phone").val() : null,
   };
-  console.log(body.birthDate);
+  // console.log(body.phoneNumber);
+  let validationResult = await validateProfile(body);
+  console.log(validationResult);
+  if (!validationResult.ok) {
+    await showMessages(validationResult.messages, $("#profile-message-container"), "bad");
+    return;
+  }
+
   let responce = await put(Constants.backendURL + "/api/account/profile", body);
   console.log(responce);
   if (responce.ok !== true) {
@@ -511,10 +601,26 @@ export async function alterProfile() {
       console.log(data);
       await showMessages(data.errors, $("#profile-message-container"), "bad");
     }
+  } else {
+    await showMessages({ Success: new Array("Профиль успешно изменен") }, $("#profile-message-container"), "good");
   }
-  else {
-    await showMessages({Success: new Array("Профиль успешно изменен")}, $("#profile-message-container"), "good");
+}
+
+export async function validateProfile(data) {
+  let result = new ValidationResult();
+  if (data.fullName.length < 1) {
+    result.ok = false;
+    result.messages.errors.push("Поле 'ФИО' является обязательным");
   }
+  if (!(await validatePhone(data.phoneNumber))) {
+    result.ok = false;
+    result.messages.errors.push("Номер телефона введен неверно");
+  }
+  if (!(await validateBirthdate(data.birthDate))) {
+    result.ok = false;
+    result.messages.errors.push("Автору ноль лет");
+  }
+  return result;
 }
 
 export async function showMessages(messages, container, type) {
@@ -548,17 +654,72 @@ export async function registerUser() {
     password: registerContent.find("#reg-password").val(),
     email: registerContent.find("#reg-e-mail").val(),
     address: registerContent.find("#reg-address").val(),
-    birthDate: registerContent.find("#reg-birthdate").val(),
+    birthDate: registerContent.find("#reg-birthdate").val() !== "" ? registerContent.find("#reg-birthdate").val() : null,
     gender: globals.Sexes.find((x) => x.IsActive === true).Codename,
-    phoneNumber: registerContent.find("#reg-phone").val(),
+    phoneNumber: registerContent.find("#reg-phone").val() !== "" ? registerContent.find("#reg-phone").val() : null,
   };
-  console.log(body.phoneNumber);
+  console.log(body.email);
+  let validationResult = await validateRegistration(body);
+  console.log(validationResult);
+  if (!validationResult.ok) {
+    await showMessages(validationResult.messages, $("#reg-message-container"), "bad");
+    return;
+  }
+
   let responce = await post(Constants.backendURL + "/api/account/register", body);
   if (responce.ok === true) {
     let data = await responce.json();
     localStorage.setItem("token", data.token);
     globals.State.authorized = true;
     await routeTo("");
+  }
+}
+
+export async function validateRegistration(data) {
+  let result = new ValidationResult();
+  if (data.fullName.length < 1) {
+    result.ok = false;
+    result.messages.errors.push("Поле 'ФИО' является обязательным");
+  }
+  if (!(await validatePhone(data.phoneNumber)) && data.phoneNumber !== null) {
+    result.ok = false;
+    result.messages.errors.push("Номер телефона введен неверно");
+  }
+  if (!(await validateBirthdate(data.birthDate)) && data.birthDate !== null) {
+    result.ok = false;
+    result.messages.errors.push("Автору ноль лет");
+  }
+  if (!(await validateEmail(data.email))) {
+    result.ok = false;
+    result.messages.errors.push("Email введен неверно");
+  }
+  if (data.password.length < 6) {
+    result.ok = false;
+    result.messages.errors.push("Длина пароля минимум 6 символов");
+  }
+  return result;
+}
+
+export async function validateBirthdate(birthdate) {
+  let currentDate = new Date();
+  let minDate = new Date("1900-01-01");
+  let userBirthDate = new Date(birthdate);
+  console.log(minDate < userBirthDate && userBirthDate < currentDate);
+  return minDate < userBirthDate && userBirthDate < currentDate;
+}
+
+export async function validatePhone(phoneNumber) {
+  return Constants.phoneRegex.test(phoneNumber);
+}
+
+export async function validateEmail(email) {
+  return Constants.emailRegex.test(email);
+}
+
+class ValidationResult {
+  constructor(_ok = true, _messages = { errors: new Array() }) {
+    this.ok = _ok;
+    this.messages = _messages;
   }
 }
 
@@ -569,15 +730,18 @@ export async function loginUser() {
     password: loginContent.find("#login-password").val(),
   };
   let responce = await post(Constants.backendURL + "/api/account/login", body);
-  // console.log(responce);
   console.log(responce);
   if (responce.ok === true) {
     let data = await responce.json();
-    // console.log(data);
     localStorage.setItem("token", data.token);
     globals.State.authorized = true;
     await routeTo("");
   } else if (responce.status === 400) {
+    let data = await responce.json();
+    console.log(data);
+    await showMessages({ Error: new Array("Неверный логин или пароль") }, $("#login-message-container"), "bad");
+  } else if (responce.status === 500) {
+    showErrorPlug("shruggie", "что-то пошло не так, вините бекенд", $("#main-content"));
   }
 }
 
@@ -731,6 +895,45 @@ export async function manageSortings(menuContent) {
       option.find(".option-name").attr("id", sorting.Codename);
       option.find(`#${sorting.Codename}`).html(sorting.Codename === "NoSort" ? "Без сортировки" : sorting.Name);
       menuContent.find("#sortings-anchor").find(".dropdown-options").append(option);
+    }
+  }
+  assignListeners();
+}
+
+export function activateSex() {
+  setSex($(this).find(".option-name").attr("id"));
+  manageSexes($(this).parents(".sex-dropdown-anchor"));
+}
+
+export function setSex(sex_codename) {
+  for (let sex of globals.Sexes) {
+    if (sex_codename === sex.Codename) {
+      sex.IsActive = true;
+    } else {
+      sex.IsActive = false;
+    }
+  }
+}
+
+export function manageSexes(sexesAnchor) {
+  sexesAnchor.find(".dropdown-content").find(".option").remove();
+  let _option = CommonServices.retrieveTemplateById(globals, Constants, "dropdown-element-template");
+  for (let sex of globals.Sexes) {
+    let option = _option.clone();
+    if (sex.IsActive) {
+      option.addClass("active-option");
+      option.addClass("sex-dropdown-option");
+      option.attr("id", "active-sex-option");
+      option.find(".option-name").attr("id", sex.Codename);
+      option.find(`#${sex.Codename}`).html(sex.Codename === "NoSex" ? "Не указан" : sex.Name);
+      option.find(".icon-container").html(CommonServices.retrieveTemplateById(globals, Constants, "expand-more-icon-template"));
+      sexesAnchor.find(".dropdown-content").prepend(option);
+    } else if (/*sex.Codename !== 'NoSex'*/ true) {
+      option.addClass("hidden-option");
+      option.addClass("sex-dropdown-option");
+      option.find(".option-name").attr("id", sex.Codename);
+      option.find(`#${sex.Codename}`).html(sex.Codename === "NoSex" ? "Не указан" : sex.Name);
+      sexesAnchor.find(".dropdown-options").append(option);
     }
   }
   assignListeners();

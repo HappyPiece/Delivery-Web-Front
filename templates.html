@@ -1,3 +1,48 @@
+<!-- cart -->
+<div class="container cart-content template" id="cart-template">
+  <div class="page-title">Товары в корзине</div>
+  <div class="cart-items"></div>
+</div>
+
+<!-- cart item -->
+<div class="cart-item default-shadow template" id="cart-item-template">
+  <div class="cart-item-number"></div>
+  <img class="cart-item-picture" src="" />
+  <!-- <div class="cart-item-picture-container">
+    
+  </div> -->
+  <div class="cart-item-content">
+    <div class="cart-item-name">dish name</div>
+    <div class="cart-item-price"></div>
+  </div>
+  <div class="cart-item-input-container">
+    <div class="text-button transitioning">-</div>
+    <input type="text" class="cart-item-input-text" maxlength="3" />
+    <div class="text-button transitioning">+</div>
+  </div>
+  <div class="cart-item-delete">Удалить</div>
+</div>
+
+<!-- dish -->
+<div class="container dish-content template" id="dish-template">
+  <div class="dish-title">dish-title</div>
+  <div class="dish-anchor">
+    <div class="dish-picture-container">
+      <img class="dish-picture" src="" />
+      <!-- <div class="veg-icon-container"></div> -->
+    </div>
+    <div class="dish-info">
+      <div class="dish-category">dish-category</div>
+      <div class="dish-vegeterian"></div>
+      <div class="dish-description"></div>
+      <div class="horizontal-separator"></div>
+      <div class="dish-rating"></div>
+      <div class="horizontal-separator"></div>
+      <div class="dish-price"></div>
+    </div>
+  </div>
+</div>
+
 <!-- profile -->
 <div class="container profile-content template" id="profile-template">
   <div class="page-title">Профиль</div>
@@ -5,32 +50,26 @@
     <div class="input-descriprion">ФИО</div>
     <input type="text" class="default-input" id="profile-full-name" />
   </div>
-
   <div class="input-content-container">
     <div class="input-descriprion">E-mail</div>
     <input type="text" class="default-input" id="profile-e-mail" readonly />
   </div>
-
   <div class="input-content-container">
     <div class="input-descriprion">Дата рождения</div>
     <input type="date" class="default-input date-picker" id="profile-birthdate" />
   </div>
-
   <div class="input-content-container">
     <div class="input-descriprion">Пол</div>
     <input type="text" class="default-input" id="profile-sex" readonly />
   </div>
-
   <div class="input-content-container">
     <div class="input-descriprion">Адрес</div>
     <input type="text" class="default-input" id="profile-address" />
   </div>
-
   <div class="input-content-container">
     <div class="input-descriprion">Телефон</div>
     <input type="text" class="default-input" id="profile-phone" />
   </div>
-
   <div class="message-container" id="profile-message-container"></div>
   <div class="bottom-button transitioning" id="save-profile-button">Сохранить изменения</div>
 </div>
@@ -42,7 +81,6 @@
     <div class="input-descriprion">ФИО</div>
     <input type="text" class="default-input" id="reg-full-name" />
   </div>
-
   <div class="input-content-container">
     <div class="input-descriprion">Пол</div>
     <div class="dropdown-anchor default-input sex-dropdown-anchor" id="reg-sexes-anchor">
@@ -51,27 +89,22 @@
       </div>
     </div>
   </div>
-
   <div class="input-content-container">
     <div class="input-descriprion">Телефон</div>
     <input type="text" class="default-input" id="reg-phone" />
   </div>
-
   <div class="input-content-container">
     <div class="input-descriprion">Дата рождения</div>
     <input type="date" class="default-input date-picker" id="reg-birthdate" />
   </div>
-
   <div class="input-content-container">
     <div class="input-descriprion">Адрес</div>
     <input type="text" class="default-input" id="reg-address" />
   </div>
-
   <div class="input-content-container">
     <div class="input-descriprion">E-mail</div>
     <input type="text" class="default-input" id="reg-e-mail" />
   </div>
-
   <div class="input-content-container">
     <div class="input-descriprion">Пароль</div>
     <input type="text" class="default-input" id="reg-password" />
@@ -79,8 +112,6 @@
   <div class="message-container" id="reg-message-container"></div>
   <div class="bottom-button transitioning" id="register-button">Зарегистрироваться</div>
 </div>
-
-
 
 <!-- login -->
 <div class="container login-content template" id="login-template">
@@ -106,20 +137,15 @@
 <!-- navbar -->
 <div class="navbar-anchor template" id="navbar-authorized-template">
   <div class="nav-brand">обед.уютненько</div>
-  <!-- <div class="navbar-section navbar-left">
-  </div> -->
   <div class="navbar-element transitioning" id="nav-menu">
     <div class="navbar-element-content">Меню</div>
   </div>
   <div class="navbar-element transitioning" id="nav-orders">
     <div class="navbar-element-content">Заказы</div>
   </div>
-  <div class="navbar-element transitioning" id="nav-basket">
+  <div class="navbar-element transitioning" id="nav-cart">
     <div class="navbar-element-content">Корзина</div>
   </div>
-  <!-- <div class="navbar-section navbar-right">
-  </div> -->
-  <div class="navbar-separator"></div>
   <div class="navbar-element navbar-e-mail-element" id="nav-profile">
     <div class="navbar-element-content">
       <div class="hidden-element" id="navbar-hidden-e-mail">example@gmail.com</div>
@@ -200,7 +226,6 @@
 <div class="my-card template" id="menu-card-template">
   <div class="my-card-picture-container">
     <img class="my-card-picture" src="" />
-    <div class="veg-icon-container"></div>
   </div>
   <div class="my-card-content">
     <div class="my-card-name">dish name</div>
@@ -217,7 +242,9 @@
       <div class="my-card-option-input-container">
         <span class="material-symbols-outlined small-icon add-dish-icon transitioning" id="add-icon-template"> add </span>
         <input type="text" class="my-card-option-input-text" maxlength="3" />
-        <span class="material-symbols-outlined small-icon remove-dish-icon transitioning" id="remove-icon-template"> remove </span>
+        <span class="material-symbols-outlined small-icon remove-dish-icon transitioning" id="remove-icon-template">
+          remove
+        </span>
       </div>
     </div>
   </div>
@@ -257,6 +284,7 @@
 <div class="error-emoji template" id="crying">(இ﹏இ`｡)</div>
 <div class="error-emoji template" id="butt">(‿|‿)</div>
 <div class="error-emoji template" id="afraid">(ㆆ _ ㆆ)</div>
+<div class="error-emoji template" id="bribe">( •͡˘ _•͡˘)ノð</div>
 
 <!-- material symbols -->
 <span class="material-symbols-outlined small-icon remove-icon transitioning template" id="remove-icon-template"> cancel </span>
@@ -268,11 +296,16 @@
 >
   expand_more
 </span>
-<span class="material-symbols-outlined small-icon expand-less-sortings-icon transitioning template" id="expand-less-icon-template">
+<span
+  class="material-symbols-outlined small-icon expand-less-sortings-icon transitioning template"
+  id="expand-less-icon-template"
+>
   expand_less
 </span>
 <span class="material-symbols-outlined small-icon add-dish-icon transitioning template" id="add-icon-template"> add </span>
-<span class="material-symbols-outlined small-icon remove-dish-icon transitioning template" id="remove-icon-template"> remove </span>
+<span class="material-symbols-outlined small-icon remove-dish-icon transitioning template" id="remove-icon-template">
+  remove
+</span>
 <span class="material-symbols-outlined small-icon first-page-icon transitioning template" id="first-page-icon-template">
   keyboard_double_arrow_left
 </span>
@@ -283,6 +316,6 @@
 <span class="material-symbols-outlined small-icon burger-icon transitioning template" id="burger-icon-template"> menu </span>
 
 <!-- material icons -->
-<span class="material-icons small-icon my-card-rating-icon transitioning template" id="star-icon-template"> star </span>
-<span class="material-icons small-icon my-card-rating-icon transitioning template" id="star-half-icon-template"> star_half </span>
-<span class="material-symbols-outlined small-icon my-card-rating-icon transitioning template" id="star-outlined-icon-template"> star </span>
+<span class="material-icons small-icon transitioning template" id="star-icon-template"> star </span>
+<span class="material-icons small-icon transitioning template" id="star-half-icon-template"> star_half </span>
+<span class="material-symbols-outlined small-icon transitioning template" id="star-outlined-icon-template"> star </span>

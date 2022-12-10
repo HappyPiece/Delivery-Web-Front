@@ -2,8 +2,6 @@
   display: flex;
   flex-flow: column nowrap;
   height: 100%;
-  /* margin-left: calc(var(--bs-gutter-x) * .5);
-  margin-right: calc(var(--bs-gutter-x) * .5); */
 }
 
 .my-cardholder {
@@ -37,8 +35,8 @@
 .my-card-picture-container {
   position: relative;
   min-height: 3rem;
-  max-height: max-content;
-  max-width: max-content;
+  /* max-height: max-content; */
+  /* max-width: max-content; */
 }
 
 .my-card-picture {

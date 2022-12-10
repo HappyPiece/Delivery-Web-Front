@@ -2,10 +2,17 @@ import * as base from "/scripts/scripts.js";
 
 // makes current URL match page state
 export function updateURL(globals, Constants) {
-  let resultURL = Constants.baseURL;
-  resultURL += formArtifactsQuery(globals, Constants);
-  // console.log("/" + base.thisPage().Name + resultURL);
-  window.history.replaceState(null, null, "/" + base.thisPage().Name + resultURL);
+  let artifactsURL = formArtifactsQuery(globals, Constants);
+  let resourceURL = getResourceURL(globals, Constants);
+  // console.log("/" + base.thisPage().Name + resourceURL + artifactsURL);
+  window.history.replaceState(null, null, "/" + base.thisPage().Name + resourceURL + artifactsURL);
+}
+
+export function getResourceURL(globals, Constants) {
+  if (base.thisPage().Name === "item") {
+    return "/" + globals.State.currentDish;
+  }
+  return "";
 }
 
 export function formArtifactsQuery(globals, Constants) {
@@ -25,7 +32,7 @@ export function formArtifactsQuery(globals, Constants) {
 
 export function calculateArtifacts(globals, Constants) {
   let artifacts = new Array();
-  if (base.thisPage().Name == "") {
+  if (base.thisPage().Name === "") {
     for (let category of globals.Categories) {
       if (category.IsActive) {
         artifacts.push("categories=" + category.Codename);
@@ -75,6 +82,12 @@ export async function applyURL(globals, Constants) {
       if (artifact.search("page") >= 0) {
         globals.State.currentPage = Number(artifact.match(Constants.queryContent).toString());
       }
+    }
+  } else if (base.thisPage().Name === "item") {
+    if (path[1] === null && path[1] === undefined) {
+      return;
+    } else {
+      globals.State.currentDish = path[1];
     }
   }
 }
