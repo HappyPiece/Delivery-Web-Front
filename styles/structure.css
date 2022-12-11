@@ -39,33 +39,29 @@ nav {
   margin: 0.1rem;
 }
 
+.navbar-element:hover {
+  color: var(--primary-text);
+  background-color: var(--secondary-background);
+}
+
 #nav-profile {
   background-color: var(--primary-background);
+  color: var(--secondary-text);
   justify-content: flex-end;
   cursor: default;
 }
 
-.navbar-element .hidden-element {
-  display: none;
-}
+#nav-profile .element-prefix:hover{
 
-.navbar-element[active="1"] .hidden-element,
-.navbar-element:hover .hidden-element {
-  display: flex;
-}
-
-.navbar-element[active="1"] .main-element,
-.navbar-element:hover .main-element {
-  display: none;
+  color: var(--primary-text);
 }
 
 .navbar-e-mail-element {
-  flex: 3 1 !important;
+  flex: 5 1 !important;
   width: max-content;
 }
 
 .navbar-element[active="1"] {
-  text-decoration: underline;
   background-color: var(--faint-secondary-background);
 }
 
@@ -75,11 +71,33 @@ nav {
 
 .navbar-element-content {
   cursor: pointer;
+  display: flex;
+  flex-flow: row;
 }
 
-.navbar-element:hover {
-  color: var(--primary-text);
+.navbar-element[active="1"] .element-prefix {
+  text-decoration: underline;
+}
+
+.element-postfix {
+  display: flex;
+  text-decoration: none !important;
+  border-radius: var(--default-border-radius);
+  align-content: center;
+  justify-content: center;
+  width: 1.5rem;
   background-color: var(--secondary-background);
+  margin-left: 0.3rem;
+}
+
+.element-postfix[active="0"]
+{
+  display: none;
+}
+
+.navbar-element:hover .element-postfix,
+.navbar-element[active="1"] .element-postfix {
+  background-color: var(--primary-accent);
 }
 
 .nav-brand {
@@ -116,7 +134,8 @@ nav {
   box-shadow: var(--default-shadow-offset) var(--default-shadow-offset) var(--default-shadow-blur) var(--container-shadow-color),
     calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset) var(--default-shadow-blur) var(--container-shadow-color),
     var(--default-shadow-offset) calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur) var(--container-shadow-color),
-    calc(var(--default-shadow-offset) * -1) calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur) var(--container-shadow-color);
+    calc(var(--default-shadow-offset) * -1) calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
+      var(--container-shadow-color);
   border-radius: var(--default-border-radius);
   display: flex;
   justify-content: center;
@@ -140,7 +159,8 @@ footer {
 .vertical-separator {
   border-right: 0.01rem solid var(--secondary-background);
   box-shadow: 0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
-    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color), 0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
+    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
+    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
     0rem 0rem var(--default-shadow-blur) var(--container-shadow-color);
 }
 
@@ -152,7 +172,8 @@ footer {
 .horizontal-separator {
   border-bottom: 0.01rem solid var(--secondary-background);
   box-shadow: 0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
-    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color), 0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
+    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
+    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
     0rem 0rem var(--default-shadow-blur) var(--container-shadow-color);
   margin-top: 0.2rem;
   margin-bottom: 0.2rem;

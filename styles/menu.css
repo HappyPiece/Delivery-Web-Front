@@ -35,8 +35,6 @@
 .my-card-picture-container {
   position: relative;
   min-height: 3rem;
-  /* max-height: max-content; */
-  /* max-width: max-content; */
 }
 
 .my-card-picture {
@@ -103,15 +101,19 @@
   display: flex;
 }
 
-.my-card-option-container[active='0'] .my-card-option-button {
+.my-card-option-container[active='0'] .my-card-button {
   display: flex;
 }
 
-.my-card-option-container[active='1'] .my-card-option-input-container {
+.my-card-option-container[active='0'] .my-card-input-container {
+  display: none;
+}
+
+.my-card-option-container[active='1'] .my-card-input-container {
   display: flex;
 }
 
-.my-card-option-button {
+.my-card-button {
   display: none;
   flex-flow: row wrap;
   align-content: center;
@@ -121,50 +123,30 @@
   cursor: pointer;
 }
 
-.my-card-option-input-container {
+.my-card-input-container {
   display: none;
   flex-flow: row wrap;
   flex: 1 1;
   align-content: center;
   justify-content: center;
   height: 100%;
-  padding: 0rem 0.5rem 0rem 0.5rem;
   border-radius: 0 0 var(--default-border-radius) 0;
 }
 
-.my-card-option-input-text {
+.my-card-input-text {
   max-width: 3rem;
   background-color: inherit;
   color: inherit;
   text-align: center;
+  color: var(--secondary-text);
 }
 
-.my-card-option-button:hover {
+.my-card-button:hover {
   background-color: var(--faint-secondary-background);
 }
 
-.my-card-option-input:hover {
-  background-color: var(--faint-secondary-background);
-}
-
-.add-dish-icon:hover {
-  color: var(--primary-text);
-  background-color: var(--primary-accent);
-}
-
-.remove-dish-icon:hover {
-  color: var(--primary-text);
-  background-color: var(--secondary-accent);
-}
-
-.add-dish-icon:active {
-  color: var(--primary-text);
-  background-color: var(--primary-text);
-}
-
-.remove-dish-icon:active {
-  color: var(--primary-text);
-  background-color: var(--primary-text);
+.my-card-input:hover {
+  /* background-color: var(--faint-secondary-background); */
 }
 
 .veg-icon-container {
@@ -177,7 +159,26 @@
 .veg-icon {
   font-size: 2rem;
   cursor: default;
-  /* text-shadow: 0rem 0rem 0.3rem var(--veg); */
   text-shadow: none;
   color: var(--veg);
+}
+
+.my-card-text-button {
+  width: 2.5rem;
+  font-size: 1.3rem;
+  padding: 0.5rem;
+  text-align: center;
+  line-height: 100%;
+  cursor: pointer;
+  height: 100%;
+}
+
+.my-card-text-button:hover {
+  color: var(--secondary-text);
+  background-color: var(--secondary-background);
+}
+
+.my-card-text-button:last-of-type{
+  color: var(--primary-text);
+  border-bottom-right-radius: var(--default-border-radius);
 }

@@ -2,7 +2,16 @@
   display: flex;
   flex-flow: column nowrap;
   align-content: flex-start;
-  padding-bottom: 1rem;
+  border-radius: inherit;
+}
+
+.cart-anchor {
+  display: flex;
+  flex-flow: row wrap;
+  align-content: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 
 .cart-items {
@@ -19,7 +28,6 @@
   flex-flow: row wrap;
   width: 100%;
   box-sizing: border-box;
-  /* flex: 1 1; */
   padding: 0.5rem;
   margin-left: 1rem;
   margin-right: 1rem;
@@ -41,15 +49,8 @@
   display: flex;
 }
 
-.cart-item-picture-container {
-  display: flex;
-  width: fit-content;
-  max-height: 100%;
-  align-content: center;
-  justify-content: center;
-}
-
 .cart-item-picture {
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
   display: flex;
   max-height: 6rem;
   max-width: 8rem;
@@ -79,38 +80,41 @@
 
 .cart-item-input-container {
   display: flex;
-  flex-flow: row;
+  flex-flow: row nowrap;
   height: fit-content;
   padding: 0.5rem;
+  flex: 1 1;
 }
 
-.text-button {
+.cart-text-button {
+  font-size: 1.3rem;
   background-color: var(--faded-secondary-background);
   padding: 0.5rem;
   height: 1.5rem;
   text-align: center;
-  line-height: 0.75rem;
+  line-height: 0.5rem;
   cursor: pointer;
 }
 
-.text-button:hover {
+.cart-text-button:hover {
   background-color: var(--secondary-background);
 }
 
-.text-button:last-child {
+.cart-text-button:last-of-type{
   border-top-right-radius: var(--default-border-radius);
   border-bottom-right-radius: var(--default-border-radius);
 }
 
-.text-button:first-child {
+.cart-text-button:first-child {
   border-top-left-radius: var(--default-border-radius);
   border-bottom-left-radius: var(--default-border-radius);
 }
 
 .cart-item-input-text {
+  cursor: default;
   text-align: center;
   color: var(--primary-text);
-  width: 3rem;
+  width: 2rem;
   height: 1.5rem;
   display: flex;
   background-color: var(--faded-secondary-background);
@@ -118,10 +122,9 @@
 
 .cart-item-delete {
   cursor: pointer;
-  margin: 0.5rem 0rem 0.5rem 0rem;
+  margin: 0rem 0rem 0rem auto;
   padding: 0rem 0.5rem 0rem 0.5rem;
   max-width: fit-content;
-  margin-left: auto;
   height: min-content;
   background-color: var(--faint-secondary-accent);
   display: flex;

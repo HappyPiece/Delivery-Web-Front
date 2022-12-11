@@ -52,6 +52,8 @@ Roboto Flex
   --secondary-accent: #e14e01;
   --faint-secondary-accent: #e14e01bb;
   --veg: #53df8b;
+  --faint-veg: #53df8bbb;
+  --faded-veg: #53df8b99;
 
   --default-shadow-offset: 0rem;
   --default-shadow-blur: 0.2rem;

@@ -1,0 +1,144 @@
+.orders-content {
+  display: flex;
+  border-radius: inherit;
+  flex-flow: column wrap;
+  padding-bottom: 1rem;
+}
+
+.orders-section {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 0.5rem;
+}
+
+.orders-section[active="0"] {
+  display: none;
+}
+
+.orders-section-name {
+  flex: 1 1 100%;
+  font-size: 1.3rem;
+  display: flex;
+  padding: 0.5rem;
+}
+
+.orders-section-content {
+  flex: 1 1 100%;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.orders-contents-anchor {
+  display: flex;
+  flex: 1 1 100%;
+  flex-flow: row wrap;
+}
+
+.orders-contents-items {
+  flex: 1 1 100%;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+}
+
+.orders-item {
+  display: flex;
+  flex-flow: row wrap;
+  box-sizing: border-box;
+  flex: 1 1 100%;
+  /* padding: 0.5rem; */
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.orders-item:first-child {
+  border-top-left-radius: var(--default-border-radius);
+  border-top-right-radius: var(--default-border-radius);
+}
+
+.orders-item:last-child {
+  border-bottom-left-radius: var(--default-border-radius);
+  border-bottom-right-radius: var(--default-border-radius);
+}
+
+.orders-item-content {
+  display: flex;
+  flex-flow: row wrap;
+  flex: 3 1;
+  padding: 0.5rem;
+  gap: 0.3rem;
+}
+
+.orders-item-name {
+  cursor: pointer;
+  color: var(--secondary-text);
+  font-size: 1.2rem;
+  text-decoration: underline;
+  font-weight: 600;
+  display: flex;
+  flex: 1 1 100%;
+}
+
+.orders-item-name:hover {
+  color: var(--primary-text);
+}
+
+.orders-item-status {
+  display: flex;
+  color: var(--primary-text);
+  flex: 1 1 100%;
+}
+
+.orders-item-status[status="InProcess"] {
+  color: var(--primary-accent);
+}
+
+.orders-item-status[status="Delivered"] {
+  color: var(--veg);
+}
+
+.orders-item-delivery {
+  display: flex;
+  color: var(--primary-text);
+  flex: 1 1 100%;
+}
+
+.orders-item-info {
+  flex: 1 1;
+  display: flex;
+  margin-left: auto;
+  flex-flow: row wrap;
+  padding: 0.5rem;
+  justify-content: center;
+  align-content: center;
+  gap: 0.3rem;
+}
+
+.orders-item-confirm-button {
+  background-color: var(--faded-secondary-background);
+  border-radius: var(--default-border-radius);
+  padding: 0.5rem;
+  flex: 1 1 100%;
+  cursor: pointer;
+  color: var(--secondary-text);
+  text-align: center;
+}
+
+.orders-item-confirm-button[active="0"] {
+  display: none;
+}
+
+.orders-item-confirm-button:hover {
+  background-color: var(--secondary-background);
+  color: var(--primary-text);
+}
+
+.orders-item-info-prefix {
+  color: var(--secondary-text);
+  font-weight: bolder;
+  text-align: center;
+}
+
+.orders-item-info-price {
+  display: flex;
+}

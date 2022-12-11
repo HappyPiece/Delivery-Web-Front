@@ -30,10 +30,13 @@
 
 .date-picker {
   color: var(--primary-text);
+  display: flex;
+  min-width: fit-content;
 }
 
 ::-webkit-datetime-edit {
   margin-right: 0.5rem;
+  min-width: fit-content;
 }
 
 ::-webkit-calendar-picker-indicator {

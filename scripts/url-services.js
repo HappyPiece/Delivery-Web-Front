@@ -12,6 +12,9 @@ export function getResourceURL(globals, Constants) {
   if (base.thisPage().Name === "item") {
     return "/" + globals.State.currentDish;
   }
+  if (base.thisPage().Name === "order") {
+    return "/" + globals.State.currentOrder;
+  }
   return "";
 }
 

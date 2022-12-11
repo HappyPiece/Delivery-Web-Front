@@ -1,7 +1,95 @@
+<!-- orders -->
+<div class="container orders-content template" id="orders-template">
+  <div class="orders-section" id="suggestion-plate">
+    <div class="purchase-section-content"></div>
+  </div>
+  <div class="page-title">Последние заказы</div>
+
+  <!-- orders items container -->
+  <div class="orders-section">
+    <div class="orders-contents-anchor">
+      <div class="orders-contents-items"></div>
+    </div>
+  </div>
+</div>
+
+<!-- orders item -->
+<div class="orders-item default-shadow template" id="orders-item-template">
+  <div class="orders-item-content">
+    <div class="orders-item-name transitioning">order-name</div>
+    <div class="orders-item-status">order-status</div>
+    <div class="orders-item-delivery">order-delivery</div>
+  </div>
+  <div class="orders-item-info">
+    <div class="orders-item-confirm-button transitioning" active="0">Подтвердить доставку</div>
+    <div class="orders-item-info-prefix">Стоимость заказа:</div>
+    <div class="orders-item-info-price">10k</div>
+  </div>
+</div>
+
+<!-- purchase -->
+<div class="container purchase-content template" id="purchase-template">
+  <div class="page-title">Оформление заказа</div>
+  <div class="purchase-section">
+    <div class="purchase-section-name">Данные покупателя</div>
+    <div class="purchase-section-content">
+      <div class="input-content-container">
+        <div class="input-descriprion">E-mail</div>
+        <input type="text" class="default-input" id="purchase-e-mail" readonly />
+      </div>
+      <div class="input-content-container">
+        <div class="input-descriprion">Телефон</div>
+        <input type="text" class="default-input" id="purchase-phone" readonly />
+      </div>
+    </div>
+  </div>
+  <div class="purchase-section">
+    <div class="purchase-section-name">Данные доставки</div>
+    <div class="purchase-section-content">
+      <div class="input-content-container">
+        <div class="input-descriprion">Адрес</div>
+        <input type="text" class="default-input" id="purchase-address" />
+      </div>
+      <div class="input-content-container">
+        <div class="input-descriprion">Время доставки</div>
+        <input type="datetime-local" class="default-input date-picker" id="purchase-order-time" />
+      </div>
+    </div>
+  </div>
+
+  <!-- purchase items container -->
+  <div class="purchase-section">
+    <div class="purchase-section-name">Список блюд</div>
+    <div class="purchase-contents-anchor">
+      <div class="purchase-contents-items"></div>
+    </div>
+  </div>
+  <div class="message-container" id="purchase-message-container"></div>
+  <div class="bottom-button transitioning" id="confirm-purchase-button">Подтвердить заказ</div>
+</div>
+
+<!-- purchase item -->
+<div class="purchase-item default-shadow template" id="purchase-item-template">
+  <img class="purchase-item-picture" src="" />
+
+  <div class="purchase-item-content">
+    <div class="purchase-item-name">dish-name</div>
+    <div class="purchase-item-price">dish-price</div>
+    <div class="purchase-item-amount">dish-amount</div>
+  </div>
+  <div class="purchase-item-summary">
+    <div class="purchase-item-summary-prefix">Стоимость:</div>
+    <div class="purchase-item-summary-price">10k</div>
+  </div>
+</div>
+
 <!-- cart -->
 <div class="container cart-content template" id="cart-template">
   <div class="page-title">Товары в корзине</div>
-  <div class="cart-items"></div>
+  <div class="cart-anchor">
+    <div class="cart-items"></div>
+  </div>
+  <div class="bottom-button transitioning" id="cart-purchase-button" active="0">Оформить заказ</div>
 </div>
 
 <!-- cart item -->
@@ -16,11 +104,11 @@
     <div class="cart-item-price"></div>
   </div>
   <div class="cart-item-input-container">
-    <div class="text-button transitioning">-</div>
-    <input type="text" class="cart-item-input-text" maxlength="3" />
-    <div class="text-button transitioning">+</div>
+    <div class="cart-text-button transitioning" type="minus">-</div>
+    <input type="text" class="cart-item-input-text" readonly maxlength="3" />
+    <div class="cart-text-button transitioning" type="plus">+</div>
+    <span class="cart-item-delete" type="delete">Удалить</span>
   </div>
-  <div class="cart-item-delete">Удалить</div>
 </div>
 
 <!-- dish -->
@@ -144,12 +232,14 @@
     <div class="navbar-element-content">Заказы</div>
   </div>
   <div class="navbar-element transitioning" id="nav-cart">
-    <div class="navbar-element-content">Корзина</div>
-  </div>
-  <div class="navbar-element navbar-e-mail-element" id="nav-profile">
     <div class="navbar-element-content">
-      <div class="hidden-element" id="navbar-hidden-e-mail">example@gmail.com</div>
-      <div class="main-element" id="navbar-main-e-mail">example@gmail.com</div>
+      <div class="element-prefix transitioning">Корзина</div>
+      <div class="element-postfix transitioning"></div>
+    </div>
+  </div>
+  <div class="navbar-element navbar-e-mail-element transitioning" id="nav-profile">
+    <div class="navbar-element-content">
+      <div class="element-prefix transitioning">example@example.com</div>
     </div>
   </div>
   <div class="navbar-element transitioning" id="nav-logout">
@@ -226,6 +316,7 @@
 <div class="my-card template" id="menu-card-template">
   <div class="my-card-picture-container">
     <img class="my-card-picture" src="" />
+    <div class="veg-icon-container"></div>
   </div>
   <div class="my-card-content">
     <div class="my-card-name">dish name</div>
@@ -238,13 +329,11 @@
   <div class="my-card-footer">
     <div class="my-card-price"></div>
     <div class="my-card-option-container transitioning" active="0">
-      <div class="my-card-option-button transitioning">В корзину</div>
-      <div class="my-card-option-input-container">
-        <span class="material-symbols-outlined small-icon add-dish-icon transitioning" id="add-icon-template"> add </span>
-        <input type="text" class="my-card-option-input-text" maxlength="3" />
-        <span class="material-symbols-outlined small-icon remove-dish-icon transitioning" id="remove-icon-template">
-          remove
-        </span>
+      <div class="my-card-button transitioning" type="add">В корзину</div>
+      <div class="my-card-input-container">
+        <div class="my-card-text-button transitioning" type="minus">-</div>
+        <input type="text" class="my-card-input-text" readonly maxlength="3" />
+        <div class="my-card-text-button transitioning" type="plus">+</div>
       </div>
     </div>
   </div>
@@ -285,6 +374,10 @@
 <div class="error-emoji template" id="butt">(‿|‿)</div>
 <div class="error-emoji template" id="afraid">(ㆆ _ ㆆ)</div>
 <div class="error-emoji template" id="bribe">( •͡˘ _•͡˘)ノð</div>
+<div class="error-emoji template" id="damnyou">(ᕗ ͠° ਊ ͠° )ᕗ</div>
+<div class="error-emoji template" id="noclue">／人◕ __ ◕人＼</div>
+<div class="error-emoji template" id="hadouken">༼つಠ益ಠ༽つ ─=≡ΣO))</div>
+<div class="error-emoji template" id="dog">(◕ᴥ◕ʋ)</div>
 
 <!-- material symbols -->
 <span class="material-symbols-outlined small-icon remove-icon transitioning template" id="remove-icon-template"> cancel </span>

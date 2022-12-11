@@ -49,16 +49,16 @@
 
 .message-content {
   font-size: 1.5rem;
-  background: linear-gradient(0.25turn, var(--secondary-background), var(--secondary-background)) center bottom 0.1rem / calc(100% - 1.5rem)
-    2px no-repeat;
+  background: linear-gradient(0.25turn, var(--secondary-background), var(--secondary-background)) center bottom 0.1rem /
+    calc(100% - 1.5rem) 2px no-repeat;
   text-align: center;
 }
 
 .message-base[type="bad"] .message-content {
   font-size: 1.5rem;
   color: var(--secondary-accent);
-  background: linear-gradient(0.25turn, var(--primary-accent), var(--secondary-accent)) center bottom 0.1rem / calc(100% - 1.5rem) 2px
-    no-repeat;
+  background: linear-gradient(0.25turn, var(--primary-accent), var(--secondary-accent)) center bottom 0.1rem / calc(100% - 1.5rem)
+    2px no-repeat;
 }
 
 .message-base[type="good"] .message-content {
@@ -106,7 +106,6 @@
 
 .bottom-button {
   cursor: pointer;
-  /* border-radius: 0rem 0rem var(--default-border-radius) var(--default-border-radius); */
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
@@ -116,6 +115,10 @@
   align-content: center;
   background-color: var(--faint-secondary-background);
   margin-top: auto;
+}
+
+.bottom-button[active="0"] {
+  display: none;
 }
 
 .bottom-button:hover {
