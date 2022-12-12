@@ -18,10 +18,7 @@ let Constants = {
   emailRegex: new RegExp(
     /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/
   ),
-  orderStatuses: new Array(
-    new Category("В обработке", "InProcess"),
-    new Category("Доставлен", "Delivered"),
-  )
+  orderStatuses: new Array(new Category("В обработке", "InProcess"), new Category("Доставлен", "Delivered")),
 };
 
 class Globals {
@@ -206,13 +203,27 @@ export async function renderShell() {
       await renderOrders();
       break;
     }
+    case "order": {
+      if (!globals.State.authorized) {
+        await routeTo("login");
+        return;
+      }
+      await renderOrder();
+      break;
+    }
   }
+}
+
+export async function renderOrder() {
+  let orderContent = CommonServices.retrieveTemplateById(globals, Constants, "order-template");
+  orderContent.attr("id", "order-content");
+  $("#main-content").append(orderContent);
 }
 
 export async function renderOrders() {
   let ordersContent = CommonServices.retrieveTemplateById(globals, Constants, "orders-template");
   ordersContent.attr("id", "orders-content");
-  ordersContent.find("#suggestion-plate").attr("active", "0");
+  ordersContent.find("#orders-suggestion-plate").attr("active", "0");
   $("#main-content").append(ordersContent);
 }
 
@@ -406,6 +417,86 @@ export async function loadContent() {
       await loadOrders();
       break;
     }
+    case "order": {
+      await loadOrder();
+      break;
+    }
+  }
+}
+
+export async function loadOrder() {
+  let orderContent = $("#order-content");
+  console.log(globals.State.currentOrder);
+  let responceOrder = await get(Constants.backendURL + "/api/order/" + globals.State.currentOrder);
+  if (responceOrder.ok === false) {
+    if (responceOrder.status === 401) {
+      await routeTo("login");
+    }
+    if (responceOrder.status === 404) {
+      showErrorPlug("bribe", "Странно, тут ничего нет. А должно ли?", $("#main-content"));
+    }
+    return;
+  }
+  let order = await responceOrder.json();
+  console.log(order);
+
+  orderContent.find("#order-top-confirm-button").attr("order-id", order.id);
+  orderContent.find(".order-top-name").html("Заказ #" + String(order.id).substring(0, 4).toUpperCase());
+  orderContent.find("#order-time").html("Время заказа: " + CommonServices.purgeDate(order.orderTime, ".") + " " + CommonServices.purgeTime(order.orderTime));
+  orderContent.find("#delivery-time").html("Время доставки: " + CommonServices.purgeDate(order.deliveryTime, ".") + " " + CommonServices.purgeTime(order.deliveryTime));
+  orderContent.find("#delivery-address").html("Адрес доставки: " + order.address);
+  orderContent
+    .find("#order-status")
+    .html("Статус заказа - " + Constants.orderStatuses.find((x) => x.Codename === order.status).Name);
+  orderContent.find("#order-status").attr("status", order.status);
+
+  if (order.status === "InProcess") {
+    orderContent.find("#order-top-confirm-button").attr("active", "1");
+    orderContent
+      .find(".orders-item-delivery")
+      .html(
+        "Доставка ожидается " +
+          CommonServices.purgeDate(order.deliveryTime, ".", "dd-mm-yyyy") +
+          " в " +
+          CommonServices.purgeTime(order.deliveryTime)
+      );
+  } else {
+    orderContent.find(".orders-item-confirm-button").attr("active", "0");
+    orderContent
+      .find(".orders-item-delivery")
+      .html(
+        "Доставлен: " +
+          CommonServices.purgeDate(order.deliveryTime, ".", "dd-mm-yyyy") +
+          " " +
+          CommonServices.purgeTime(order.deliveryTime)
+      );
+  }
+
+  createOrderItems(order.dishes, orderContent.find(".order-contents-items"));
+}
+
+export function createOrderItems(items, itemsContainer) {
+  let _item = CommonServices.retrieveTemplateById(globals, Constants, "order-item-template");
+  itemsContainer.empty();
+  if (items.length === 0) {
+    showErrorPlug("noclue", "Как ты собрался пустой заказ оформлять?", $("#main-content"));
+    return;
+  } else {
+    let i = 1;
+    for (let item of items) {
+      let newItem = _item.clone();
+
+      newItem.attr("represents", item.id);
+      newItem.find(".order-item-input-text").val(item.amount);
+      newItem.find(".order-item-picture").attr("src", item.image);
+      newItem.find(".order-item-name").html(item.name);
+      newItem.find(".order-item-name").attr("to-dish", item.id);
+      newItem.find(".order-item-price").html("Цена: " + item.price + "₽");
+      newItem.find(".order-item-amount").html("Количество: " + item.amount + "шт.");
+      newItem.find(".order-item-summary-price").html(Number(item.price) * Number(item.amount) + "₽");
+
+      itemsContainer.append(newItem);
+    }
   }
 }
 
@@ -420,11 +511,10 @@ export async function loadOrders() {
     return;
   }
   let cart = await responceCart.json();
-  if (cart.length > 0)
-  {
-    ordersContent.find("#suggestion-plate").attr("active", "1");
+  if (cart.length > 0) {
+    ordersContent.find("#orders-suggestion-plate").attr("active", "1");
   }
-  
+
   let responceOrders = await get(Constants.backendURL + "/api/order");
   if (responceOrders.ok === false) {
     if (responceOrders.status === 401) {
@@ -434,7 +524,6 @@ export async function loadOrders() {
   }
 
   let items = await responceOrders.json();
-  console.log(items);
   createOrdersItems(items, ordersContent.find(".orders-contents-items"));
 }
 
@@ -450,22 +539,35 @@ export function createOrdersItems(items, itemsContainer) {
       let newItem = _item.clone();
       newItem.attr("represents", item.id);
       newItem.find(".orders-item-name").html("Заказ от " + CommonServices.purgeDate(item.orderTime, "."));
-      newItem.find(".orders-item-status").html("Статус заказа - " + Constants.orderStatuses.find(x => x.Codename === item.status).Name);
+      newItem
+        .find(".orders-item-status")
+        .html("Статус заказа - " + Constants.orderStatuses.find((x) => x.Codename === item.status).Name);
       newItem.find(".orders-item-status").attr("status", item.status);
-      console.log(item.status)
-      if (item.status === "InProcess")
-      {
+      if (item.status === "InProcess") {
         newItem.find(".orders-item-confirm-button").attr("active", "1");
-        newItem.find(".orders-item-delivery").html("Доставка ожидается " + CommonServices.purgeDate(item.deliveryTime, ".", "dd-mm-yyyy") + " в " + CommonServices.purgeTime(item.deliveryTime));
-      }
-      else {
+        newItem
+          .find(".orders-item-delivery")
+          .html(
+            "Доставка ожидается " +
+              CommonServices.purgeDate(item.deliveryTime, ".", "dd-mm-yyyy") +
+              " в " +
+              CommonServices.purgeTime(item.deliveryTime)
+          );
+      } else {
         newItem.find(".orders-item-confirm-button").attr("active", "0");
-        newItem.find(".orders-item-delivery").html("Доставлен: " + CommonServices.purgeDate(item.deliveryTime, ".", "dd-mm-yyyy") + " " + CommonServices.purgeTime(item.deliveryTime));
+        newItem
+          .find(".orders-item-delivery")
+          .html(
+            "Доставлен: " +
+              CommonServices.purgeDate(item.deliveryTime, ".", "dd-mm-yyyy") +
+              " " +
+              CommonServices.purgeTime(item.deliveryTime)
+          );
       }
-      
+
       newItem.find(".orders-item-name").attr("to-order", item.id);
       newItem.find(".orders-item-confirm-button").attr("order-id", item.id);
-      newItem.find(".orders-item-info-price").html(Number(item.price)+"₽");
+      newItem.find(".orders-item-info-price").html(Number(item.price) + "₽");
       itemsContainer.append(newItem);
     }
   }
@@ -533,8 +635,7 @@ export async function loadCart() {
     return;
   }
   let items = await responce.json();
-  if (items.length > 0)
-  {
+  if (items.length > 0) {
     cartContent.find("#cart-purchase-button").attr("active", "1");
   }
 
@@ -569,7 +670,7 @@ export async function loadDish() {
   let responce = await get(Constants.backendURL + "/api/dish/" + globals.State.currentDish);
   if (responce.ok === false) {
     if (responce.status === 404) {
-      showErrorPlug("bribe", "Видимо, такого блюда у нас нет", $("#main-content"));
+      showErrorPlug("bribe", "Странно, тут ничего нет. А должно ли?", $("#main-content"));
     }
     return;
   }
@@ -781,8 +882,10 @@ export async function assignListeners() {
   $("#login-button").on("click", loginUser);
   $("#save-profile-button").on("click", alterProfile);
   $("#cart-purchase-button").on("click", () => routeTo("purchase"));
+  $("#orders-purchase-button").on("click", () => routeTo("purchase"));
   $("#confirm-purchase-button").on("click", confirmPurchase);
   $(".orders-item-confirm-button").on("click", confirmOrder);
+  $("#order-top-confirm-button").on("click", confirmOrder);
 
   applyMasks();
 }
@@ -1077,7 +1180,6 @@ export async function loginUser() {
     password: loginContent.find("#login-password").val(),
   };
   let responce = await post(Constants.backendURL + "/api/account/login", body);
-  console.log(responce);
   if (responce.ok === true) {
     let data = await responce.json();
     localStorage.setItem("token", data.token);

@@ -1,7 +1,50 @@
+<!-- order -->
+<div class="container order-content template" id="order-template">
+  <div class="order-top-plate">
+    <div class="order-top-name"></div>
+    <div class="order-top-button transitioning" id="order-top-confirm-button" active="0">Подтвердить доставку</div>
+  </div>
+  <div class="order-section">
+    <div class="order-section-name">Данные заказа</div>
+    <div class="order-section-content">
+      <div class="order-section-text" id="order-time"></div>
+      <div class="order-section-text" id="delivery-time"></div>
+      <div class="order-section-text" id="delivery-address"></div>
+      <div class="order-section-text" id="order-status"></div>
+    </div>
+  </div>
+
+  <!-- order items container -->
+  <div class="order-section">
+    <div class="order-section-name">Список блюд</div>
+    <div class="order-contents-anchor">
+      <div class="order-contents-items"></div>
+    </div>
+  </div>
+</div>
+
+<!-- order item -->
+<div class="order-item default-shadow template" id="order-item-template">
+  <img class="order-item-picture" src="" />
+
+  <div class="order-item-content">
+    <div class="order-item-name">dish-name</div>
+    <div class="order-item-price">dish-price</div>
+    <div class="order-item-amount">dish-amount</div>
+  </div>
+  <div class="order-item-summary">
+    <div class="order-item-summary-prefix">Стоимость:</div>
+    <div class="order-item-summary-price">10k</div>
+  </div>
+</div>
+
 <!-- orders -->
 <div class="container orders-content template" id="orders-template">
-  <div class="orders-section" id="suggestion-plate">
-    <div class="purchase-section-content"></div>
+  <div class="orders-section transitioning" id="orders-suggestion-plate">
+    <div class="orders-section-content default-shadow">
+      <div class="suggestion-plate-text">В корзине есть блюда, можно оформить заказ</div>
+      <div class="suggestion-plate-button transitioning" id="orders-purchase-button">Оформить</div>
+    </div>
   </div>
   <div class="page-title">Последние заказы</div>
 
@@ -171,8 +214,8 @@
   </div>
   <div class="input-content-container">
     <div class="input-descriprion">Пол</div>
-    <div class="dropdown-anchor default-input sex-dropdown-anchor" id="reg-sexes-anchor">
-      <div class="dropdown-content sex-dropdown-content">
+    <div class="dropdown-anchor default-input sex-dropdown-anchor transitioning" id="reg-sexes-anchor">
+      <div class="dropdown-content sex-dropdown-content transitioning">
         <div class="dropdown-options"></div>
       </div>
     </div>

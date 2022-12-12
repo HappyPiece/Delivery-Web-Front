@@ -2,13 +2,16 @@
   display: flex;
   border-radius: inherit;
   flex-flow: column wrap;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  gap: 0.5rem;
 }
 
 .orders-section {
   display: flex;
   flex-flow: row wrap;
   padding: 0.5rem;
+  gap: 0.5rem;
 }
 
 .orders-section[active="0"] {
@@ -23,9 +26,40 @@
 }
 
 .orders-section-content {
+  border-radius: var(--default-border-radius);
   flex: 1 1 100%;
   display: flex;
   flex-flow: row wrap;
+  align-content: center;
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.suggestion-plate-text {
+  flex: 5 1;
+  min-width: 7rem;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: center;
+  justify-content: flex-start;
+}
+
+.suggestion-plate-button {
+  display: flex;
+  flex-flow: row wrap;
+  align-content: center;
+  justify-content: center;
+  flex: 1 1;
+  background-color: var(--faded-secondary-background);
+  border-radius: var(--default-border-radius);
+  padding: 0.5rem;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.suggestion-plate-button:hover {
+  background-color: var(--secondary-background);
 }
 
 .orders-contents-anchor {
@@ -47,8 +81,8 @@
   box-sizing: border-box;
   flex: 1 1 100%;
   /* padding: 0.5rem; */
-  margin-left: 1rem;
-  margin-right: 1rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .orders-item:first-child {

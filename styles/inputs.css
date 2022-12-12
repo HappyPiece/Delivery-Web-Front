@@ -2,30 +2,29 @@
   flex: 1 1;
   background-color: var(--primary-background);
   /* padding: 0rem 1rem 0.5rem 1rem; */
+  /* padding: 0.5rem 0.5rem 0.5rem 0.5rem; */
   padding: 0.5rem 1rem 0.5rem 1rem;
   color: var(--primary-text);
-  /* box-shadow: var(--default-shadow-offset) var(--default-shadow-offset) var(--default-shadow-blur) var(--container-shadow-color); */
-  /* border-bottom: 1px solid var(--faded-secondary-background); */
   background: linear-gradient(var(--faded-secondary-background), var(--faded-secondary-background)) center bottom 0.5rem /
     calc(100% - 1.5rem) 2px no-repeat;
   border-radius: 0rem !important;
+  transition: color 0.1s ease-in-out, text-decoration 0.1s ease-in-out, background-color 0.1s ease-in-out,
+    box-shadow 0.1s ease-in-out;
 }
 
 .default-input[wrong="1"] {
-  background: linear-gradient(0.25turn, var(--primary-accent), var(--secondary-accent)) center bottom 0.5rem / calc(100% - 1.5rem) 2px
-    no-repeat;
+  background: linear-gradient(0.25turn, var(--primary-accent), var(--secondary-accent)) center bottom 0.5rem / calc(100% - 1.5rem)
+    2px no-repeat;
 }
 
 .default-input:focus-visible {
-  background: linear-gradient(0.25turn, var(--secondary-background), var(--secondary-background)) center bottom 0.5rem / calc(100% - 1.5rem)
-    0.1rem no-repeat !important;
+  background: linear-gradient(0.25turn, var(--secondary-background), var(--secondary-background)) center bottom 0.5rem /
+    calc(100% - 1.5rem) 0.1rem no-repeat !important;
 }
 
 .default-input[readonly] {
-  /* background: linear-gradient(0.25turn, var(--faded-text), var(--faded-text)) center bottom 0.5rem / calc(100% - 1.5rem) 0.1rem no-repeat !important; */
   background: none !important;
   color: var(--secondary-text);
-  /* text-decoration: wavy var(--secondary-accent) underline; */
 }
 
 .date-picker {

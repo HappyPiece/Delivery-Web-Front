@@ -92,5 +92,11 @@ export async function applyURL(globals, Constants) {
     } else {
       globals.State.currentDish = path[1];
     }
+  } else if (base.thisPage().Name === "order") {
+    if (path[1] === null && path[1] === undefined) {
+      return;
+    } else {
+      globals.State.currentOrder = path[1];
+    }
   }
 }
