@@ -27,8 +27,8 @@ export function stringifyDate() {
 export function getStringifiedTime(plusHH = 0, plusMM = 0) {
   let currentDate = new Date();
   currentDate.setMinutes(currentDate.getMinutes() + plusHH * 60 + plusMM);
-  let hh = Number(String(currentDate.getHours()).padStart(2, "0"));
-  let mm = Number(String(currentDate.getMinutes()).padStart(2, "0"));
+  let hh = String(currentDate.getHours()).padStart(2, "0");
+  let mm = String(currentDate.getMinutes()).padStart(2, "0");
   return `${hh}:${mm}`;
 }
 
@@ -48,7 +48,7 @@ export function purgeDate(date, del = "-", format = "yyyy-mm-dd") {
 
 export function purgeTime(date, del = ":") {
   let theDate = new Date(date);
-  let hh = Number(String(theDate.getHours()).padStart(2, "0"));
-  let mm = Number(String(theDate.getMinutes()).padStart(2, "0"));
+  let hh = String(theDate.getHours()).padStart(2, "0");
+  let mm = String(theDate.getMinutes()).padStart(2, "0");
   return `${hh}${del}${mm}`;
 }

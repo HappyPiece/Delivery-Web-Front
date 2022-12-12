@@ -60,18 +60,24 @@
   color: var(--faded-text);
 }
 
+.my-card-rating-container {
+  position: relative;
+}
+
 .my-card-rating {
+  position: relative;
   display: flex;
   flex-flow: row nowrap;
   flex: 1 1;
   justify-content: center;
   align-content: center;
   border-radius: var(--default-border-radius);
+  text-shadow: none;
 }
 
 .my-card-rating-icon {
   font-size: 1.2em !important;
-  color: var(--faint-primary-accent);
+  color: var(--primary-accent);
   text-shadow: 0rem 0rem 0.3rem var(--primary-accent);
   cursor: default;
 }
@@ -145,10 +151,6 @@
   background-color: var(--faint-secondary-background);
 }
 
-.my-card-input:hover {
-  /* background-color: var(--faint-secondary-background); */
-}
-
 .veg-icon-container {
   position: absolute;
   bottom: 0.5rem;
@@ -161,6 +163,12 @@
   cursor: default;
   text-shadow: none;
   color: var(--veg);
+}
+
+.shifted {
+  transform: rotate(-30deg);
+  bottom: 0.6rem;
+  right: 0.8rem;
 }
 
 .my-card-text-button {

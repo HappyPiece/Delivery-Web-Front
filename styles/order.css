@@ -2,7 +2,7 @@
   display: flex;
   flex-flow: column wrap;
   border-radius: inherit;
-  padding-bottom: 0.5rem;
+  padding-bottom: 1rem;
   gap: 0.5rem;
 }
 
@@ -12,6 +12,7 @@
   background-color: var(--faded-secondary-background);
   display: flex;
   flex-flow: row nowrap;
+  height: min-content ;
 }
 
 .order-top-name {
@@ -38,6 +39,7 @@
   text-align: center;
   margin-left: auto;
   cursor: pointer;
+  max-height: min-content;
   line-height: 1.5rem !important;
 }
 

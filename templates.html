@@ -156,8 +156,8 @@
 
 <!-- dish -->
 <div class="container dish-content template" id="dish-template">
-  <div class="dish-title">dish-title</div>
   <div class="dish-anchor">
+    <div class="dish-title">dish-title</div>
     <div class="dish-picture-container">
       <img class="dish-picture" src="" />
       <!-- <div class="veg-icon-container"></div> -->
@@ -167,7 +167,11 @@
       <div class="dish-vegeterian"></div>
       <div class="dish-description"></div>
       <div class="horizontal-separator"></div>
-      <div class="dish-rating"></div>
+      <div class="dish-rating-container">
+        <div class="dish-rating transitioning rating-bottom"></div>
+        <div class="dish-rating transitioning rating-base"></div>
+        <div class="dish-rating transitioning rating-top"></div>
+      </div>
       <div class="horizontal-separator"></div>
       <div class="dish-price"></div>
     </div>
@@ -360,12 +364,15 @@
   <div class="my-card-picture-container">
     <img class="my-card-picture" src="" />
     <div class="veg-icon-container"></div>
+    <!-- <div class="veg-icon-container shifted"></div> -->
   </div>
   <div class="my-card-content">
     <div class="my-card-name">dish name</div>
     <div class="my-card-category">dish category</div>
     <div class="horizontal-separator"></div>
-    <div class="my-card-rating"></div>
+    <div class="my-card-rating-container">
+      <div class="my-card-rating"></div>
+    </div>
     <div class="horizontal-separator"></div>
     <div class="my-card-description"></div>
   </div>
@@ -452,6 +459,6 @@
 <span class="material-symbols-outlined small-icon burger-icon transitioning template" id="burger-icon-template"> menu </span>
 
 <!-- material icons -->
-<span class="material-icons small-icon transitioning template" id="star-icon-template"> star </span>
-<span class="material-icons small-icon transitioning template" id="star-half-icon-template"> star_half </span>
-<span class="material-symbols-outlined small-icon transitioning template" id="star-outlined-icon-template"> star </span>
+<span class="material-icons transitioning template" id="star-full-icon-template"> star </span>
+<span class="material-icons transitioning template" id="star-outlined-icon-template"> star_outline </span>
+<span class="material-icons transitioning template" id="star-half-icon-template"> star_half </span>

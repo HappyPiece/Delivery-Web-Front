@@ -4,22 +4,25 @@
   align-content: flex-start;
 }
 
+.dish-anchor {
+  display: flex;
+  flex-flow: row wrap;
+  border-radius: var(--default-border-radius);
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
 .dish-title {
+  flex: 1 1 100%;
   margin-left: 0.5rem;
   padding: 0.5rem;
   font-size: 2rem;
   height: fit-content;
 }
 
-.dish-anchor {
-  display: flex;
-  flex-flow: column wrap;
-  border-radius: var(--default-border-radius);
-  align-items: center;
-  height: 100%;
-}
-
 .dish-picture-container {
+  flex: 0.5 1 50%;
   position: relative;
   display: flex;
   max-width: 70%;
@@ -35,6 +38,7 @@
 }
 
 .dish-info {
+  flex: 1 1 100%;
   cursor: default;
   user-select: text;
   display: flex;
@@ -70,7 +74,12 @@
   text-align: center;
 }
 
+.dish-rating-container {
+  position: relative;
+}
+
 .dish-rating {
+  position: relative;
   display: flex;
   flex-flow: row nowrap;
   flex: 1 1;
@@ -79,10 +88,51 @@
   border-radius: var(--default-border-radius);
 }
 
+.rating-bottom {
+  position: relative;
+  background-color: var(--primary-background);
+  color: var(--primary-background);
+}
+
+.rating-base {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(0.25turn, var(--primary-accent) var(--rating), transparent var(--rating));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  z-index: 2;
+}
+
+.rating-top {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-flow: row nowrap;
+  flex: 1 1;
+  justify-content: center;
+  align-content: center;
+  border-radius: var(--default-border-radius);
+  text-shadow: none;
+  color: var(--primary-accent);
+  z-index: 4;
+}
+
 .dish-rating-icon {
-  font-size: 1.5em !important;
-  color: var(--faint-primary-accent);
-  text-shadow: 0rem 0rem 0.3rem var(--primary-accent);
+  font-size: 1.5rem;
+  text-shadow: 0rem 0rem 0.5rem var(--weak-primary-accent);
+  cursor: default;
+}
+
+.dish-rating-icon[listening="1"] {
+  cursor: pointer;
+}
+
+.dish-rating-icon[listening="0"] {
   cursor: default;
 }
 

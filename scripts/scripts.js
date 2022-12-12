@@ -68,6 +68,9 @@ class Globals {
       authorized: undefined,
       currentDish: undefined,
       currentOrder: undefined,
+      currentDishRating: undefined,
+      currentUserRating: undefined,
+      userRatingCheck: undefined,
     };
 
     this.Templates = null;
@@ -426,7 +429,6 @@ export async function loadContent() {
 
 export async function loadOrder() {
   let orderContent = $("#order-content");
-  console.log(globals.State.currentOrder);
   let responceOrder = await get(Constants.backendURL + "/api/order/" + globals.State.currentOrder);
   if (responceOrder.ok === false) {
     if (responceOrder.status === 401) {
@@ -438,12 +440,17 @@ export async function loadOrder() {
     return;
   }
   let order = await responceOrder.json();
-  console.log(order);
 
   orderContent.find("#order-top-confirm-button").attr("order-id", order.id);
   orderContent.find(".order-top-name").html("Заказ #" + String(order.id).substring(0, 4).toUpperCase());
-  orderContent.find("#order-time").html("Время заказа: " + CommonServices.purgeDate(order.orderTime, ".") + " " + CommonServices.purgeTime(order.orderTime));
-  orderContent.find("#delivery-time").html("Время доставки: " + CommonServices.purgeDate(order.deliveryTime, ".") + " " + CommonServices.purgeTime(order.deliveryTime));
+  orderContent
+    .find("#order-time")
+    .html("Время заказа: " + CommonServices.purgeDate(order.orderTime, ".") + " " + CommonServices.purgeTime(order.orderTime));
+  orderContent
+    .find("#delivery-time")
+    .html(
+      "Время доставки: " + CommonServices.purgeDate(order.deliveryTime, ".") + " " + CommonServices.purgeTime(order.deliveryTime)
+    );
   orderContent.find("#delivery-address").html("Адрес доставки: " + order.address);
   orderContent
     .find("#order-status")
@@ -524,6 +531,9 @@ export async function loadOrders() {
   }
 
   let items = await responceOrders.json();
+  items.sort((x, y) => {
+    return new Date(x.orderTime) >= new Date(y.orderTime) ? -1 : 1;
+  });
   createOrdersItems(items, ordersContent.find(".orders-contents-items"));
 }
 
@@ -666,6 +676,10 @@ export function createCartItems(items, itemsContainer) {
 }
 
 export async function loadDish() {
+  globals.State.currentDishRating = undefined;
+  globals.State.currentUserRating = undefined;
+  globals.State.userRatingCheck = undefined;
+
   let dishContent = $("#dish-content");
   let responce = await get(Constants.backendURL + "/api/dish/" + globals.State.currentDish);
   if (responce.ok === false) {
@@ -675,32 +689,51 @@ export async function loadDish() {
     return;
   }
   let dish = await responce.json();
+  console.log(dish);
+  // 4.375260308204915
+  // 4.374962813113584
+  // 4.375005312412346
+  // 4.374999241083951
+  // 4.375000108416578
 
   dishContent.find(".dish-picture").attr("src", dish.image);
   dishContent.find(".dish-vegeterian").html(dish.vegetarian ? "Вегетерианское" : "Не вегетерианское");
   dishContent.find(".dish-vegeterian").attr("true", dish.vegetarian ? "1" : "0");
   dishContent.find(".dish-title").html(dish.name);
+
+  globals.State.currentDishRating = dish.rating;
+  let css = document.querySelector(":root");
+  css.style.setProperty("--rating", (globals.State.currentDishRating / 10) * 100 + "%");
+
   dishContent.find(".dish-category").html("Категория - " + globals.Categories.find((x) => x.Codename === dish.category).Name);
-  let rating = dishContent.find(".dish-rating");
-  let dishRating = dish.rating;
+
+  let ratingCheck = await get(Constants.backendURL + "/api/dish/" + globals.State.currentDish + "/rating/check");
+  if (ratingCheck.ok === false) {
+    globals.State.userRatingCheck = false;
+  } else {
+    let ratingCheckResult = await ratingCheck.json();
+    globals.State.userRatingCheck = ratingCheckResult;
+  }
+
+  let bottomRating = dishContent.find(".rating-bottom");
+  let baseRating = dishContent.find(".rating-base");
+  let topRating = dishContent.find(".rating-top");
+
+  let _iconOutlined = CommonServices.retrieveTemplateById(globals, Constants, "star-outlined-icon-template");
+  let _iconFill = CommonServices.retrieveTemplateById(globals, Constants, "star-full-icon-template");
+  _iconOutlined.addClass("dish-rating-icon");
+  _iconFill.addClass("dish-rating-icon");
   for (let i = 0; i < 10; i++) {
-    if (dishRating >= 1) {
-      let icon = CommonServices.retrieveTemplateById(globals, Constants, "star-icon-template");
-      icon.addClass("dish-rating-icon");
-      rating.append(icon);
-      dishRating -= 1;
-      continue;
-    } else if (dishRating >= 0.5) {
-      let icon = CommonServices.retrieveTemplateById(globals, Constants, "star-half-icon-template");
-      icon.addClass("dish-rating-icon");
-      rating.append(icon);
-      dishRating = 0;
-      continue;
+    bottomRating.append(_iconFill.clone());
+    baseRating.append(_iconFill.clone());
+    let iconOutlined = _iconOutlined.clone();
+    iconOutlined.attr("rating", Number(i + 1));
+    if (globals.State.userRatingCheck) {
+      iconOutlined.attr("listening", "1");
     } else {
-      let icon = CommonServices.retrieveTemplateById(globals, Constants, "star-outlined-icon-template");
-      icon.addClass("dish-rating-icon");
-      rating.append(icon);
+      iconOutlined.attr("listening", "0");
     }
+    topRating.append(iconOutlined);
   }
   dishContent.find(".dish-description").html(dish.description);
   dishContent.find(".dish-price").html(dish.price + "₽");
@@ -795,11 +828,12 @@ export function createCards(dishes, cardholder, cartContents) {
       card.find(".my-card-name").html(dish.name);
       card.find(".my-card-name").attr("to-dish", dish.id);
       card.find(".my-card-category").html(globals.Categories.find((x) => x.Codename === dish.category).Name);
+
       let rating = card.find(".my-card-rating");
       let dishRating = dish.rating;
       for (let i = 0; i < 10; i++) {
         if (dishRating >= 1) {
-          let icon = CommonServices.retrieveTemplateById(globals, Constants, "star-icon-template");
+          let icon = CommonServices.retrieveTemplateById(globals, Constants, "star-full-icon-template");
           icon.addClass("my-card-rating-icon");
           rating.append(icon);
           dishRating -= 1;
@@ -853,7 +887,6 @@ export async function assignListeners() {
 
   $("#categories-anchor").find(".category-element-base").on("click", toggleCategory);
 
-  // console.log($(".pagination-element-base").length);
   $(".pagination-element-base").on("click", navigateToMenuPage);
   $(".my-card-name").on("click", navigateToDish);
   $(".cart-item-name").on("click", navigateToDish);
@@ -887,7 +920,42 @@ export async function assignListeners() {
   $(".orders-item-confirm-button").on("click", confirmOrder);
   $("#order-top-confirm-button").on("click", confirmOrder);
 
+  $(".rating-top .dish-rating-icon[listening='1']").hover(setUserCssRating, resetUserCssRating);
+  $(".rating-top .dish-rating-icon[listening='1']").on("click", setRating);
+
   applyMasks();
+}
+
+export async function setRating() {
+  globals.State.currentUserRating = $(this).attr("rating");
+  console.log(Constants.backendURL + "/api/dish/" + globals.State.currentDish + "/rating?RatingScore=" + globals.State.currentUserRating);
+  let responce = await post(
+    Constants.backendURL + "/api/dish/" + globals.State.currentDish + "/rating?RatingScore=" + globals.State.currentUserRating
+  );
+  if (responce.ok !== true) {
+    if (responce.status === 401) {
+      routeTo("login");
+    } else if (responce.status === 500) {
+      showErrorPlug("shruggie", "Что-то пошло не так, вините бекенд", $("#main-content"));
+    }
+  } else {
+    let css = document.querySelector(":root");
+    css.style.setProperty("--rating", (globals.State.currentUserRating / 10) * 100 + "%");
+  }
+}
+
+export function setUserCssRating() {
+  if (globals.State.currentUserRating === undefined) {
+    let css = document.querySelector(":root");
+    css.style.setProperty("--rating", ($(this).attr("rating") / 10) * 100 + "%");
+  }
+}
+
+export function resetUserCssRating() {
+  if (globals.State.currentUserRating === undefined) {
+    let css = document.querySelector(":root");
+    css.style.setProperty("--rating", (globals.State.currentDishRating / 10) * 100 + "%");
+  }
 }
 
 export async function confirmOrder() {
@@ -907,11 +975,15 @@ export async function confirmPurchase() {
   let purchaseContent = $("#purchase-content");
   let time = new Date(purchaseContent.find("#purchase-order-time").val());
   time.setHours(time.getHours() + Constants.timeFix);
+  if (isNaN(time)) {
+    await showMessages({ Error: new Array("Неверное время доставки") }, $("#purchase-message-container"), "bad");
+    return;
+  }
+
   let body = {
     address: purchaseContent.find("#purchase-address").val(),
     deliveryTime: time.toISOString(),
   };
-  console.log(body);
   let validationResult = await validatePurchase(body);
   if (!validationResult.ok) {
     await showMessages(validationResult.messages, $("#purchase-message-container"), "bad");
@@ -926,14 +998,13 @@ export async function confirmPurchase() {
       showErrorPlug("shruggie", "Что-то пошло не так, вините бекенд", $("#main-content"));
     } else if (responce.status === 400) {
       let data = await responce.json();
-      console.log(data);
       await showMessages({ Error: new Array("Неверный адрес или время доставки") }, $("#purchase-message-container"), "bad");
     }
   } else {
     await updateNavbar();
     await showMessages({ Success: new Array("Заказ успешно оформлен!") }, $("#purchase-message-container"), "good");
     setTimeout(async () => {
-      await routeTo("");
+      await routeTo("orders");
     }, 5000);
   }
 }
@@ -1078,7 +1149,6 @@ export async function showMessages(messages, container, type) {
   let _message = CommonServices.retrieveTemplateById(globals, Constants, "message-base-template");
   for (let message in messages) {
     if (Object.prototype.hasOwnProperty.call(messages, message)) {
-      // console.log(messages[message]);
       for (let prompt of messages[message]) {
         let message = _message.clone();
         message.attr("type", type);
@@ -1108,9 +1178,7 @@ export async function registerUser() {
     gender: globals.Sexes.find((x) => x.IsActive === true).Codename,
     phoneNumber: registerContent.find("#reg-phone").val() !== "" ? registerContent.find("#reg-phone").val() : null,
   };
-  console.log(body.email);
   let validationResult = await validateRegistration(body);
-  console.log(validationResult);
   if (!validationResult.ok) {
     await showMessages(validationResult.messages, $("#reg-message-container"), "bad");
     return;
@@ -1154,7 +1222,6 @@ export async function validateBirthdate(birthdate) {
   let currentDate = new Date();
   let minDate = new Date("1900-01-01");
   let userBirthDate = new Date(birthdate);
-  console.log(minDate < userBirthDate && userBirthDate < currentDate);
   return minDate < userBirthDate && userBirthDate < currentDate;
 }
 
@@ -1187,7 +1254,6 @@ export async function loginUser() {
     await routeTo("");
   } else if (responce.status === 400) {
     let data = await responce.json();
-    console.log(data);
     await showMessages({ Error: new Array("Неверный логин или пароль") }, $("#login-message-container"), "bad");
   } else if (responce.status === 500) {
     showErrorPlug("shruggie", "Что-то пошло не так, вините бекенд", $("#main-content"));
@@ -1270,7 +1336,6 @@ export function setCategory(codename, state) {
 export function navigateToMenuPage() {
   globals.State.currentPage = $(this).attr("to-page");
   UrlServices.updateURL(globals, Constants);
-  console.log("navigating");
   loadContent();
   $(this).attr("to-page");
 }
@@ -1278,7 +1343,6 @@ export function navigateToMenuPage() {
 export function applyFilters() {
   globals.State.currentPage = 1;
   UrlServices.updateURL(globals, Constants);
-  console.log("applying filters");
   loadContent();
 }
 
