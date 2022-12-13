@@ -16,6 +16,7 @@
 }
 
 .order-top-name {
+  color: var(--alt-text);
   padding: 0.5rem;
   margin-left: 0.5rem;
   font-size: 1.5rem;
@@ -28,6 +29,7 @@
 }
 
 .order-top-button {
+  color: var(--alt-text);
   padding: 0.5rem;
   display: flex;
   flex: 1 1;

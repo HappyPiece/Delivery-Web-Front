@@ -87,6 +87,7 @@
 }
 
 .cart-text-button {
+  color: var(--alt-text);
   font-size: 1.3rem;
   background-color: var(--faded-secondary-background);
   padding: 0.5rem;
@@ -113,7 +114,7 @@
 .cart-item-input-text {
   cursor: default;
   text-align: center;
-  color: var(--primary-text);
+  color: var(--alt-text);
   width: 2rem;
   height: 1.5rem;
   display: flex;
@@ -130,10 +131,10 @@
   display: flex;
   flex-flow: row wrap;
   border-radius: var(--default-border-radius);
-  color: var(--secondary-text);
+  color: var(--faint-alt-text);
 }
 
 .cart-item-delete:hover {
-  color: var(--primary-text);
+  color: var(--alt-text);
   background-color: var(--secondary-accent);
 }

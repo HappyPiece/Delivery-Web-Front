@@ -104,6 +104,7 @@
 }
 
 .bottom-button {
+  color: var(--faint-alt-text);
   cursor: pointer;
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
@@ -122,5 +123,5 @@
 
 .bottom-button:hover {
   background-color: var(--secondary-background);
-  color: var(--primary-text);
+  color: var(--alt-text);
 }

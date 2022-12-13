@@ -26,7 +26,7 @@ nav {
   min-height: 2.5rem;
   align-self: stretch;
   background-color: var(--faded-secondary-background);
-  color: var(--faded-text);
+  color: var(--faint-alt-text);
   display: flex;
   align-content: center;
   justify-content: center;
@@ -40,7 +40,7 @@ nav {
 }
 
 .navbar-element:hover {
-  color: var(--primary-text);
+  color: var(--alt-text);
   background-color: var(--secondary-background);
 }
 
@@ -52,8 +52,11 @@ nav {
 }
 
 #nav-profile .element-prefix:hover{
-
   color: var(--primary-text);
+}
+
+#nav-profile[active="1"] .element-prefix{
+  color: var(--primary-text) !important;
 }
 
 .navbar-e-mail-element {
@@ -63,10 +66,11 @@ nav {
 
 .navbar-element[active="1"] {
   background-color: var(--faint-secondary-background);
+  text-decoration: underline;
 }
 
 .navbar-element[active="1"] .navbar-element-content {
-  color: var(--primary-text);
+  color: var(--alt-text);
 }
 
 .navbar-element-content {
@@ -115,7 +119,7 @@ nav {
 
 .nav-brand:hover {
   color: var(--primary-text);
-  text-shadow: 0.1rem 0.1rem 0.3rem var(--secondary-background), -0.1rem -0.1rem 0.3rem var(--secondary-background);
+  text-shadow: 0.1rem 0.1rem 0.3rem var(--alt-text), -0.1rem -0.1rem 0.3rem var(--alt-text);
 }
 
 #main-content[ready="0"] {
@@ -172,8 +176,6 @@ footer {
 .horizontal-separator {
   border-bottom: 0.01rem solid var(--secondary-background);
   box-shadow: 0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
-    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
-    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
     0rem 0rem var(--default-shadow-blur) var(--container-shadow-color);
   margin-top: 0.2rem;
   margin-bottom: 0.2rem;

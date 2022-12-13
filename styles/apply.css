@@ -17,7 +17,7 @@
   align-items: center;
   padding: 0.2rem 0.2rem 0.2rem 0.2rem;
   border-radius: var(--default-border-radius);
-  color: var(--secondary-text);
+  color: var(--faint-alt-text);
   cursor: pointer;
 }
 
@@ -28,10 +28,10 @@
 
 .apply-button-anchor:hover .apply-button-content {
   background-color: var(--secondary-background);
-  color: var(--primary-text);
+  color: var(--alt-text);
 }
 
 .apply-button-anchor:active .apply-button-content {
   background-color: var(--secondary-background);
-  color: var(--primary-text);
+  color: var(--alt-text);
 }

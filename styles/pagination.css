@@ -17,13 +17,13 @@
   justify-content: center;
   min-width: 3rem;
   cursor: pointer;
-  color: var(--secondary-text);
+  color: var(--faint-alt-text);
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
 .pagination-element-base:hover {
   background-color: var(--secondary-background);
-  color: var(--primary-text);
+  color: var(--alt-text);
 }
 
 .to-page-number[active="1"] {
@@ -32,7 +32,7 @@
 
 .to-page-number[active="1"]:hover {
   background-color: var(--secondary-background);
-  color: var(--primary-text);
+  color: var(--alt-text);
 }
 
 .to-first-page {

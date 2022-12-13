@@ -96,6 +96,7 @@
 }
 
 .my-card-price {
+  color: var(--faint-alt-text);
   display: flex;
   flex-wrap: wrap;
   align-content: center;
@@ -120,6 +121,7 @@
 }
 
 .my-card-button {
+  color: var(--alt-text);
   display: none;
   flex-flow: row wrap;
   align-content: center;
@@ -142,12 +144,13 @@
 .my-card-input-text {
   max-width: 3rem;
   background-color: inherit;
-  color: inherit;
   text-align: center;
-  color: var(--secondary-text);
+  color: var(--alt-text);
+  cursor: default;
 }
 
 .my-card-button:hover {
+  color: var(--alt-text);
   background-color: var(--faint-secondary-background);
 }
 
@@ -172,6 +175,7 @@
 }
 
 .my-card-text-button {
+  color: var(--faint-alt-text);
   width: 2.5rem;
   font-size: 1.3rem;
   padding: 0.5rem;
@@ -182,11 +186,10 @@
 }
 
 .my-card-text-button:hover {
-  color: var(--secondary-text);
+  color: var(--alt-text);
   background-color: var(--secondary-background);
 }
 
 .my-card-text-button:last-of-type{
-  color: var(--primary-text);
   border-bottom-right-radius: var(--default-border-radius);
 }

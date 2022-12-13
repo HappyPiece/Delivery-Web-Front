@@ -25,7 +25,7 @@
 
 .category-element-base {
   background-color: var(--faded-secondary-background);
-  color: var(--secondary-text);
+  color: var(--faint-alt-text);
   margin: 0.1rem 0.1rem 0.1rem 0.1rem;
   padding: 0rem 0.1rem 0rem 0.1rem;
   border-radius: var(--default-border-radius);
@@ -39,17 +39,17 @@
 
 .category-element-base:hover {
   background-color: var(--secondary-background);
-  color: var(--primary-text);
+  color: var(--alt-text);
 }
 
 .category-element-base[active="1"] {
   background-color: var(--faint-primary-accent);
-  color: var(--secondary-text);
+  color: var(--faint-alt-text);
 }
 
 .category-element-base[active="1"]:hover {
   background-color: var(--primary-accent);
-  color: var(--primary-text);
+  color: var(--alt-text);
 }
 
 .category-content {

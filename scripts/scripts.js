@@ -1133,7 +1133,7 @@ export async function validateProfile(data) {
     result.ok = false;
     result.messages.errors.push("Поле 'ФИО' является обязательным");
   }
-  if (!(await validatePhone(data.phoneNumber))) {
+  if (!(await validatePhone(data.phoneNumber)) && data.phoneNumber !== null) {
     result.ok = false;
     result.messages.errors.push("Номер телефона введен неверно");
   }
