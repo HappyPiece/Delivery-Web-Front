@@ -87,34 +87,38 @@ $(document).ready(function () {
 });
 
 export async function toggleTheme() {
-  if ($("#wokhub-styles").length && localStorage.getItem("theme") !== "original") {
+  if (localStorage.getItem("theme") !== "original") {
     localStorage.setItem("theme", "original");
   } else {
     localStorage.setItem("theme", "wok-hub");
   }
-  loadStyles();
+  applyTheme();
 }
 
-export function loadStyles(href = "/styles/wok-hub.css", id = "wokhub-styles") {
-  if (localStorage.getItem("theme") === "original") {
-    $(".nav-brand").html("обед.уютненько");
+export function applyTheme() {
+  $(".nav-brand").find(".nav-brand-container").attr("active", "0");
+  console.log(localStorage.getItem("theme"));
+  if (localStorage.getItem("theme") === "wok-hub") {
+    let styles = CommonServices.retrieveTemplateById(globals, Constants, "theme-template");
+    styles.attr("href", "/styles/wok-hub.css");
+    styles.attr("theme", "wok-hub");
+    styles.attr("id", "theme");
+
+    if ($("#theme").length === 0 || $("#theme").attr("theme") !== "wok-hub");
+    {
+      $("#theme").remove();
+      $("head").append(styles);
+    }
+
+    $(".nav-brand").find("#hub-nav-brand").attr("active", "1");
+    $(".footer-text").html("© 2022 - WokHub");
+    return;
+  } else {
+    $("#theme").remove();
+    $(".nav-brand").find("#original-nav-brand").attr("active", "1");
     $(".footer-text").html("© 2022 - обед.уютненько");
-    $("#" + id).remove();
     return;
   }
-
-  $(".nav-brand").html("wok.hub");
-  $(".footer-text").html("© 2022 - wok.hub");
-  if ($("#" + id).length !== 0) {
-    return;
-  }
-
-  let styles = document.createElement("link");
-  styles.href = href;
-  styles.rel = "stylesheet";
-  styles.type = "text/css";
-  styles.id = id;
-  $("head").append(styles);
 }
 
 export function thisPage() {
@@ -146,7 +150,7 @@ export async function managePage() {
   }
   await UrlServices.applyURL(globals, Constants);
   await renderShell();
-  loadStyles();
+  applyTheme();
   await loadContent();
   assignListeners();
 }
@@ -348,6 +352,18 @@ export async function renderNavbar() {
       }
     }
   }
+
+  let navBrand;
+  navbar.find(".nav-brand").empty();
+
+  navBrand = CommonServices.retrieveTemplateById(globals, Constants, "hub-nav-brand-template");
+  navBrand.attr("id", "hub-nav-brand");
+  navbar.find(".nav-brand").append(navBrand);
+
+  navBrand = CommonServices.retrieveTemplateById(globals, Constants, "original-nav-brand-template");
+  navBrand.attr("id", "original-nav-brand");
+  navbar.find(".nav-brand").append(navBrand);
+
   $("#navbar-content").append(navbar);
 }
 
@@ -793,6 +809,9 @@ export async function loadProfile() {
 export async function loadMenu() {
   let cardholder = $(".my-cardholder");
   let pagination = $(".pagination-container");
+
+  globals.State.currentPagination = null;
+
   let responce = await get(Constants.backendURL + "/api/dish" + UrlServices.formArtifactsQuery(globals, Constants));
   if (responce.ok == false) {
     showErrorPlug("shruggie", "Что-то пошло не так", $(".my-cardholder"));
@@ -824,11 +843,15 @@ export function managePagination(paginationContainer) {
     newPagination.find(".to-first-page").attr("to-page", 1);
     newPagination.find(".to-last-page").attr("to-page", globals.State.currentPagination.count);
     let _toPageElement = CommonServices.retrieveTemplateById(globals, Constants, "pagination-element-page-number-template");
-    for (
-      let i = Math.min(Number(globals.State.currentPagination.count), Number(Number(globals.State.currentPage) + 1));
-      i >= Math.max(Number(Number(globals.State.currentPage) - 1), 1);
-      i--
-    ) {
+
+    
+    let i = Math.max(Number(Number(globals.State.currentPage) - 1), 1);
+    if (globals.State.currentPage === Number(globals.State.currentPagination.count))
+    {
+      i = Math.max(Number(Number(globals.State.currentPage) - 2), 1);
+    }
+    let count = 0;
+    while (i <= Number(globals.State.currentPagination.count) && count < 3) {
       let toPageElement = _toPageElement.clone();
       toPageElement.html(i);
       toPageElement.attr("to-page", i);
@@ -837,7 +860,9 @@ export function managePagination(paginationContainer) {
       } else {
         toPageElement.attr("active", 0);
       }
-      newPagination.find(".to-first-page").after(toPageElement);
+      newPagination.find(".to-last-page").before(toPageElement);
+      count++;
+      i++;
     }
     paginationContainer.append(newPagination);
   }

@@ -4,7 +4,7 @@
   padding: 0.5rem 1rem 0.5rem 1rem;
   color: var(--primary-text);
   background: linear-gradient(var(--faded-alt-accent), var(--faded-alt-accent)) center bottom 0.5rem /
-    calc(100% - 1.5rem) 2px no-repeat;
+    calc(100% - 1.5rem) 1px no-repeat;
   border-radius: 0rem !important;
   transition: color 0.1s ease-in-out, text-decoration 0.1s ease-in-out, background-color 0.1s ease-in-out,
     box-shadow 0.1s ease-in-out;

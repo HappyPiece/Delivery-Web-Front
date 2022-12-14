@@ -149,10 +149,12 @@
     <div class="cart-item-name">dish name</div>
     <div class="cart-item-price"></div>
   </div>
-  <div class="cart-item-input-container">
-    <div class="cart-text-button transitioning" type="minus">-</div>
-    <input type="text" class="cart-item-input-text" readonly maxlength="3" />
-    <div class="cart-text-button transitioning" type="plus">+</div>
+  <div class="cart-item-input-container transitioning">
+    <div class="cart-item-input-options transitioning">
+      <div class="cart-text-button transitioning" type="minus">-</div>
+      <input type="text" class="cart-item-input-text transitioning" readonly maxlength="3" />
+      <div class="cart-text-button transitioning" type="plus">+</div>
+    </div>
     <span class="cart-item-delete transitioning" type="delete">Удалить</span>
   </div>
 </div>
@@ -272,9 +274,20 @@
   <div class="message-content"></div>
 </div>
 
+<!-- nav-brand content -->
+<div class="nav-brand-container transitioning template" id="hub-nav-brand-template" active="0">
+  <div class="nav-element-prefix transitioning">Wok</div>
+  <div class="nav-element-postfix transitioning">Hub</div>
+</div>
+
+<div class="nav-brand-container transitioning template" id="original-nav-brand-template" active="0">
+  <div class="nav-element-prefix transitioning">обед.уютненько</div>
+  <div class="nav-element-postfix transitioning"></div>
+</div>
+
 <!-- navbar -->
 <div class="navbar-anchor template" id="navbar-authorized-template">
-  <div class="nav-brand">обед.уютненько</div>
+  <div class="nav-brand">brand</div>
   <div class="navbar-element transitioning" id="nav-menu">
     <div class="navbar-element-content">Меню</div>
   </div>
@@ -284,7 +297,7 @@
   <div class="navbar-element transitioning" id="nav-cart">
     <div class="navbar-element-content">
       <div class="element-prefix transitioning">Корзина</div>
-      <div class="element-postfix transitioning"></div>
+      <div class="element-postfix transitioning" id="nav-cart-count"></div>
     </div>
   </div>
   <div class="navbar-element navbar-e-mail-element transitioning" id="nav-profile">
@@ -298,13 +311,9 @@
 </div>
 
 <div class="navbar-anchor template" id="navbar-unauthorized-template">
-  <div class="nav-brand">обед.уютненько</div>
-  <!-- <div class="navbar-section navbar-left">
-  </div> -->
+  <div class="nav-brand">brand</div>
   <div class="navbar-element transitioning" id="nav-menu">Меню</div>
   <div class="navbar-separator"></div>
-  <!-- <div class="navbar-section navbar-right">
-  </div> -->
   <div class="navbar-element transitioning" id="nav-register">Регистрация</div>
   <div class="navbar-element transitioning" id="nav-login">Вход</div>
 </div>
@@ -379,13 +388,13 @@
     <div class="horizontal-separator"></div>
     <div class="my-card-description"></div>
   </div>
-  <div class="my-card-footer">
+  <div class="my-card-footer transitioning">
     <div class="my-card-price"></div>
     <div class="my-card-option-container transitioning" active="0">
       <div class="my-card-button transitioning" type="add">В корзину</div>
-      <div class="my-card-input-container">
+      <div class="my-card-input-container transitioning">
         <div class="my-card-text-button transitioning" type="minus">-</div>
-        <input type="text" class="my-card-input-text" readonly maxlength="3" />
+        <input type="text" class="my-card-input-text transitioning" readonly maxlength="3" />
         <div class="my-card-text-button transitioning" type="plus">+</div>
       </div>
     </div>
@@ -465,3 +474,6 @@
 <span class="material-icons transitioning template" id="star-full-icon-template"> star </span>
 <span class="material-icons transitioning template" id="star-outlined-icon-template"> star_outline </span>
 <span class="material-icons transitioning template" id="star-half-icon-template"> star_half </span>
+
+<!-- style link -->
+<link rel="stylesheet" href="" type="text/css" id="theme-template" theme=""/>

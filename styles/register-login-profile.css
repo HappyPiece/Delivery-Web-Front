@@ -115,6 +115,7 @@
   align-content: center;
   background-color: var(--faint-secondary-background);
   margin-top: auto;
+  border-top: 0.01rem solid var(--dead-alt-accent);
 }
 
 .bottom-button[active="0"] {

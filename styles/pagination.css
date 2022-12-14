@@ -22,23 +22,30 @@
 }
 
 .pagination-element-base:hover {
-  background-color: var(--secondary-background);
   color: var(--alt-text);
+  background-color: var(--alt-primary-background) !important;
+}
+
+.to-page-number {
+  border-top: 0.01rem solid var(--dead-alt-accent);
+  border-right: 0.01rem solid var(--dead-alt-accent);
 }
 
 .to-page-number[active="1"] {
-  background-color: var(--faint-secondary-background);
-}
-
-.to-page-number[active="1"]:hover {
-  background-color: var(--secondary-background);
-  color: var(--alt-text);
+  text-decoration: underline;
+  color: var(--primary-text);
+  background-color: var(--faint-alt-primary-background);
 }
 
 .to-first-page {
+  border-left: 0.01rem solid var(--dead-alt-accent);
+  border-top: 0.01rem solid var(--dead-alt-accent);
+  border-right: 0.01rem solid var(--dead-alt-accent);
   border-radius: var(--default-border-radius) 0rem 0rem 0rem;
 }
 
 .to-last-page {
+  border-right: 0.01rem solid var(--dead-alt-accent);
+  border-top: 0.01rem solid var(--dead-alt-accent);
   border-radius: 0rem var(--default-border-radius) 0rem 0rem;
 }

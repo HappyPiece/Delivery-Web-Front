@@ -38,7 +38,7 @@
 }
 
 .category-element-base:hover {
-  background-color: var(--secondary-background);
+  background-color: var(--faint-alt-accent);
   color: var(--alt-text);
 }
 

@@ -51,11 +51,11 @@ nav {
   cursor: default;
 }
 
-#nav-profile .element-prefix:hover{
+#nav-profile .element-prefix:hover {
   color: var(--primary-text);
 }
 
-#nav-profile[active="1"] .element-prefix{
+#nav-profile[active="1"] .element-prefix {
   color: var(--primary-text) !important;
 }
 
@@ -83,6 +83,10 @@ nav {
   text-decoration: underline;
 }
 
+#nav-cart-count {
+  text-decoration: none !important;
+}
+
 .element-postfix {
   display: flex;
   text-decoration: none !important;
@@ -92,10 +96,10 @@ nav {
   width: 1.5rem;
   background-color: var(--secondary-background);
   margin-left: 0.3rem;
+  border: 0.01rem solid var(--dead-alt-accent);
 }
 
-.element-postfix[active="0"]
-{
+.element-postfix[active="0"] {
   display: none;
 }
 
@@ -113,14 +117,39 @@ nav {
   align-content: center;
   justify-content: center;
   color: var(--secondary-text);
-  transition: all 0.1s ease-in-out;
   padding-right: calc(var(--bs-gutter-x) * 0.3);
   padding-left: calc(var(--bs-gutter-x) * 0.3);
 }
 
+.nav-brand-container {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+#hub-nav-brand .nav-element-prefix {
+  margin-right: 0.1rem;
+}
+
+#hub-nav-brand .nav-element-postfix {
+  border-radius: var(--default-border-radius);
+  color: var(--primary-background);
+  margin-left: 0.1rem;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+  text-shadow: none;
+  background-color: var(--faint-alt-accent);
+}
+
+.nav-brand:hover #hub-nav-brand .nav-element-postfix {
+  background-color: var(--alt-accent);
+}
+
+.nav-brand-container[active="0"] {
+  display: none;
+}
+
 .nav-brand:hover {
   color: var(--primary-text);
-  text-shadow: 0.1rem 0.1rem 0.3rem var(--alt-text), -0.1rem -0.1rem 0.3rem var(--alt-text);
 }
 
 #main-content[ready="0"] {
@@ -175,11 +204,11 @@ footer {
 }
 
 .horizontal-separator {
-  border-bottom: 0.01rem solid var(--secondary-background);
-  box-shadow: 0rem 0rem var(--default-shadow-blur) var(--container-shadow-color),
-    0rem 0rem var(--default-shadow-blur) var(--container-shadow-color);
+  /* background: linear-gradient(0.25turn, var(--dead-primary-accent), var(--dead-primary-accent)) center center no-repeat !important; */
   margin-top: 0.2rem;
   margin-bottom: 0.2rem;
+  border-bottom: 0.01rem solid var(--dead-alt-accent);
+  /* box-shadow: 0rem 0rem var(--default-shadow-blur) var(--dead-primary-accent); */
   /* flex: 1 1 100%; */
   height: 0rem !important;
 }

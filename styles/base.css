@@ -8,11 +8,13 @@
   --secondary-background: #8134ff;
   --faint-secondary-background: #8134ffbb;
   --faded-secondary-background: #8134ff99;
+  --dead-secondary-background: #8134ff33;
   --primary-accent: #f7aa13;
   --mild-primary-accent: #f7aa13dd;
   --faint-primary-accent: #f7aa13bb;
   --faded-primary-accent: #f7aa1399;
   --weak-primary-accent: #f7aa1355;
+  --dead-primary-accent: #f58a0033;
   --secondary-accent: #e14e01;
   --faint-secondary-accent: #e14e01bb;
   --veg: #53df8b;
@@ -30,10 +32,15 @@
   --alt-accent: var(--secondary-background);
   --faint-alt-accent: var(--faint-secondary-background);
   --faded-alt-accent: var(--faded-secondary-background);
+  --dead-alt-accent: transparent;
 
   --alt-background: var(--primary-background);
   --faint-alt-background: var(--faint-primary-background);
   --faded-alt-background: var(--faded-primary-background);
+
+  --alt-primary-background: var(--secondary-background);
+  --faint-alt-primary-background: var(--faint-secondary-background);
+  --faded-alt-primary-background: var(--faded-secondary-background);
 
   --default-shadow-offset: 0rem;
   --default-shadow-blur: 0.15rem;
