@@ -97,16 +97,17 @@ export async function toggleTheme() {
 
 export function applyTheme() {
   $(".nav-brand").find(".nav-brand-container").attr("active", "0");
-  console.log(localStorage.getItem("theme"));
   if (localStorage.getItem("theme") === "wok-hub") {
     let styles = CommonServices.retrieveTemplateById(globals, Constants, "theme-template");
     styles.attr("href", "/styles/wok-hub.css");
     styles.attr("theme", "wok-hub");
     styles.attr("id", "theme");
 
-    if ($("#theme").length === 0 || $("#theme").attr("theme") !== "wok-hub");
-    {
-      $("#theme").remove();
+    if ($("#theme").length > 0) {
+      if ($("#theme").attr("theme") !== "wok-hub") {
+        $("#theme").remove();
+      }
+    } else {
       $("head").append(styles);
     }
 
@@ -844,10 +845,8 @@ export function managePagination(paginationContainer) {
     newPagination.find(".to-last-page").attr("to-page", globals.State.currentPagination.count);
     let _toPageElement = CommonServices.retrieveTemplateById(globals, Constants, "pagination-element-page-number-template");
 
-    
     let i = Math.max(Number(Number(globals.State.currentPage) - 1), 1);
-    if (globals.State.currentPage === Number(globals.State.currentPagination.count))
-    {
+    if (globals.State.currentPage === Number(globals.State.currentPagination.count)) {
       i = Math.max(Number(Number(globals.State.currentPage) - 2), 1);
     }
     let count = 0;
