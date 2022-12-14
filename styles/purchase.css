@@ -17,6 +17,11 @@
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
+#purchase-total-price {
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+}
+
 .purchase-section-content {
   flex: 1 1 100%;
   display: flex;

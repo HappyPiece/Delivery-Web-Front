@@ -44,7 +44,7 @@
 
 .category-element-base[active="1"] {
   background-color: var(--faint-primary-accent);
-  color: var(--faint-alt-text);
+  color: var(--faint-accent-text);
 }
 
 .category-element-base[active="1"]:hover {

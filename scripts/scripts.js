@@ -84,12 +84,37 @@ $(document).ready(function () {
   globals.Templates.load("/templates.html", async () => {
     await managePage();
   });
-
-  //doDumbThings();
 });
 
-export async function doDumbThings() {
-  console.log(CommonServices.getStringifiedTime());
+export async function toggleTheme() {
+  if ($("#wokhub-styles").length && localStorage.getItem("theme") !== "original") {
+    localStorage.setItem("theme", "original");
+  } else {
+    localStorage.setItem("theme", "wok-hub");
+  }
+  loadStyles();
+}
+
+export function loadStyles(href = "/styles/wok-hub.css", id = "wokhub-styles") {
+  if (localStorage.getItem("theme") === "original") {
+    $(".nav-brand").html("обед.уютненько");
+    $(".footer-text").html("© 2022 - обед.уютненько");
+    $("#" + id).remove();
+    return;
+  }
+
+  $(".nav-brand").html("wok.hub");
+  $(".footer-text").html("© 2022 - wok.hub");
+  if ($("#" + id).length !== 0) {
+    return;
+  }
+
+  let styles = document.createElement("link");
+  styles.href = href;
+  styles.rel = "stylesheet";
+  styles.type = "text/css";
+  styles.id = id;
+  $("head").append(styles);
 }
 
 export function thisPage() {
@@ -104,7 +129,6 @@ export function thisPage() {
 export async function setPage(name) {
   let exists = globals.Pages.find((x) => x.Name === name);
   if (exists === null || exists === undefined) {
-    // showErrorPlug("afraid", "Не на что тут смотреть", $("#main-content"));
     return;
   }
   for (let page of globals.Pages) {
@@ -122,10 +146,9 @@ export async function managePage() {
   }
   await UrlServices.applyURL(globals, Constants);
   await renderShell();
+  loadStyles();
   await loadContent();
   assignListeners();
-
-  // await showContent();
 }
 
 export async function showContent() {
@@ -606,7 +629,14 @@ export async function loadPurchase() {
     }
     return;
   }
+
   let items = await responceCart.json();
+  console.log(items);
+  let totalPrice = 0;
+  for (let item of items) {
+    totalPrice += item.totalPrice;
+  }
+  purchaseContent.find("#purchase-total-price").html("Стоимость заказа: " + totalPrice + "₽");
 
   createPurchaseItems(items, purchaseContent.find(".purchase-contents-items"));
 }
@@ -901,7 +931,7 @@ export async function assignListeners() {
 
   $("#reg-sexes-anchor").find(".hidden-option").on("click", activateSex);
 
-  $(".nav-brand").on("click", doDumbThings);
+  $(".nav-brand").on("click", toggleTheme);
 
   $("#nav-menu").on("click", () => routeTo(""));
   $("#nav-register").on("click", () => routeTo("registration"));
@@ -928,7 +958,9 @@ export async function assignListeners() {
 
 export async function setRating() {
   globals.State.currentUserRating = $(this).attr("rating");
-  console.log(Constants.backendURL + "/api/dish/" + globals.State.currentDish + "/rating?RatingScore=" + globals.State.currentUserRating);
+  console.log(
+    Constants.backendURL + "/api/dish/" + globals.State.currentDish + "/rating?RatingScore=" + globals.State.currentUserRating
+  );
   let responce = await post(
     Constants.backendURL + "/api/dish/" + globals.State.currentDish + "/rating?RatingScore=" + globals.State.currentUserRating
   );
@@ -945,16 +977,20 @@ export async function setRating() {
 }
 
 export function setUserCssRating() {
-  if (globals.State.currentUserRating === undefined) {
-    let css = document.querySelector(":root");
-    css.style.setProperty("--rating", ($(this).attr("rating") / 10) * 100 + "%");
-  }
+  let css = document.querySelector(":root");
+  css.style.setProperty("--rating", ($(this).attr("rating") / 10) * 100 + "%");
+  // if (globals.State.currentUserRating === undefined) {
+  //   let css = document.querySelector(":root");
+  //   css.style.setProperty("--rating", ($(this).attr("rating") / 10) * 100 + "%");
+  // }
 }
 
 export function resetUserCssRating() {
+  let css = document.querySelector(":root");
   if (globals.State.currentUserRating === undefined) {
-    let css = document.querySelector(":root");
     css.style.setProperty("--rating", (globals.State.currentDishRating / 10) * 100 + "%");
+  } else {
+    css.style.setProperty("--rating", (globals.State.currentUserRating / 10) * 100 + "%");
   }
 }
 
@@ -1190,6 +1226,12 @@ export async function registerUser() {
     localStorage.setItem("token", data.token);
     globals.State.authorized = true;
     await routeTo("");
+  } else if (responce.status === 400) {
+    let data = await responce.json();
+    console.log(data);
+    await showMessages(data, $("#reg-message-container"), "bad");
+  } else if (responce.status === 500) {
+    showErrorPlug("shruggie", "Что-то пошло не так, вините бекенд", $("#main-content"));
   }
 }
 
@@ -1461,7 +1503,7 @@ export function manageSexes(sexesAnchor) {
       option.find(`#${sex.Codename}`).html(sex.Codename === "NoSex" ? "Не указан" : sex.Name);
       option.find(".icon-container").html(CommonServices.retrieveTemplateById(globals, Constants, "expand-more-icon-template"));
       sexesAnchor.find(".dropdown-content").prepend(option);
-    } else if (/*sex.Codename !== 'NoSex'*/ true) {
+    } else if (true) {
       option.addClass("hidden-option");
       option.addClass("sex-dropdown-option");
       option.find(".option-name").attr("id", sex.Codename);

@@ -52,10 +52,12 @@
 .dish-category {
   color: var(--secondary-text);
   font-size: 1.5rem;
+  flex: 1 1 100%;
   text-align: center;
 }
 
 .dish-vegeterian {
+  flex: 1 1 100%;
   font-size: 1.2rem;
   color: var(--secondary-text);
   text-align: center;
@@ -67,10 +69,12 @@
 }
 
 .dish-description {
+  flex: 1 1 100%;
   font-size: 1.4rem;
   display: flex;
   flex-flow: row wrap;
   align-content: center;
+  justify-content: center;
   text-align: center;
   padding: 0.5rem;
 }

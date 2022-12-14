@@ -16,7 +16,7 @@
   align-items: center;
   padding: 0rem 0.1rem 0rem 0.1rem;
   border-radius: var(--default-border-radius);
-  color: var(--faint-text);
+  color: var(--secondary-text);
   cursor: pointer;
   padding: 0.2rem 0.2rem 0.2rem 0.2rem;
 }
@@ -26,16 +26,13 @@
 }
 
 .toggle-anchor:hover .toggle-content {
-  background-color: var(--secondary-background);
+  background-color: var(--alt-accent);
   color: var(--alt-text);
 }
 
 .toggle-content[active="1"] {
   color: var(--alt-text);
-}
-
-.toggle-content[active="1"] {
-  background-color: var(--faint-secondary-background);
+  background-color: var(--faint-alt-accent);
   box-shadow: var(--default-shadow-offset) var(--default-shadow-offset) var(--default-shadow-blur)
       var(--faint-secondary-background),
     calc(var(--default-shadow-offset) * -1) var(--default-shadow-offset) var(--default-shadow-blur)
@@ -44,5 +41,5 @@
       var(--faint-secondary-background),
     calc(var(--default-shadow-offset) * -1) calc(var(--default-shadow-offset) * -1) var(--default-shadow-blur)
       var(--faint-secondary-background),
-    0.15rem 0.15rem var(--default-shadow-blur) var(--faint-primary-background) inset;
+    0.15rem 0.15rem var(--default-shadow-blur) var(--faint-alt-background) inset;
 }

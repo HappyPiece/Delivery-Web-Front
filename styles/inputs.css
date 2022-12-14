@@ -1,11 +1,9 @@
 .default-input {
   flex: 1 1;
   background-color: var(--primary-background);
-  /* padding: 0rem 1rem 0.5rem 1rem; */
-  /* padding: 0.5rem 0.5rem 0.5rem 0.5rem; */
   padding: 0.5rem 1rem 0.5rem 1rem;
   color: var(--primary-text);
-  background: linear-gradient(var(--faded-secondary-background), var(--faded-secondary-background)) center bottom 0.5rem /
+  background: linear-gradient(var(--faded-alt-accent), var(--faded-alt-accent)) center bottom 0.5rem /
     calc(100% - 1.5rem) 2px no-repeat;
   border-radius: 0rem !important;
   transition: color 0.1s ease-in-out, text-decoration 0.1s ease-in-out, background-color 0.1s ease-in-out,
@@ -18,7 +16,7 @@
 }
 
 .default-input:focus-visible {
-  background: linear-gradient(0.25turn, var(--secondary-background), var(--secondary-background)) center bottom 0.5rem /
+  background: linear-gradient(0.25turn, var(--alt-accent), var(--alt-accent)) center bottom 0.5rem /
     calc(100% - 1.5rem) 0.1rem no-repeat !important;
 }
 

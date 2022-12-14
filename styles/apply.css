@@ -27,11 +27,11 @@
 }
 
 .apply-button-anchor:hover .apply-button-content {
-  background-color: var(--secondary-background);
-  color: var(--alt-text);
+  background-color: var(--faint-alt-accent);
+  color: var(--alt-alt-text);
 }
 
 .apply-button-anchor:active .apply-button-content {
-  background-color: var(--secondary-background);
+  background-color: var(--alt-accent);
   color: var(--alt-text);
 }

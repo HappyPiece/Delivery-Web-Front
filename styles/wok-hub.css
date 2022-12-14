@@ -1,0 +1,45 @@
+:root {
+  --primary-text: #ffffff;
+  --secondary-text: #ffffffbb;
+  --faded-text: #ffffff99;
+  --primary-background: #040404;
+  --light-primary-background: #040404dd;
+  --faint-primary-background: #040404cc;
+  --faded-primary-background: #040404aa;
+  --secondary-background: #040404;
+  --faint-secondary-background: #040404ee;
+  --faded-secondary-background: #040404dd;
+  --primary-accent: #f58a00;
+  --mild-primary-accent: #f58a00;
+  --faint-primary-accent: #f58a00dd;
+  --faded-primary-accent: #f58a00aa;
+  --weak-primary-accent: #f58a0088;
+  --dead-primary-accent: #f58a0066;
+  --secondary-accent: #f58a00;
+  --faint-secondary-accent: #f58a00dd;
+  --veg: #53df8b;
+  --faint-veg: #53df8bbb;
+  --faded-veg: #53df8b99;
+
+  --accent-text: var(--primary-text);
+  --faint-accent-text: var(--secondary-text);
+  --faded-accent-text: var(--faded-text);
+
+  --alt-text: var(--primary-text);
+  --faint-alt-text: var(--secondary-text);
+  --faded-alt-text: var(--faded-text);
+
+  --alt-accent: var(--primary-accent);
+  --faint-alt-accent: var(--faint-primary-accent);
+  --faded-alt-accent: var(--faded-primary-accent);
+
+  --alt-background: var(--primary-accent);
+  --faint-alt-background: var(--faint-primary-accent);
+  --faded-alt-background: var(--faded-primary-accent);
+
+  --container-shadow-color: transparent;
+  --text-shadow-color: transparent;
+  --default-shadow-offset: 0rem;
+  --default-shadow-blur: 0.2rem;
+  --default-border-radius: 0.3rem;
+  --rating: 0%;

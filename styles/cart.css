@@ -3,6 +3,7 @@
   flex-flow: column nowrap;
   align-content: flex-start;
   border-radius: inherit;
+  gap: 1rem;
 }
 
 .cart-anchor {

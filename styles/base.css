@@ -19,9 +19,22 @@
   --faint-veg: #53df8bbb;
   --faded-veg: #53df8b99;
 
+  --accent-text: var(--primary-text);
+  --faint-accent-text: var(--secondary-text);
+  --faded-accent-text: var(--faded-text);
+
   --alt-text: var(--primary-text);
   --faint-alt-text: var(--secondary-text);
   --faded-alt-text: var(--faded-text);
+
+  --alt-accent: var(--secondary-background);
+  --faint-alt-accent: var(--faint-secondary-background);
+  --faded-alt-accent: var(--faded-secondary-background);
+
+  --alt-background: var(--primary-background);
+  --faint-alt-background: var(--faint-primary-background);
+  --faded-alt-background: var(--faded-primary-background);
+
   --default-shadow-offset: 0rem;
   --default-shadow-blur: 0.15rem;
   --default-border-radius: 0.3rem;
@@ -29,40 +42,6 @@
   --text-shadow-color: var(--secondary-text);
   --rating: 0%;
 }
-
-/* :root {
-  --primary-text: #000000;
-  --secondary-text: #000000bb;
-  --faded-text: #00000099;
-  --primary-background: #ffffff;
-  --light-primary-background: #ffffffdd;
-  --faint-primary-background: #ffffffcc;
-  --faded-primary-background: #ffffffaa;
-  --secondary-background: #ff6900;
-  --faint-secondary-background: #ff6900ee;
-  --faded-secondary-background: #ff6900dd;
-  --primary-accent: #ff6900;
-  --mild-primary-accent: #ff6900ee;
-  --faint-primary-accent: #ff6900bb;
-  --faded-primary-accent: #ff690088;
-  --weak-primary-accent: #ff690077;
-  --dead-primary-accent: #ff690055;
-  --secondary-accent: #E02200;
-  --faint-secondary-accent: #E02200dd;
-  --veg: #058E3F;
-  --faint-veg: #058E3Fbb;
-  --faded-veg: #058E3F99;
-
-  --alt-text: var(--primary-background);
-  --faint-alt-text: var(--light-primary-background);
-  --faded-alt-text: var(--faint-primary-background);
-  --container-shadow-color: var(--dead-primary-accent);
-  --text-shadow-color: transparent;
-  --default-shadow-offset: 0rem;
-  --default-shadow-blur: 0.2rem;
-  --default-border-radius: 0.3rem;
-  --rating: 0%;
-} */
 
 html {
   height: 100%;
